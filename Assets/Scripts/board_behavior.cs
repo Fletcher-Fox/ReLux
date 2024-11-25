@@ -18,7 +18,8 @@ public class board_behavior : MonoBehaviour
             for (int j = 0; j < width; j++)
             {   
                 Vector3 temp_vector = new Vector3(i, 0, j);
-                Instantiate(prefab, temp_vector, Quaternion.identity);
+                GameObject space = Instantiate(prefab, temp_vector, Quaternion.identity);
+                space.name = "Space_" + i + "_" + j;
             }
         }
     }
