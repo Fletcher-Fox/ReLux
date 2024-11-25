@@ -56,5 +56,6 @@
         "temp/": true,
         "Temp/": true
     },
-    "dotnet.defaultSolution": "ReLux.sln"
+    "dotnet.defaultSolution": "ReLux.sln",
+    "FSharp.suggestGitignore": false
 }
