@@ -1,3 +1,4 @@
+using Unity.Mathematics;
 using UnityEngine;
 
 public class MoveToScriptableObject : MonoBehaviour
@@ -15,21 +16,21 @@ public class MoveToScriptableObject : MonoBehaviour
         _input.MoveEvent -= OnMove;
     }
 
-    
-
     private void OnMove(Vector2 movement) {
-
         moveInput = movement;
-        Vector3 m = new Vector3(movement.x, 0, movement.y);
+    }
 
-        // Normalize to prevent faster diagonal movement and scale by speed
-        if (m.magnitude > 1)
+    void Update() {
+        
+        // map to X & Z plane
+        Vector3 m = new Vector3(moveInput.x, 0, moveInput.y);
+
+        if (math.abs(m.x) > 0 || math.abs(m.z) > 0)
         {
-            m = m.normalized;
-        }
-        m *= speed * Time.deltaTime;
 
-        transform.Translate(m, Space.World);
+            m *= speed * Time.deltaTime;
+            transform.Translate(m, Space.World);
+        }
     }
 
 }
