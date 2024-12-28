@@ -3,9 +3,7 @@ using UnityEngine;
 public class space_behavior : MonoBehaviour
 {   
 
-    [SerializeField] private Material default_material;
-    [SerializeField] private Material lightBlue_material;
-    [SerializeField] private Material yellow_material;
+    [SerializeField] private materials_SO materials;
 
     private bool clicked = false;
 
@@ -29,12 +27,12 @@ public class space_behavior : MonoBehaviour
 
         if (!clicked)
         {
-            GetComponent<MeshRenderer>().material = lightBlue_material;
+            GetComponent<MeshRenderer>().material = materials.hover_material;
             clicked = true;
         }
         else 
         {
-            GetComponent<MeshRenderer>().material = default_material;
+            GetComponent<MeshRenderer>().material = materials.deafault_material;
             clicked = false;
         }
     }
@@ -43,7 +41,7 @@ public class space_behavior : MonoBehaviour
     {
         if (!clicked)
         {
-            GetComponent<MeshRenderer>().material = yellow_material;
+            GetComponent<MeshRenderer>().material = materials.select_material;
         }
     }
 
@@ -51,7 +49,7 @@ public class space_behavior : MonoBehaviour
     {   
         if (!clicked)
         {
-            GetComponent<MeshRenderer>().material = default_material;
+            GetComponent<MeshRenderer>().material = materials.deafault_material;
         }
     }
 }

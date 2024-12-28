@@ -3,19 +3,19 @@ using UnityEngine;
 
 public class board_behavior : MonoBehaviour
 {   
-
-    [SerializeField] private int length; // X value
-    [SerializeField] private int width; // Y value
+    
+    [SerializeField] private int_variable length;
+    [SerializeField] private int_variable width;
     [SerializeField] private GameObject prefab; 
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {   
         // X value
-        for (int i = 0; i < length; i++)
+        for (int i = 0; i < length.Value; i++)
         {
             // Y value
-            for (int j = 0; j < width; j++)
+            for (int j = 0; j < width.Value; j++)
             {   
                 Vector3 temp_vector = new Vector3(i, 0, j);
                 GameObject space = Instantiate(prefab, temp_vector, Quaternion.identity);
