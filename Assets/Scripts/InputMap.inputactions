@@ -15,9 +15,9 @@
                     "initialStateCheck": true
                 },
                 {
-                    "name": "Upward",
+                    "name": "Shift",
                     "type": "Button",
-                    "id": "a1730c68-12a5-4ab7-b01d-c694866b969e",
+                    "id": "660f85c1-dc33-407a-b408-fc9d5896e0ff",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
@@ -82,12 +82,12 @@
                 },
                 {
                     "name": "",
-                    "id": "286e8316-8f75-4907-a728-d2537618e104",
-                    "path": "<Keyboard>/space",
+                    "id": "ea711591-3d5d-48df-bd9a-0936da257b20",
+                    "path": "<Keyboard>/shift",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Upward",
+                    "action": "Shift",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

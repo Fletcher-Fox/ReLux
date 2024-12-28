@@ -5,19 +5,27 @@ public class MoveToScriptableObject : MonoBehaviour
 {
     public float speed = 5f; // Movement speed
     public Vector2 moveInput;
+    public bool shift;
+
     [Header("Input")]
     [SerializeField] private InputReader _input;
 
     private void OnEnable() {
         _input.MoveEvent += OnMove;
+        _input.ShiftEvent += OnShift;
     }
 
     private void OnDisable() {
         _input.MoveEvent -= OnMove;
+        _input.ShiftEvent -= OnShift;
     }
 
     private void OnMove(Vector2 movement) {
         moveInput = movement;
+    }
+
+    private void OnShift(bool shiftPressed) {
+        shift = shiftPressed;
     }
 
     void Update() {
@@ -27,6 +35,9 @@ public class MoveToScriptableObject : MonoBehaviour
         if (math.abs(m.x) > 0 || math.abs(m.z) > 0)
         {
             m = m.normalized * speed * Time.deltaTime;
+            if (shift) {
+                m = m * 2;
+            }
             m = RotateWithQuaternion(m, 45);
             transform.Translate(m, Space.World);
         }
