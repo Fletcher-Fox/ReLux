@@ -9,7 +9,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6010305192131041725}
-  - component: {fileID: 6578889736780849345}
   m_Layer: 0
   m_Name: CameraTarget
   m_TagString: Untagged
@@ -32,30 +31,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 2023099328732434066}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &6578889736780849345
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2504319987959963038}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 723da7db645684ce4a46e6d8bb87da56, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  cinemachineCamera: {fileID: 1259631626618021070}
-  cameraTarget: {fileID: 2504319987959963038}
-  speed: 5
-  moveInput: {x: 0, y: 0}
-  shift: 0
-  currentDirection: 0
-  directions:
-  - {x: -5, y: 3, z: -5}
-  - {x: -5, y: 3, z: 5}
-  - {x: 5, y: 3, z: 5}
-  - {x: 5, y: 3, z: -5}
-  _input: {fileID: 11400000, guid: 8f0291f3f72644eeba98824836093b19, type: 2}
 --- !u!1 &4076317849379967262
 GameObject:
   m_ObjectHideFlags: 0
@@ -65,6 +40,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2023099328732434066}
+  - component: {fileID: 1520777456605979520}
   m_Layer: 0
   m_Name: Camera
   m_TagString: Untagged
@@ -90,6 +66,30 @@ Transform:
   - {fileID: 6010305192131041725}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1520777456605979520
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4076317849379967262}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 723da7db645684ce4a46e6d8bb87da56, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cinemachineCamera: {fileID: 1259631626618021070}
+  cameraTarget: {fileID: 2504319987959963038}
+  speed: 5
+  moveInput: {x: 0, y: 0}
+  shift: 0
+  currentDirection: 0
+  directions:
+  - {x: -5, y: 3, z: -5}
+  - {x: -5, y: 3, z: 5}
+  - {x: 5, y: 3, z: 5}
+  - {x: 5, y: 3, z: -5}
+  _input: {fileID: 11400000, guid: 8f0291f3f72644eeba98824836093b19, type: 2}
 --- !u!1 &6134172890126870117
 GameObject:
   m_ObjectHideFlags: 0
