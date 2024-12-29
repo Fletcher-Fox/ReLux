@@ -122,9 +122,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 37e8e5ce29c04d3428bfb83320cd695e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  default_material: {fileID: 2100000, guid: 5144c398830aa99418bf601c8156c38a, type: 2}
-  lightBlue_material: {fileID: 2100000, guid: 39c27df9e67d90e498d78a5bc681e509, type: 2}
-  yellow_material: {fileID: 2100000, guid: 6515583990cfeca4ab251a5f3786bb71, type: 2}
+  materials: {fileID: 11400000, guid: 9dbc684d16d6a6d4e8d478f5fb1b0c79, type: 2}
 --- !u!1 &1503295818559705315
 GameObject:
   m_ObjectHideFlags: 0
