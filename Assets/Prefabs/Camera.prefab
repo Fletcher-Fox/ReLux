@@ -46,6 +46,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   moveInput: {x: 0, y: 0}
+  shift: 0
   _input: {fileID: 11400000, guid: 8f0291f3f72644eeba98824836093b19, type: 2}
 --- !u!1 &4076317849379967262
 GameObject:

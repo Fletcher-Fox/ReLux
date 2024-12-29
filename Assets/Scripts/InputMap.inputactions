@@ -22,6 +22,24 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "QRotate",
+                    "type": "Button",
+                    "id": "7ab8df6a-74ee-4883-ba68-3282831e37f8",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "ERotate",
+                    "type": "Button",
+                    "id": "c3de58f0-a684-42cd-b4e5-50373f1fd585",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -88,6 +106,28 @@
                     "processors": "",
                     "groups": "",
                     "action": "Shift",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "6de0906f-d621-42b7-bd07-2faa2b41a3fe",
+                    "path": "<Keyboard>/q",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "QRotate",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "3d59d95c-1932-447d-8b8f-5abf970a6f7a",
+                    "path": "<Keyboard>/e",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ERotate",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
