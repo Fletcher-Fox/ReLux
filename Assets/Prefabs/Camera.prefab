@@ -41,12 +41,20 @@ MonoBehaviour:
   m_GameObject: {fileID: 2504319987959963038}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 799872e027d42406d86008001d96c28f, type: 3}
+  m_Script: {fileID: 11500000, guid: 723da7db645684ce4a46e6d8bb87da56, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cinemachineCamera: {fileID: 1259631626618021070}
+  cameraTarget: {fileID: 2504319987959963038}
   speed: 5
   moveInput: {x: 0, y: 0}
   shift: 0
+  currentDirection: 0
+  directions:
+  - {x: -5, y: 3, z: -5}
+  - {x: -5, y: 3, z: 5}
+  - {x: 5, y: 3, z: 5}
+  - {x: 5, y: 3, z: -5}
   _input: {fileID: 11400000, guid: 8f0291f3f72644eeba98824836093b19, type: 2}
 --- !u!1 &4076317849379967262
 GameObject:
