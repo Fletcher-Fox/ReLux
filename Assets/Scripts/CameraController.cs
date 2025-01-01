@@ -70,23 +70,6 @@ public class CameraController : MonoBehaviour
     }
 
 
-    // void Update() {
-        
-    //     Vector3 m = new Vector3(moveInput.x, 0, moveInput.y);
-
-    //     if (math.abs(m.x) > 0 || math.abs(m.z) > 0)
-    //     {
-    //         m = m.normalized * speed * Time.deltaTime;
-    //         if (shift) {
-    //             m = m * 2;
-    //         }
-    //         m = RotateWithQuaternion(m, 45);
-    //         // transform.Translate(m, Space.World);
-    //         cameraTarget.transform.Translate(m, Space.World);
-    //     }
-    // }
-
-
     void Update()
     {
         // Step 1: Get WASD input
@@ -112,8 +95,16 @@ public class CameraController : MonoBehaviour
             movementDirection.Normalize();
         }
 
+        if (shift) {
+            if (speed < 8) {
+                speed += .25f;
+            }
+        } else {
+            speed = 5;
+        }
+
         // Step 6: Move your character (example)
-        cameraTarget.transform.Translate(movementDirection * Time.deltaTime * 5f, Space.World);
+        cameraTarget.transform.Translate(movementDirection * Time.deltaTime * speed, Space.World);
 
         // Debug: Visualize the movement direction
         Debug.DrawLine(transform.position, transform.position + movementDirection, Color.green);
