@@ -1,8 +1,6 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Events;
-using System;
-using UnityEngine.UI;
 
 [CreateAssetMenu(fileName = "Input Reader", menuName = "Scriptable Objects/Input/Input Reader")]
 public class InputReader : ScriptableObject
