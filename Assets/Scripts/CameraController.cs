@@ -88,25 +88,27 @@ public class CameraController : MonoBehaviour
         // Step 4: Calculate the movement direction
         Vector3 movementDirection = (cameraForward * verticalInput) + (cameraRight * horizontalInput);
 
-        // Step 5: Normalize the movement direction
-        if (movementDirection.magnitude > 1)
+        // Step 5: Check for movement
+        if (movementDirection.magnitude > 0)
         {
-            movementDirection.Normalize();
-        }
+            // Avoid diagonl speed boost
+            if (movementDirection.magnitude > 1) {
+                movementDirection.Normalize();
+            } 
 
-        if (shift) {
-            if (speed < 8) {
-                speed += .25f;
+            if (shift) {
+                if (speed < 8) {
+                    speed += .25f;
+                }
+            } else {
+                speed = 5;
             }
-        } else {
-            speed = 5;
+
+            // Step 6: Move your character (example)
+            cameraTarget.transform.Translate(movementDirection * Time.deltaTime * speed, Space.World);
+            // Debug: Visualize the movement direction
+            Debug.DrawLine(transform.position, transform.position + movementDirection, Color.green);
         }
-
-        // Step 6: Move your character (example)
-        cameraTarget.transform.Translate(movementDirection * Time.deltaTime * speed, Space.World);
-
-        // Debug: Visualize the movement direction
-        Debug.DrawLine(transform.position, transform.position + movementDirection, Color.green);
     }
 
     Vector3 RotateWithQuaternion(Vector3 vector, int rotation)

@@ -40,7 +40,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2023099328732434066}
-  - component: {fileID: 1520777456605979520}
+  - component: {fileID: 5858935984675257888}
   m_Layer: 0
   m_Name: Camera
   m_TagString: Untagged
@@ -66,7 +66,7 @@ Transform:
   - {fileID: 6010305192131041725}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1520777456605979520
+--- !u!114 &5858935984675257888
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -117,7 +117,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6134172890126870117}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.18411113, y: 0.37500775, z: -0.07626133, w: 0.90534884}
+  m_LocalRotation: {x: 0.18411112, y: 0.37500775, z: -0.07626132, w: 0.90534884}
   m_LocalPosition: {x: -5, y: 3, z: -5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -181,7 +181,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   TrackerSettings:
     BindingMode: 4
-    PositionDamping: {x: 1, y: 1, z: 1}
+    PositionDamping: {x: 0.15, y: 0, z: 0}
     AngularDampingMode: 0
     RotationDamping: {x: 1, y: 1, z: 1}
     QuaternionDamping: 1
@@ -209,7 +209,7 @@ MonoBehaviour:
       Offset: {x: 0, y: 0}
   CenterOnActivate: 0
   TargetOffset: {x: 0, y: 0, z: 0}
-  Damping: {x: 0.1, y: 0.1}
+  Damping: {x: 0, y: 0}
   Lookahead:
     Enabled: 0
     Time: 0
@@ -243,7 +243,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8102185334629731342}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.18411115, y: 0.37500775, z: -0.076261334, w: 0.90534884}
+  m_LocalRotation: {x: 0.18411115, y: 0.37500775, z: -0.07626133, w: 0.90534884}
   m_LocalPosition: {x: -5, y: 3, z: -5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0

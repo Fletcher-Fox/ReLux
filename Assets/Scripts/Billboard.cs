@@ -1,90 +1,100 @@
-using UnityEngine;
-using Unity.Cinemachine;
 using System.Collections.Generic;
+using UnityEngine;
 
 public class Billboard : MonoBehaviour
 {
-    [SerializeField] private Vector3 FacingDirection;
-    
-    [SerializeField] private CameraSO _cameraSO;
+    private Camera _mainCamera;
 
-    private void OnEnable() {
-        _cameraSO.BillboardEvent += OnBillboardEvent;
+    private Vector3 _prevCameraPos;
+
+    public Vector3 normalizedCamera; // The normalized direction towards the camera
+
+    [SerializeField]
+    private int cameraQuadernt = 1;
+
+    // Gizmo color and length
+    public Color gizmoColor = Color.red;
+    public float gizmoLength = 2.0f;
+
+
+    [SerializeField]
+    private SpriteRenderer spriteRender;
+
+    private Dictionary<string, Sprite> spriteDictionary;
+
+    void Start() {
+
+        _mainCamera = FindFirstObjectByType<Camera>();
+        _prevCameraPos = _mainCamera.transform.position;
+
+        if (_mainCamera == null)
+        {
+            Debug.LogError("No camera found in the scene!");
+        }
+
+        spriteDictionary = new Dictionary<string, Sprite>();
+
+        Sprite[] sprites = Resources.LoadAll<Sprite>("Sprites/Elf");
+
+        // Populate the dictionary
+        foreach (Sprite sprite in sprites)
+        {
+            // Debug.Log(sprite.name);
+            spriteDictionary[sprite.name] = sprite;
+        }
+
     }
 
-    private void OnDisable() {
-        _cameraSO.BillboardEvent -= OnBillboardEvent;
+    public Sprite DetermineSprite(Vector2 point)
+    {
+        // Special case: The origin is not in any quadrant.
+        if (point == Vector2.zero)
+            return spriteDictionary["front_right"];
+
+        // Calculate the angle in radians using Mathf.Atan2 (returns value in [-π, π])
+        float angle = Mathf.Atan2(point.y, point.x);
+
+        // Normalize the angle to [0, 2π]
+        if (angle < 0)
+            angle += 2 * Mathf.PI;
+
+        // Determine the quadrant based on the angle
+        if (angle >= 0 && angle < Mathf.PI / 2)
+            // return 1; // Quadrant 1 [+x, +z] Front-Right
+            return spriteDictionary["front_right"];
+
+        else if (angle >= Mathf.PI / 2 && angle < Mathf.PI)
+            // return 2; // Quadrant 2 [+x, -z] From-Left
+            return spriteDictionary["front_left"];
+
+        else if (angle >= Mathf.PI && angle < 3 * Mathf.PI / 2)
+            // return 3; // Quadrant 3 [-x, -z] Back-Left
+            return spriteDictionary["back_left"];
+
+        else
+            // return 4; // Quadrant 4 [-x, +z] Back-Right
+            return spriteDictionary["back_right"];
     }
 
-    private void OnBillboardEvent(Vector3 directionToFace) {
-        FacingDirection = directionToFace;
+    void Update()
+    {
+        if (_mainCamera != null)
+        {
+            if (_prevCameraPos != _mainCamera.transform.position) {
+
+                // Calculate the direction vector from the character to the camera
+                Vector3 direction = _mainCamera.transform.position - transform.position;
+
+                spriteRender.sprite = DetermineSprite(new Vector2(direction.x,direction.z));
+
+                // Flatten both vectors to the XZ plane
+                Vector3 flattenedDirection = new Vector3(direction.x, 0f, direction.z).normalized;
+
+                // Optionally: make the sprite face the camera (as you had before)
+                transform.rotation = Quaternion.LookRotation(-flattenedDirection);
+                
+                _prevCameraPos = _mainCamera.transform.position;
+            }
+        }
     }
-
-    // void Update()
-    // {
-    //     // Step 1: Get WASD input
-    //     float horizontalInput = moveInput.x; //Input.GetAxis("Horizontal"); // A/D or Left/Right
-    //     float verticalInput = moveInput.y; //Input.GetAxis("Vertical");     // W/S or Up/Down
-
-    //     // Step 2: Get the camera's forward and right vectors
-    //     Vector3 cameraForward = cinemachineCamera.transform.forward;
-    //     Vector3 cameraRight = cinemachineCamera.transform.right;
-
-    //     // Step 3: Flatten the vectors (ignore y component for horizontal movement)
-    //     cameraForward.y = 0;
-    //     cameraRight.y = 0;
-    //     cameraForward.Normalize();
-    //     cameraRight.Normalize();
-
-    //     // Step 4: Calculate the movement direction
-    //     Vector3 movementDirection = (cameraForward * verticalInput) + (cameraRight * horizontalInput);
-
-    //     // Step 5: Normalize the movement direction
-    //     if (movementDirection.magnitude > 1)
-    //     {
-    //         movementDirection.Normalize();
-    //     }
-
-    //     if (shift) {
-    //         if (speed < 8) {
-    //             speed += .25f;
-    //         }
-    //     } else {
-    //         speed = 5;
-    //     }
-
-    //     // Step 6: Move your character (example)
-    //     cameraTarget.transform.Translate(movementDirection * Time.deltaTime * speed, Space.World);
-
-    //     // Debug: Visualize the movement direction
-    //     Debug.DrawLine(transform.position, transform.position + movementDirection, Color.green);
-    // }
-
-    // Vector3 RotateWithQuaternion(Vector3 vector, int rotation)
-    // {
-    //     Quaternion q = Quaternion.Euler(0, rotation, 0); // 90 degrees around Y-axis
-    //     return q * vector;
-    // }
-
-
-    // public void ChangeFollowTarget(Transform newTarget)
-    // {
-    //     if (cinemachineCamera != null)
-    //     {
-    //         cinemachineCamera.Follow = newTarget;
-    //     }
-    // }
-
-    // public void SetFollowOffset(Vector3 newOffset)
-    // {
-    //     if (cinemachineCamera != null)
-    //     {
-    //         CinemachineFollow _transposer = cinemachineCamera.GetComponent<CinemachineFollow>();
-
-    //         if (_transposer != null) {
-    //             _transposer.FollowOffset = newOffset;
-    //         }
-    //     }
-    // }
-
 }

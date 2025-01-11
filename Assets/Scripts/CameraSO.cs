@@ -14,6 +14,7 @@ public class CameraSO : ScriptableObject
 
     public event UnityAction<Vector3> BillboardEvent;
 
+
     [SerializeField] private int currentDirection = 0;
 
     [SerializeField] private List<Vector3> directions = new List<Vector3>
@@ -25,7 +26,7 @@ public class CameraSO : ScriptableObject
     };
 
     private Vector3 Billboard() {
-        return -directions[currentDirection];
+        return directions[currentDirection];
     }
 
     private void OnEnable() {
@@ -68,4 +69,6 @@ public class CameraSO : ScriptableObject
 
         BillboardEvent?.Invoke(Billboard());
     }
+
+
 }
