@@ -8,47 +8,16 @@ public class space_behavior : MonoBehaviour
 
     void OnMouseDown()
     {   
-        if (gameObject != null)
-        {
-            space_event.TirggerOnSpaceClick(gameObject);
-        }
+        space_event.TirggerOnSpaceClick(gameObject);
     }
 
-    // [SerializeField] private materials_SO materials;
+    void OnMouseEnter()
+    {
+        space_event.TirggerOnSpaceEnter(gameObject);
+    }
 
-    // private bool clicked = false;
-
-    // void OnMouseDown() 
-    // {   
-
-    //     Debug.Log("Plane was clicked");
-    //     Debug.Log(GetComponent<MeshRenderer>().sharedMaterial.name);
-
-    //     if (!clicked)
-    //     {
-    //         GetComponent<MeshRenderer>().material = materials.hover_material;
-    //         clicked = true;
-    //     }
-    //     else 
-    //     {
-    //         GetComponent<MeshRenderer>().material = materials.deafault_material;
-    //         clicked = false;
-    //     }
-    // }
-
-    // void OnMouseEnter()
-    // {
-    //     if (!clicked)
-    //     {
-    //         GetComponent<MeshRenderer>().material = materials.select_material;
-    //     }
-    // }
-
-    // void OnMouseExit()
-    // {   
-    //     if (!clicked)
-    //     {
-    //         GetComponent<MeshRenderer>().material = materials.deafault_material;
-    //     }
-    // }
+    void OnMouseExit()
+    {   
+        space_event.TirggerOnSpaceExit(gameObject);
+    }
 }

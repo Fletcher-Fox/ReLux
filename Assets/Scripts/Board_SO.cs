@@ -9,11 +9,14 @@ public class Board_SO : ScriptableObject
     void OnEnable()
     {
         space_event.SpaceClick += onClick;
+        space_event.SpaceEnter += onEnter;
+        space_event.SpaceExit += onExit;
     }
 
     void OnDisable()
     {
         space_event.SpaceClick -= onClick;
+        space_event.SpaceEnter -= onEnter;
     }
 
     void update_material(GameObject space, Material material)
@@ -31,5 +34,15 @@ public class Board_SO : ScriptableObject
         {
             update_material(space, space_materials.deafault_material);
         }
+    }
+
+    void onEnter(GameObject space)
+    {
+        update_material(space, space_materials.hover_material);      
+    }
+
+    void onExit(GameObject space)
+    {
+        update_material(space, space_materials.deafault_material); 
     }
 }
