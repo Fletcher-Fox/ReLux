@@ -8,6 +8,7 @@ public class space_behavior : MonoBehaviour
 
     void OnMouseDown()
     {   
+        Debug.Log("Object clicked: " + gameObject.name);
         space_event.TirggerOnSpaceClick(gameObject);
     }
 
