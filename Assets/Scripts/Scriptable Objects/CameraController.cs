@@ -25,6 +25,21 @@ public class CameraController : MonoBehaviour
     [Header("Input")]
     [SerializeField] private InputReader _input;
 
+    [Header("Zoom Settings")]
+    public float zoomSpeed = 2f;
+    public float minZoom = 2f;
+    public float maxZoom = 10f;
+
+    private CinemachineFollow _transposer;
+
+    private void Start()
+    {
+        // Get the CinemachineFollow component
+        if (cinemachineCamera != null)
+        {
+            _transposer = cinemachineCamera.GetComponent<CinemachineFollow>();
+        }
+    }
 
     private void OnEnable() {
         _input.MoveEvent += OnMove;
@@ -71,9 +86,54 @@ public class CameraController : MonoBehaviour
 
     void Update()
     {
+        HandleMovement();
+        HandleZoom();
+
+        // // Step 1: Get WASD input
+        // float horizontalInput = moveInput.x; //Input.GetAxis("Horizontal"); // A/D or Left/Right
+        // float verticalInput = moveInput.y; //Input.GetAxis("Vertical");     // W/S or Up/Down
+
+        // // Step 2: Get the camera's forward and right vectors
+        // Vector3 cameraForward = cinemachineCamera.transform.forward;
+        // Vector3 cameraRight = cinemachineCamera.transform.right;
+
+        // // Step 3: Flatten the vectors (ignore y component for horizontal movement)
+        // cameraForward.y = 0;
+        // cameraRight.y = 0;
+        // cameraForward.Normalize();
+        // cameraRight.Normalize();
+
+        // // Step 4: Calculate the movement direction
+        // Vector3 movementDirection = (cameraForward * verticalInput) + (cameraRight * horizontalInput);
+
+        // // Step 5: Check for movement
+        // if (movementDirection.magnitude > 0)
+        // {
+        //     // Avoid diagonl speed boost
+        //     if (movementDirection.magnitude > 1) {
+        //         movementDirection.Normalize();
+        //     } 
+
+        //     if (shift) {
+        //         if (speed < 8) {
+        //             speed += .25f;
+        //         }
+        //     } else {
+        //         speed = 5;
+        //     }
+
+        //     // Step 6: Move your character (example)
+        //     cameraTarget.transform.Translate(movementDirection * Time.deltaTime * speed, Space.World);
+        //     // Debug: Visualize the movement direction
+        //     Debug.DrawLine(transform.position, transform.position + movementDirection, Color.green);
+        // }
+    }
+
+    private void HandleMovement()
+    {
         // Step 1: Get WASD input
-        float horizontalInput = moveInput.x; //Input.GetAxis("Horizontal"); // A/D or Left/Right
-        float verticalInput = moveInput.y; //Input.GetAxis("Vertical");     // W/S or Up/Down
+        float horizontalInput = moveInput.x;
+        float verticalInput = moveInput.y;
 
         // Step 2: Get the camera's forward and right vectors
         Vector3 cameraForward = cinemachineCamera.transform.forward;
@@ -91,25 +151,48 @@ public class CameraController : MonoBehaviour
         // Step 5: Check for movement
         if (movementDirection.magnitude > 0)
         {
-            // Avoid diagonl speed boost
-            if (movementDirection.magnitude > 1) {
+            if (movementDirection.magnitude > 1)
+            {
                 movementDirection.Normalize();
-            } 
+            }
 
-            if (shift) {
-                if (speed < 8) {
+            if (shift)
+            {
+                if (speed < 8)
+                {
                     speed += .25f;
                 }
-            } else {
+            }
+            else
+            {
                 speed = 5;
             }
 
-            // Step 6: Move your character (example)
+            // Step 6: Move your character
             cameraTarget.transform.Translate(movementDirection * Time.deltaTime * speed, Space.World);
-            // Debug: Visualize the movement direction
             Debug.DrawLine(transform.position, transform.position + movementDirection, Color.green);
         }
     }
+
+
+    private void HandleZoom()
+    {
+        if (_transposer == null) return;
+
+        // Get scroll input (positive for zooming out, negative for zooming in)
+        float scrollInput = Input.GetAxis("Mouse ScrollWheel");
+
+        if (scrollInput != 0)
+        {
+            // Adjust the z-value of the FollowOffset for zooming
+            Vector3 newOffset = _transposer.FollowOffset;
+            newOffset.y -= scrollInput * zoomSpeed; // Zoom in/out vertically
+            newOffset.y = Mathf.Clamp(newOffset.y, minZoom, maxZoom); // Clamp to min/max zoom
+
+            _transposer.FollowOffset = newOffset;
+        }
+    }
+
 
     Vector3 RotateWithQuaternion(Vector3 vector, int rotation)
     {
