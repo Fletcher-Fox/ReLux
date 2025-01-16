@@ -12,3 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b2edecaaebe02e44bb63eecea8c36d34, type: 3}
   m_Name: Board_SO
   m_EditorClassIdentifier: 
+  space_event: {fileID: 11400000, guid: 1086e64c58d2c134199461340e447de3, type: 2}
+  space_materials: {fileID: 11400000, guid: 9dbc684d16d6a6d4e8d478f5fb1b0c79, type: 2}

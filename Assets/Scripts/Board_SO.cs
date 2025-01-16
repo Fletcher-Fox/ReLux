@@ -7,7 +7,7 @@ public class Board_SO : ScriptableObject
     [SerializeField] private space_SO space_event;
     [SerializeField] private materials_SO space_materials;
 
-    private List<GameObject> selected;
+    private GameObject selected;
 
     void OnEnable()
     {
@@ -29,29 +29,31 @@ public class Board_SO : ScriptableObject
 
     void onClick(GameObject space)
     {    
-        if (space.GetComponent<MeshRenderer>().material.color !=  space_materials.select_material.color)
+        if (space == selected)
         {
-            update_material(space, space_materials.select_material);
-            selected.Add(space);
+            selected = null;
+            update_material(space, space_materials.deafault_material);
         }
         else 
-        {
-            update_material(space, space_materials.deafault_material);
-            selected.Remove(space);
+        {   
+            if (selected != null)
+            {
+                update_material(selected, space_materials.deafault_material);
+            }
+
+            selected = space;
+            update_material(space, space_materials.select_material);
         }
     }
 
     void onEnter(GameObject space)
     {   
-        if (!selected.Contains(space))
-        {
-            update_material(space, space_materials.hover_material);
-        }
+        update_material(space, space_materials.hover_material);
     }
 
     void onExit(GameObject space)
     {   
-        if (selected.Contains(space))
+        if (space == selected)
         {
             update_material(space, space_materials.select_material); 
         }
