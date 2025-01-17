@@ -2,8 +2,8 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Events;
 
-[CreateAssetMenu(fileName = "Input Reader", menuName = "Scriptable Objects/Input/Input Reader")]
-public class InputReader : ScriptableObject
+[CreateAssetMenu(fileName = "NewInputReader", menuName = "Scriptable Objects/Input/Input Reader")]
+public class InputReaderSO : ScriptableObject
 {
     [SerializeField] private InputActionAsset _asset;
 

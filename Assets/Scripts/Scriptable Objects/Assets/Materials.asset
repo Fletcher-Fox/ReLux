@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2bcfbe38e7831c74dadec7eb59043244, type: 3}
-  m_Name: materials
+  m_Name: Materials
   m_EditorClassIdentifier: 
   deafault_material: {fileID: 2100000, guid: 5144c398830aa99418bf601c8156c38a, type: 2}
   hover_material: {fileID: 2100000, guid: 6515583990cfeca4ab251a5f3786bb71, type: 2}

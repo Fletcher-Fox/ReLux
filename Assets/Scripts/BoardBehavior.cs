@@ -1,11 +1,11 @@
 using System;
 using UnityEngine;
 
-public class board_behavior : MonoBehaviour
+public class BoardBehavior : MonoBehaviour
 {   
     
-    [SerializeField] private int_variable length;
-    [SerializeField] private int_variable width;
+    [SerializeField] private IntegerSO length;
+    [SerializeField] private IntegerSO width;
     [SerializeField] private GameObject prefab; 
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
