@@ -4,7 +4,7 @@ using UnityEngine.InputSystem;
 using System.Collections.Generic;
 using UnityEngine.InputSystem.Controls;
 
-[CreateAssetMenu(fileName = "CameraSO", menuName = "Scriptable Objects/CameraSO")]
+[CreateAssetMenu(fileName = "NewCamera", menuName = "Scriptable Objects/Camera")]
 public class CameraSO : ScriptableObject
 {
     [SerializeField] private InputActionAsset _asset;

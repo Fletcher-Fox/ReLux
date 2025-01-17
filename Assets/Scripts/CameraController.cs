@@ -23,7 +23,7 @@ public class CameraController : MonoBehaviour
     
 
     [Header("Input")]
-    [SerializeField] private InputReader _input;
+    [SerializeField] private InputReaderSO _input;
 
     [Header("Zoom Settings")]
     public float zoomSpeed = 2f;

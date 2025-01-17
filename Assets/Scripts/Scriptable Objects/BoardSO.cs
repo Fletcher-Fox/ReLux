@@ -1,11 +1,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "Board_SO", menuName = "Scriptable Objects/Board_SO")]
-public class Board_SO : ScriptableObject
+[CreateAssetMenu(fileName = "NewBoard", menuName = "Scriptable Objects/Board")]
+public class BoardSO : ScriptableObject
 {
-    [SerializeField] private space_SO space_event;
-    [SerializeField] private materials_SO space_materials;
+    [SerializeField] private SpaceSO space_event;
+    [SerializeField] private MaterialsSO space_materials;
 
     private GameObject selected;
 

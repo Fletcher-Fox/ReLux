@@ -1,8 +1,8 @@
 using UnityEditor.Rendering;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "int_variable", menuName = "Scriptable Objects/variables/ int_variable")]
-public class int_variable : ScriptableObject
+[CreateAssetMenu(fileName = "NewInteger", menuName = "Scriptable Objects/Variables/Integer")]
+public class IntegerSO : ScriptableObject
 {
     public int Value;
 

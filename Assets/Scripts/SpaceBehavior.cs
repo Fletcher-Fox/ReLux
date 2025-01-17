@@ -1,10 +1,10 @@
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class space_behavior : MonoBehaviour
+public class SpaceBehavior : MonoBehaviour
 {   
 
-    [SerializeField] private space_SO space_event;
+    [SerializeField] private SpaceSO space_event;
 
     void OnMouseDown()
     {   
