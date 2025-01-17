@@ -19,7 +19,7 @@ MonoBehaviour:
     width: 3440
     height: 1349
   m_ShowMode: 4
-  m_Title: Game
+  m_Title: Project
   m_RootView: {fileID: 3}
   m_MinSize: {x: 875, y: 300}
   m_MaxSize: {x: 10000, y: 10000}
@@ -39,9 +39,9 @@ MonoBehaviour:
   m_Children: []
   m_Position:
     serializedVersion: 2
-    x: 1491
+    x: 1535
     y: 0
-    width: 1021
+    width: 977
     height: 779
   m_MinSize: {x: 202, y: 226}
   m_MaxSize: {x: 4002, y: 4026}
@@ -198,7 +198,7 @@ MonoBehaviour:
   m_MinSize: {x: 300, y: 50}
   m_MaxSize: {x: 24288, y: 8096}
   vertical: 0
-  controlID: 2277
+  controlID: 65
   draggingID: 0
 --- !u!114 &9
 MonoBehaviour:
@@ -217,7 +217,7 @@ MonoBehaviour:
     serializedVersion: 2
     x: 0
     y: 0
-    width: 681
+    width: 363
     height: 779
   m_MinSize: {x: 201, y: 226}
   m_MaxSize: {x: 4001, y: 4026}
@@ -241,9 +241,9 @@ MonoBehaviour:
   m_Children: []
   m_Position:
     serializedVersion: 2
-    x: 681
+    x: 363
     y: 0
-    width: 810
+    width: 1172
     height: 779
   m_MinSize: {x: 202, y: 226}
   m_MaxSize: {x: 4002, y: 4026}
@@ -326,9 +326,9 @@ MonoBehaviour:
     m_TextWithWhitespace: "Scene\u200B"
   m_Pos:
     serializedVersion: 2
-    x: 1492
+    x: 1536
     y: 24
-    width: 1019
+    width: 975
     height: 753
   m_SerializedDataModeController:
     m_DataMode: 0
@@ -936,9 +936,9 @@ MonoBehaviour:
     speed: 2
     m_Value: {x: -0.38877204, y: 0.011042326, z: -0.004718454, w: -0.92130584}
   m_Size:
-    m_Target: 8.583867
+    m_Target: 15.896847
     speed: 2
-    m_Value: 8.583867
+    m_Value: 15.896847
   m_Ortho:
     m_Target: 0
     speed: 2
@@ -992,7 +992,7 @@ MonoBehaviour:
     serializedVersion: 2
     x: 0
     y: 24
-    width: 680
+    width: 362
     height: 753
   m_SerializedDataModeController:
     m_DataMode: 0
@@ -1010,7 +1010,7 @@ MonoBehaviour:
       scrollPos: {x: 0, y: 0}
       m_SelectedIDs: 
       m_LastClickedID: 0
-      m_ExpandedIDs: 18d3ffffe4d7ffff9eeaffffa6ebffff92f2ffff3af7ffff
+      m_ExpandedIDs: ce67ffff666efffffcfaffff
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 
@@ -1056,9 +1056,9 @@ MonoBehaviour:
     m_TextWithWhitespace: "Game\u200B"
   m_Pos:
     serializedVersion: 2
-    x: 682
+    x: 364
     y: 24
-    width: 808
+    width: 1170
     height: 753
   m_SerializedDataModeController:
     m_DataMode: 0
@@ -1077,7 +1077,7 @@ MonoBehaviour:
   m_ShowGizmos: 0
   m_TargetDisplay: 0
   m_ClearColor: {r: 0, g: 0, b: 0, a: 0}
-  m_TargetSize: {x: 808, y: 732}
+  m_TargetSize: {x: 1170, y: 732}
   m_TextureFilterMode: 0
   m_TextureHideFlags: 61
   m_RenderIMGUI: 1
@@ -1092,8 +1092,8 @@ MonoBehaviour:
     m_VRangeLocked: 0
     hZoomLockedByDefault: 0
     vZoomLockedByDefault: 0
-    m_HBaseRangeMin: -404
-    m_HBaseRangeMax: 404
+    m_HBaseRangeMin: -585
+    m_HBaseRangeMax: 585
     m_VBaseRangeMin: -366
     m_VBaseRangeMax: 366
     m_HAllowExceedBaseRangeMin: 1
@@ -1113,23 +1113,23 @@ MonoBehaviour:
       serializedVersion: 2
       x: 0
       y: 21
-      width: 808
+      width: 1170
       height: 732
     m_Scale: {x: 1, y: 1}
-    m_Translation: {x: 404, y: 366}
+    m_Translation: {x: 585, y: 366}
     m_MarginLeft: 0
     m_MarginRight: 0
     m_MarginTop: 0
     m_MarginBottom: 0
     m_LastShownAreaInsideMargins:
       serializedVersion: 2
-      x: -404
+      x: -585
       y: -366
-      width: 808
+      width: 1170
       height: 732
     m_MinimalGUI: 1
   m_defaultScale: 1
-  m_LastWindowPixelSize: {x: 808, y: 753}
+  m_LastWindowPixelSize: {x: 1170, y: 753}
   m_ClearInEditMode: 1
   m_NoCameraWarning: 1
   m_LowResolutionForAspectRatios: 01000000000000000000
@@ -1182,7 +1182,7 @@ MonoBehaviour:
     m_SkipHidden: 0
     m_SearchArea: 1
     m_Folders:
-    - Assets/Scenes
+    - Assets/Scripts
     m_Globs: []
     m_ProductIds: 
     m_AnyWithAssetOrigin: 0
@@ -1192,16 +1192,16 @@ MonoBehaviour:
   m_ViewMode: 1
   m_StartGridSize: 64
   m_LastFolders:
-  - Assets/Scenes
+  - Assets/Scripts
   m_LastFoldersGridSize: -1
   m_LastProjectPath: C:\Users\Isaac\Documents\GitHub\ReLux
   m_LockTracker:
     m_IsLocked: 1
   m_FolderTreeState:
     scrollPos: {x: 0, y: 0}
-    m_SelectedIDs: 6cae0000
-    m_LastClickedID: 44652
-    m_ExpandedIDs: 0000000048ab0000
+    m_SelectedIDs: 9aad0000
+    m_LastClickedID: 44442
+    m_ExpandedIDs: 0000000052ab0000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -1230,7 +1230,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 0000000048ab0000
+    m_ExpandedIDs: 0000000052ab0000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -1310,9 +1310,9 @@ MonoBehaviour:
   m_Pos:
     serializedVersion: 2
     x: 0
-    y: 519
-    width: 746.5
-    height: 256
+    y: 858
+    width: 2511
+    height: 488
   m_SerializedDataModeController:
     m_DataMode: 0
     m_PreferredDataMode: 0
