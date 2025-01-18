@@ -377,7 +377,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   length: {fileID: 11400000, guid: f169042aeb7506147bcd19849e4d7737, type: 2}
   width: {fileID: 11400000, guid: 0722f6d2b0aa7794782080badb7946e2, type: 2}
-  prefab: {fileID: 7053948080021872478, guid: eba114b5013f2a74b821cd4effbaee19, type: 3}
+  prefab: {fileID: 6610094658245444621, guid: 26ead4065cfb15f47ab663511fc31a1d, type: 3}
 --- !u!4 &2106173989
 Transform:
   m_ObjectHideFlags: 0
