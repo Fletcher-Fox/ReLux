@@ -1,6 +1,7 @@
 using UnityEngine;
 using Unity.Cinemachine;
 using System.Collections.Generic;
+using System.Collections;
 
 
 public class CameraController : MonoBehaviour
@@ -213,11 +214,53 @@ public class CameraController : MonoBehaviour
     {
         if (cinemachineCamera != null)
         {
-            CinemachineFollow _transposer = cinemachineCamera.GetComponent<CinemachineFollow>();
+            // CinemachineFollow _transposer = cinemachineCamera.GetComponent<CinemachineFollow>();
 
             if (_transposer != null) {
-                _transposer.FollowOffset = newOffset;
+                // _transposer.FollowOffset = newOffset;
+                TransitionFollowOffset(newOffset, 0.25f);
             }
         }
     }
+
+
+
+
+    // [SerializeField] private CinemachineVirtualCamera cinemachineCamera;
+    // [SerializeField] private Vector3 targetOffset;
+    // [SerializeField] private float transitionDuration = 2f;
+
+
+
+    public void TransitionFollowOffset(Vector3 targetOffset, float transitionDuration)
+    {
+        if (_transposer != null)
+        {
+            StartCoroutine(LerpFollowOffset(targetOffset, transitionDuration));
+        }
+    }
+
+
+
+    private IEnumerator LerpFollowOffset(Vector3 newOffset, float duration)
+    {
+        Vector3 initialOffset = _transposer.FollowOffset;
+        float elapsedTime = 0f;
+
+        while (elapsedTime < duration)
+        {
+            elapsedTime += Time.deltaTime;
+            _transposer.FollowOffset = Vector3.Lerp(initialOffset, newOffset, elapsedTime / duration);
+            yield return null;
+        }
+
+        _transposer.FollowOffset = newOffset; // Ensure exact final value
+    }
+
+
+
+
+
+
+
 }
