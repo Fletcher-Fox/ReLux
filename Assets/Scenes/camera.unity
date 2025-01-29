@@ -171,9 +171,77 @@ PrefabInstance:
       propertyPath: m_Icon
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 3863371694571423236, guid: c6bee07737d88482386d3d675461b2f2, type: 3}
+      propertyPath: FollowOffset.x
+      value: -3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3863371694571423236, guid: c6bee07737d88482386d3d675461b2f2, type: 3}
+      propertyPath: FollowOffset.y
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3863371694571423236, guid: c6bee07737d88482386d3d675461b2f2, type: 3}
+      propertyPath: FollowOffset.z
+      value: -3
+      objectReference: {fileID: 0}
     - target: {fileID: 4076317849379967262, guid: c6bee07737d88482386d3d675461b2f2, type: 3}
       propertyPath: m_Name
       value: Camera
+      objectReference: {fileID: 0}
+    - target: {fileID: 4581660441274974439, guid: c6bee07737d88482386d3d675461b2f2, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4581660441274974439, guid: c6bee07737d88482386d3d675461b2f2, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4581660441274974439, guid: c6bee07737d88482386d3d675461b2f2, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4581660441274974439, guid: c6bee07737d88482386d3d675461b2f2, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.9015602
+      objectReference: {fileID: 0}
+    - target: {fileID: 4581660441274974439, guid: c6bee07737d88482386d3d675461b2f2, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0.20184809
+      objectReference: {fileID: 0}
+    - target: {fileID: 4581660441274974439, guid: c6bee07737d88482386d3d675461b2f2, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.37343845
+      objectReference: {fileID: 0}
+    - target: {fileID: 4581660441274974439, guid: c6bee07737d88482386d3d675461b2f2, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0.08360821
+      objectReference: {fileID: 0}
+    - target: {fileID: 5598962451009019029, guid: c6bee07737d88482386d3d675461b2f2, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5598962451009019029, guid: c6bee07737d88482386d3d675461b2f2, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5598962451009019029, guid: c6bee07737d88482386d3d675461b2f2, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5598962451009019029, guid: c6bee07737d88482386d3d675461b2f2, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.9015602
+      objectReference: {fileID: 0}
+    - target: {fileID: 5598962451009019029, guid: c6bee07737d88482386d3d675461b2f2, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0.20184806
+      objectReference: {fileID: 0}
+    - target: {fileID: 5598962451009019029, guid: c6bee07737d88482386d3d675461b2f2, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.37343842
+      objectReference: {fileID: 0}
+    - target: {fileID: 5598962451009019029, guid: c6bee07737d88482386d3d675461b2f2, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0.08360821
       objectReference: {fileID: 0}
     - target: {fileID: 5858935984675257888, guid: c6bee07737d88482386d3d675461b2f2, type: 3}
       propertyPath: speed
@@ -181,35 +249,51 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5858935984675257888, guid: c6bee07737d88482386d3d675461b2f2, type: 3}
       propertyPath: directions.Array.data[0].x
-      value: -5
+      value: -3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5858935984675257888, guid: c6bee07737d88482386d3d675461b2f2, type: 3}
+      propertyPath: directions.Array.data[0].y
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 5858935984675257888, guid: c6bee07737d88482386d3d675461b2f2, type: 3}
       propertyPath: directions.Array.data[0].z
-      value: -5
+      value: -3
       objectReference: {fileID: 0}
     - target: {fileID: 5858935984675257888, guid: c6bee07737d88482386d3d675461b2f2, type: 3}
       propertyPath: directions.Array.data[1].x
-      value: -5
+      value: -3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5858935984675257888, guid: c6bee07737d88482386d3d675461b2f2, type: 3}
+      propertyPath: directions.Array.data[1].y
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 5858935984675257888, guid: c6bee07737d88482386d3d675461b2f2, type: 3}
       propertyPath: directions.Array.data[1].z
-      value: 5
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 5858935984675257888, guid: c6bee07737d88482386d3d675461b2f2, type: 3}
       propertyPath: directions.Array.data[2].x
-      value: 5
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5858935984675257888, guid: c6bee07737d88482386d3d675461b2f2, type: 3}
+      propertyPath: directions.Array.data[2].y
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 5858935984675257888, guid: c6bee07737d88482386d3d675461b2f2, type: 3}
       propertyPath: directions.Array.data[2].z
-      value: 5
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 5858935984675257888, guid: c6bee07737d88482386d3d675461b2f2, type: 3}
       propertyPath: directions.Array.data[3].x
-      value: 5
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5858935984675257888, guid: c6bee07737d88482386d3d675461b2f2, type: 3}
+      propertyPath: directions.Array.data[3].y
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 5858935984675257888, guid: c6bee07737d88482386d3d675461b2f2, type: 3}
       propertyPath: directions.Array.data[3].z
-      value: -5
+      value: -3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

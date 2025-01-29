@@ -2,6 +2,7 @@ using UnityEngine;
 using Unity.Cinemachine;
 using System.Collections.Generic;
 using System.Collections;
+using Unity.VisualScripting;
 
 
 public class CameraController : MonoBehaviour
@@ -16,10 +17,10 @@ public class CameraController : MonoBehaviour
     [SerializeField] private int currentDirection = 0;
     [SerializeField] private List<Vector3> directions = new List<Vector3>
     {
-        new Vector3(-5, 3, -5),
-        new Vector3(-5, 3, 5),
-        new Vector3(5, 3, 5),
-        new Vector3(5, 3, -5)
+        new Vector3(-3, 2, -3),
+        new Vector3(-3, 2, 3),
+        new Vector3(3, 2, 3),
+        new Vector3(3, 2, -3)
     };
     
 
@@ -244,23 +245,19 @@ public class CameraController : MonoBehaviour
 
     private IEnumerator LerpFollowOffset(Vector3 newOffset, float duration)
     {
+
         Vector3 initialOffset = _transposer.FollowOffset;
         float elapsedTime = 0f;
 
         while (elapsedTime < duration)
         {
             elapsedTime += Time.deltaTime;
-            _transposer.FollowOffset = Vector3.Lerp(initialOffset, newOffset, elapsedTime / duration);
+            _transposer.FollowOffset = Vector3.Slerp(initialOffset, newOffset, elapsedTime / duration);
+            // _transposer.FollowOffset = Vector3.Lerp(initialOffset, newOxffset, elapsedTime / duration);
             yield return null;
         }
 
         _transposer.FollowOffset = newOffset; // Ensure exact final value
     }
-
-
-
-
-
-
 
 }
