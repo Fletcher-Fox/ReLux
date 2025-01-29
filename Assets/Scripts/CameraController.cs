@@ -9,13 +9,15 @@ public class CameraController : MonoBehaviour
 {
     [SerializeField] private CinemachineCamera cinemachineCamera;
     [SerializeField] private GameObject cameraTarget;
+    [SerializeField] private GameObject targetPointer;
+    
 
     public float speed = 5f; // Movement speed
     public Vector2 moveInput;
     public bool shift;
 
     [SerializeField] private int currentDirection = 0;
-    [SerializeField] private List<Vector3> directions = new List<Vector3>
+    private List<Vector3> directions = new List<Vector3>
     {
         new Vector3(-3, 2, -3),
         new Vector3(-3, 2, 3),
@@ -173,6 +175,8 @@ public class CameraController : MonoBehaviour
             // Step 6: Move your character
             cameraTarget.transform.Translate(movementDirection * Time.deltaTime * speed, Space.World);
             Debug.DrawLine(transform.position, transform.position + movementDirection, Color.green);
+
+            targetPointer.transform.Translate(movementDirection * Time.deltaTime * speed, Space.World);
         }
     }
 
