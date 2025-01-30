@@ -3,6 +3,7 @@ using Unity.Cinemachine;
 using System.Collections.Generic;
 using System.Collections;
 using Unity.VisualScripting;
+using System;
 
 
 public class CameraController : MonoBehaviour
@@ -15,6 +16,7 @@ public class CameraController : MonoBehaviour
     public float speed = 5f; // Movement speed
     public Vector2 moveInput;
     public bool shift;
+    private float _scrollOffset = 2;
 
     [SerializeField] private int currentDirection = 0;
     private List<Vector3> directions = new List<Vector3>
@@ -30,9 +32,9 @@ public class CameraController : MonoBehaviour
     [SerializeField] private InputReaderSO _input;
 
     [Header("Zoom Settings")]
-    public float zoomSpeed = 2f;
-    public float minZoom = 2f;
-    public float maxZoom = 10f;
+    private float _zoomSpeed = 3f;
+    private float _minZoom = 1.5f;
+    private float _maxZoom = 5f;
 
     private CinemachineFollow _transposer;
 
@@ -92,45 +94,6 @@ public class CameraController : MonoBehaviour
     {
         HandleMovement();
         HandleZoom();
-
-        // // Step 1: Get WASD input
-        // float horizontalInput = moveInput.x; //Input.GetAxis("Horizontal"); // A/D or Left/Right
-        // float verticalInput = moveInput.y; //Input.GetAxis("Vertical");     // W/S or Up/Down
-
-        // // Step 2: Get the camera's forward and right vectors
-        // Vector3 cameraForward = cinemachineCamera.transform.forward;
-        // Vector3 cameraRight = cinemachineCamera.transform.right;
-
-        // // Step 3: Flatten the vectors (ignore y component for horizontal movement)
-        // cameraForward.y = 0;
-        // cameraRight.y = 0;
-        // cameraForward.Normalize();
-        // cameraRight.Normalize();
-
-        // // Step 4: Calculate the movement direction
-        // Vector3 movementDirection = (cameraForward * verticalInput) + (cameraRight * horizontalInput);
-
-        // // Step 5: Check for movement
-        // if (movementDirection.magnitude > 0)
-        // {
-        //     // Avoid diagonl speed boost
-        //     if (movementDirection.magnitude > 1) {
-        //         movementDirection.Normalize();
-        //     } 
-
-        //     if (shift) {
-        //         if (speed < 8) {
-        //             speed += .25f;
-        //         }
-        //     } else {
-        //         speed = 5;
-        //     }
-
-        //     // Step 6: Move your character (example)
-        //     cameraTarget.transform.Translate(movementDirection * Time.deltaTime * speed, Space.World);
-        //     // Debug: Visualize the movement direction
-        //     Debug.DrawLine(transform.position, transform.position + movementDirection, Color.green);
-        // }
     }
 
     private void HandleMovement()
@@ -190,20 +153,12 @@ public class CameraController : MonoBehaviour
 
         if (scrollInput != 0)
         {
-            // Adjust the z-value of the FollowOffset for zooming
             Vector3 newOffset = _transposer.FollowOffset;
-            newOffset.y -= scrollInput * zoomSpeed; // Zoom in/out vertically
-            newOffset.y = Mathf.Clamp(newOffset.y, minZoom, maxZoom); // Clamp to min/max zoom
-
+            newOffset.y -= scrollInput * _zoomSpeed;
+            _scrollOffset = Mathf.Clamp(newOffset.y, _minZoom, _maxZoom);
+            newOffset.y = _scrollOffset;
             _transposer.FollowOffset = newOffset;
         }
-    }
-
-
-    Vector3 RotateWithQuaternion(Vector3 vector, int rotation)
-    {
-        Quaternion q = Quaternion.Euler(0, rotation, 0); // 90 degrees around Y-axis
-        return q * vector;
     }
 
 
@@ -229,25 +184,17 @@ public class CameraController : MonoBehaviour
     }
 
 
-
-
-    // [SerializeField] private CinemachineVirtualCamera cinemachineCamera;
-    // [SerializeField] private Vector3 targetOffset;
-    // [SerializeField] private float transitionDuration = 2f;
-
-
-
     public void TransitionFollowOffset(Vector3 targetOffset, float transitionDuration)
     {
         if (_transposer != null)
         {
-            StartCoroutine(LerpFollowOffset(targetOffset, transitionDuration));
+            StartCoroutine(SlerpFollowOffset(targetOffset, transitionDuration));
         }
     }
 
 
 
-    private IEnumerator LerpFollowOffset(Vector3 newOffset, float duration)
+    private IEnumerator SlerpFollowOffset(Vector3 newOffset, float duration)
     {
 
         Vector3 initialOffset = _transposer.FollowOffset;
@@ -256,12 +203,13 @@ public class CameraController : MonoBehaviour
         while (elapsedTime < duration)
         {
             elapsedTime += Time.deltaTime;
-            _transposer.FollowOffset = Vector3.Slerp(initialOffset, newOffset, elapsedTime / duration);
+            Vector3 offset = Vector3.Slerp(initialOffset, newOffset, elapsedTime / duration);
+            _transposer.FollowOffset = new Vector3(offset.x, _scrollOffset, offset.z);
             // _transposer.FollowOffset = Vector3.Lerp(initialOffset, newOxffset, elapsedTime / duration);
             yield return null;
         }
 
-        _transposer.FollowOffset = newOffset; // Ensure exact final value
+        _transposer.FollowOffset = new Vector3(newOffset.x, _scrollOffset, newOffset.z); // Ensure exact final value
     }
 
 }
