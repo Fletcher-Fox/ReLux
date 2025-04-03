@@ -5,14 +5,18 @@ using UnityEngine;
 public class IntegerSO : ScriptableObject
 {
     public int Value;
+    public delegate void OnValueChange(int value);
+    public event OnValueChange ValueChanged;
 
-    void setValue(int value)
+    public void setValue(int value)
     {
         Value = value;
+        ValueChanged?.Invoke(Value);
     }
 
-    void applyChanges(int changes)
+    public void applyChanges(int changes)
     {
         Value += changes;
+        ValueChanged?.Invoke(Value);
     }
 }
