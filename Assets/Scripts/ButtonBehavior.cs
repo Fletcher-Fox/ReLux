@@ -6,6 +6,6 @@ public class ButtonBehavior : MonoBehaviour
     [SerializeField] private int delta;
     void OnMouseDown()
     {   
-        integerSO.applyChanges(delta);
+        integerSO.ApplyChanges(delta);
     }
 }

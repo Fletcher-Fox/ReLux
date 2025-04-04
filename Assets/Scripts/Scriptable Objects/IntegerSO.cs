@@ -8,13 +8,13 @@ public class IntegerSO : ScriptableObject
     public delegate void OnValueChange(int value);
     public event OnValueChange ValueChanged;
 
-    public void setValue(int value)
+    public void SetValue(int value)
     {
         Value = value;
         ValueChanged?.Invoke(Value);
     }
 
-    public void applyChanges(int changes)
+    public void ApplyChanges(int changes)
     {
         Value += changes;
         ValueChanged?.Invoke(Value);

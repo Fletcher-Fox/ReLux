@@ -8,21 +8,21 @@ public class HealthUI : MonoBehaviour
     
     void OnEnable()
     {
-        health.OnValueChange += UpdateHealthText;
+        health.ValueChanged += UpdateHealthText;
     }
 
     void OnDisable()
     {
-        health.OnValueChange -= UpdateHealthText;
+        health.ValueChanged -= UpdateHealthText;
     }
 
     void Start()
     {
-        UpdateHealthText();
+        UpdateHealthText(health.Value);
     }
 
-    private void UpdateHealthText()
+    private void UpdateHealthText(int h)
     {
-        healthText.text = "Health: " + health;
+        healthText.text = "Health: " + h;
     }
 }
