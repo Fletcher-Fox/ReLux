@@ -12,6 +12,7 @@ public class Loader : MonoBehaviour
 
   private void LoadAllScriptableObjects()
     {
+        // TODO: Update later to just load specific assets for scenes / states
         // Load all ScriptableObject assets from the entire Resources folder
         allScriptableObjects = Resources.LoadAll<ScriptableObject>("SOInstance");
 
