@@ -6,19 +6,22 @@ public class HealthUI : MonoBehaviour
     public TextMeshProUGUI healthText;
     private IntegerSO health;  // Example starting health
     
+    void Start()
+    {
+        UpdateHealthText(health.Value);
+    }
+
     void OnEnable()
     {
-        health.ValueChanged += UpdateHealthText;
+        health = Resources.Load<IntegerSO>("SOInstance/Ody/CurrentHealth");
+        if (health != null)
+            health.ValueChanged += UpdateHealthText;
     }
 
     void OnDisable()
     {
-        health.ValueChanged -= UpdateHealthText;
-    }
-
-    void Start()
-    {
-        UpdateHealthText(health.Value);
+        if (health != null)
+            health.ValueChanged -= UpdateHealthText;
     }
 
     private void UpdateHealthText(int h)
