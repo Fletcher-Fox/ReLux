@@ -6,11 +6,11 @@ using UnityEngine;
 public class BoardSO : ScriptableObject
 {
     [SerializeField] private TileSO tile_event;
-    // [SerializeField] private UnitSO unit_event;
+    [SerializeField] private UnitSO unit_event;
     [SerializeField] private MaterialsSO tile_materials;
 
     private GameObject selectedTile;
-    // private GameObject selectedUnit;
+    private GameObject selectedUnit;
 
 
     void OnEnable()
@@ -19,8 +19,8 @@ public class BoardSO : ScriptableObject
         tile_event.TileEnter += onEnter;
         tile_event.TileExit += onExit;
 
-        // unit_event = Resources.Load<UnitSO>("SOInstance/Core/Unit");
-        // unit_event.UnitClickedEvent += onUnitClicked;
+        unit_event = Resources.Load<UnitSO>("SOInstance/Core/Unit"); // TODO: I believe this is being saved in a bad way...
+        unit_event.UnitClickedEvent += onUnitClicked;
     }
 
     void OnDisable()
@@ -29,17 +29,17 @@ public class BoardSO : ScriptableObject
         tile_event.TileEnter -= onEnter;
         tile_event.TileExit -= onExit;
 
-        // unit_event.UnitClickedEvent -= onUnitClicked;
+        unit_event.UnitClickedEvent -= onUnitClicked;
     }
 
 
-    // void onUnitClicked(GameObject unit, String name) 
-    // {
-    //     if (selectedTile != unit) {
-    //         selectedTile = unit;
-    //         Debug.Log("Board: Selected Unit: " + name);
-    //     }
-    // }
+    void onUnitClicked(GameObject unit, String name) 
+    {
+        if (selectedTile != unit) {
+            selectedTile = unit;
+            Debug.Log("Board: Selected Unit: " + name);
+        }
+    }
 
     void update_material(GameObject tile, Material material)
     {
