@@ -9,8 +9,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8e7dd445cd5f34cd0b08aaf054db5df8, type: 3}
-  m_Name: Board
+  m_Script: {fileID: 11500000, guid: 4141fa9b228107c40886cebdcf032547, type: 3}
+  m_Name: Tiles
   m_EditorClassIdentifier: 
-  tile_event: {fileID: 11400000, guid: 1086e64c58d2c134199461340e447de3, type: 2}
-  tile_materials: {fileID: 11400000, guid: 9dbc684d16d6a6d4e8d478f5fb1b0c79, type: 2}

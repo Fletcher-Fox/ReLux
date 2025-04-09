@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class ButtonBehavior : MonoBehaviour
+public class ButtonAction : MonoBehaviour
 {
     [SerializeField] private IntegerSO integerSO;
     [SerializeField] private int delta;

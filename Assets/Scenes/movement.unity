@@ -198,6 +198,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 379c3bc270e2e414dbbe1bb50b14d149, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  unitName: EVA-00
 --- !u!1001 &262640887
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1358,6 +1359,10 @@ PrefabInstance:
     - target: {fileID: 1560363441560155999, guid: bf6b69f563bd5b84fbeea8e128d0d6ed, type: 3}
       propertyPath: m_Name
       value: Unit
+      objectReference: {fileID: 0}
+    - target: {fileID: 1560363441560155999, guid: bf6b69f563bd5b84fbeea8e128d0d6ed, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5350656145346095844, guid: bf6b69f563bd5b84fbeea8e128d0d6ed, type: 3}
       propertyPath: m_LocalPosition.x

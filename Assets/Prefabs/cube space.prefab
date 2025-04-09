@@ -74,6 +74,14 @@ PrefabInstance:
     m_TransformParent: {fileID: 3671754930293888847}
     m_Modifications:
     - target: {fileID: -6236892295857613362, guid: 0e400cbdbf7e71d498c7fbd92767be2c, type: 3}
+      propertyPath: tile_event
+      value: 
+      objectReference: {fileID: 11400000, guid: 1086e64c58d2c134199461340e447de3, type: 2}
+    - target: {fileID: -6236892295857613362, guid: 0e400cbdbf7e71d498c7fbd92767be2c, type: 3}
+      propertyPath: tile_materials
+      value: 
+      objectReference: {fileID: 11400000, guid: 9dbc684d16d6a6d4e8d478f5fb1b0c79, type: 2}
+    - target: {fileID: -6236892295857613362, guid: 0e400cbdbf7e71d498c7fbd92767be2c, type: 3}
       propertyPath: space_materials
       value: 
       objectReference: {fileID: 11400000, guid: 9dbc684d16d6a6d4e8d478f5fb1b0c79, type: 2}

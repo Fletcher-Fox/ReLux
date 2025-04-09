@@ -1,34 +1,34 @@
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class SpaceBehavior : MonoBehaviour
+public class Tile : MonoBehaviour
 {   
 
-    [SerializeField] private SpaceSO space_event;
+    [SerializeField] private TileSO tile_event;
     [SerializeField] private bool _isSpawnPoint;
-    [SerializeField] private MaterialsSO space_materials;
+    [SerializeField] private MaterialsSO tile_materials;
 
     void Start() {
         Renderer renderer = GetComponent<Renderer>(); // Get the Renderer component
         if (renderer != null && _isSpawnPoint)
         {
-            renderer.material = space_materials.spawn_material; // Set the material
+            renderer.material = tile_materials.spawn_material; // Set the material
         }
     }
 
     void OnMouseDown()
     {   
         Debug.Log("Object clicked: " + gameObject.name);
-        space_event.TirggerOnSpaceClick(gameObject);
+        tile_event.TirggerOnTileClick(gameObject);
     }
 
     void OnMouseEnter()
     {
-        space_event.TirggerOnSpaceEnter(gameObject);
+        tile_event.TirggerOnTileEnter(gameObject);
     }
 
     void OnMouseExit()
     {   
-        space_event.TirggerOnSpaceExit(gameObject);
+        tile_event.TirggerOnTileExit(gameObject);
     }
 }

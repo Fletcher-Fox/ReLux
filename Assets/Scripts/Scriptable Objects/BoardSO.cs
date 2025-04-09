@@ -1,65 +1,84 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "NewBoard", menuName = "Scriptable Objects/Board")]
 public class BoardSO : ScriptableObject
 {
-    [SerializeField] private SpaceSO space_event;
-    [SerializeField] private MaterialsSO space_materials;
+    [SerializeField] private TileSO tile_event;
+    // [SerializeField] private UnitSO unit_event;
+    [SerializeField] private MaterialsSO tile_materials;
 
-    private GameObject selected;
+    private GameObject selectedTile;
+    // private GameObject selectedUnit;
+
 
     void OnEnable()
     {
-        space_event.SpaceClick += onClick;
-        space_event.SpaceEnter += onEnter;
-        space_event.SpaceExit += onExit;
+        tile_event.TileClick += onClick;
+        tile_event.TileEnter += onEnter;
+        tile_event.TileExit += onExit;
+
+        // unit_event = Resources.Load<UnitSO>("SOInstance/Core/Unit");
+        // unit_event.UnitClickedEvent += onUnitClicked;
     }
 
     void OnDisable()
     {
-        space_event.SpaceClick -= onClick;
-        space_event.SpaceEnter -= onEnter;
+        tile_event.TileClick -= onClick;
+        tile_event.TileEnter -= onEnter;
+        tile_event.TileExit -= onExit;
+
+        // unit_event.UnitClickedEvent -= onUnitClicked;
     }
 
-    void update_material(GameObject space, Material material)
+
+    // void onUnitClicked(GameObject unit, String name) 
+    // {
+    //     if (selectedTile != unit) {
+    //         selectedTile = unit;
+    //         Debug.Log("Board: Selected Unit: " + name);
+    //     }
+    // }
+
+    void update_material(GameObject tile, Material material)
     {
-        space.GetComponent<MeshRenderer>().material = material;
+        tile.GetComponent<MeshRenderer>().material = material;
     }
 
-    void onClick(GameObject space)
+    void onClick(GameObject tile)
     {    
-        if (space == selected)
+        if (tile == selectedTile)
         {
-            selected = null;
-            update_material(space, space_materials.deafault_material);
+            selectedTile = null;
+            update_material(tile, tile_materials.deafault_material);
         }
         else 
         {   
-            if (selected != null)
+            if (selectedTile != null)
             {
-                update_material(selected, space_materials.deafault_material);
+                update_material(selectedTile, tile_materials.deafault_material);
             }
 
-            selected = space;
-            update_material(space, space_materials.select_material);
+            selectedTile = tile;
+            update_material(tile, tile_materials.select_material);
         }
     }
 
-    void onEnter(GameObject space)
+    void onEnter(GameObject tile)
     {   
-        update_material(space, space_materials.hover_material);
+        update_material(tile, tile_materials.hover_material);
     }
 
-    void onExit(GameObject space)
+    void onExit(GameObject tile)
     {   
-        if (space == selected)
+        if (tile == selectedTile)
         {
-            update_material(space, space_materials.select_material); 
+            update_material(tile, tile_materials.select_material); 
         }
         else 
         {
-            update_material(space, space_materials.deafault_material);
+            update_material(tile, tile_materials.deafault_material);
         }
     }
 }

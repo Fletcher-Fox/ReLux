@@ -1,6 +1,6 @@
 using System;
 using UnityEngine;
-public class BoardBehavior : MonoBehaviour
+public class BoardGen : MonoBehaviour
 {   
     
     [SerializeField] private IntegerSO length;
