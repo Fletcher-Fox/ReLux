@@ -35,8 +35,8 @@ public class BoardSO : ScriptableObject
 
     void onUnitClicked(GameObject unit, String name) 
     {
-        if (selectedTile != unit) {
-            selectedTile = unit;
+        if (selectedUnit != unit) {
+            selectedUnit = unit;
             Debug.Log("Board: Selected Unit: " + name);
         }
     }
