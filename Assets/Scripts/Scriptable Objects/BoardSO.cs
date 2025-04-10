@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 [CreateAssetMenu(fileName = "NewBoard", menuName = "Scriptable Objects/Board")]
 public class BoardSO : ScriptableObject
@@ -33,11 +35,22 @@ public class BoardSO : ScriptableObject
     }
 
 
-    void onUnitClicked(GameObject unit, String name) 
+    void onUnitClicked(GameObject unit)
     {
+        Unit u = unit.GetComponent<Unit>();
+
         if (selectedUnit != unit) {
             selectedUnit = unit;
-            Debug.Log("Board: Selected Unit: " + name);
+            Debug.Log("Board: Selected Unit: " + u.getName());
+        }
+
+        Transform unitTransform = unit.transform;
+
+        if (unitTransform != null) {
+            Vector3 start = new Vector3(unitTransform.position.x, unitTransform.position.y, unitTransform.position.z);
+            Vector3 end = new Vector3(unitTransform.position.x + 1, unitTransform.position.y, unitTransform.position.z);
+
+            CheckHit(start, end);
         }
     }
 
@@ -80,5 +93,40 @@ public class BoardSO : ScriptableObject
         {
             update_material(tile, tile_materials.deafault_material);
         }
+    }
+
+
+
+    void CheckHit(Vector3 startPosition, Vector3 endPosition)
+    {
+        // Calculate the direction and distance using Vector3
+        Vector3 direction = endPosition - startPosition;
+        float distance = direction.magnitude;
+
+        Debug.Log("-------------------------------------------------");
+        Debug.Log("Start: " + startPosition + ", End: " + endPosition);
+
+        Debug.Log("Distance: " + distance);
+
+        // Perform the raycast with the calculated direction and distance
+        RaycastHit hit;
+        if (Physics.Raycast(startPosition, direction.normalized, out hit, distance))
+        {
+            Debug.Log("Hit object: " + hit.collider.gameObject.name);
+
+            // Draw a ray with the specified color (e.g., red)  
+            Debug.DrawRay(startPosition, direction, Color.red, 2f); // Ray will stay visible for 2 seconds
+
+            // You can also do other things with the hit object, e.g., change color
+            GameObject hitObject = hit.collider.gameObject;
+            hitObject.GetComponent<Renderer>().material.color = Color.red;
+        } else {
+            Debug.Log("Hit nothing");
+        
+            // Draw a ray to show the path even if it doesn't hit anything
+            Debug.DrawRay(startPosition, direction, Color.green, 2f); // Ray will stay visible for 2 seconds
+        }
+
+        Debug.Log("-------------------------------------------------");
     }
 }

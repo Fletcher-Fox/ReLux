@@ -4,12 +4,13 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "NewUnit", menuName = "Scriptable Objects/Unit")]
 public class UnitSO : ScriptableObject
 {
-    public delegate void UnitClicked(GameObject gameObject, String name);
+    public delegate void UnitClicked(GameObject gameObject);
     public event UnitClicked UnitClickedEvent;
 
-    public void EventUnitClicked(GameObject unit, String name)
+    public void EventUnitClicked(GameObject unit)
     {
-        UnitClickedEvent?.Invoke(unit, name);
-        Debug.Log("Unit: Was Clicked : " + name);
+        Unit unitScript = unit.GetComponent<Unit>();
+        UnitClickedEvent?.Invoke(unit);
+        Debug.Log("Unit: Was Clicked : " + unitScript.getName());
     }
 }

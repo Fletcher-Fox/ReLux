@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class Unit : MonoBehaviour
@@ -6,6 +7,17 @@ public class Unit : MonoBehaviour
     private UnitSO unit_event;
 
     [SerializeField] private string unitName = "EVA-00";
+    [SerializeField] private int movementRange = 1;
+
+    public string getName()
+    {
+        return unitName;
+    }
+
+    public int getMovementRange()
+    {
+        return movementRange;
+    }
 
     void OnEnable()
     {
@@ -24,10 +36,8 @@ public class Unit : MonoBehaviour
 
 
     void checkIfMyTile(GameObject tile) {
-        Debug.Log("Tile Pos: " + tile.transform.position);
         if (transform.position == tile.transform.position) {
-            Debug.Log("Unit On Same Tile!");
-            unit_event.EventUnitClicked(gameObject, unitName);
+            unit_event.EventUnitClicked(gameObject);
         }
     }
 
