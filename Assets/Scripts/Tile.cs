@@ -9,6 +9,7 @@ public class Tile : MonoBehaviour
     [SerializeField] private MaterialsSO tile_materials;
 
     void Start() {
+        tile_event.TriggerRegister(gameObject); // Pass game obj to the board 
         Renderer renderer = GetComponent<Renderer>(); // Get the Renderer component
         if (renderer != null && _isSpawnPoint)
         {

@@ -13,10 +13,11 @@ public class BoardSO : ScriptableObject
 
     private GameObject selectedTile;
     private GameObject selectedUnit;
-
-
+    [SerializeField] private List<Plane> boardTiles;
     void OnEnable()
     {
+        boardTiles = new List<Plane>();
+        tile_event.RegisterTile += registerTile;
         tile_event.TileClick += onClick;
         tile_event.TileEnter += onEnter;
         tile_event.TileExit += onExit;
@@ -27,6 +28,7 @@ public class BoardSO : ScriptableObject
 
     void OnDisable()
     {
+        tile_event.RegisterTile -= registerTile;
         tile_event.TileClick -= onClick;
         tile_event.TileEnter -= onEnter;
         tile_event.TileExit -= onExit;
@@ -34,6 +36,11 @@ public class BoardSO : ScriptableObject
         unit_event.UnitClickedEvent -= onUnitClicked;
     }
 
+    void registerTile(GameObject plane)
+    {
+        boardTiles.Add(plane);
+    }
+    
 
     void onUnitClicked(GameObject unit)
     {
@@ -103,11 +110,6 @@ public class BoardSO : ScriptableObject
         Vector3 direction = endPosition - startPosition;
         float distance = direction.magnitude;
 
-        Debug.Log("-------------------------------------------------");
-        Debug.Log("Start: " + startPosition + ", End: " + endPosition);
-
-        Debug.Log("Distance: " + distance);
-
         // Perform the raycast with the calculated direction and distance
         RaycastHit hit;
         if (Physics.Raycast(startPosition, direction.normalized, out hit, distance))
@@ -120,13 +122,10 @@ public class BoardSO : ScriptableObject
             // You can also do other things with the hit object, e.g., change color
             GameObject hitObject = hit.collider.gameObject;
             hitObject.GetComponent<Renderer>().material.color = Color.red;
-        } else {
-            Debug.Log("Hit nothing");
-        
+        } else {        
             // Draw a ray to show the path even if it doesn't hit anything
             Debug.DrawRay(startPosition, direction, Color.green, 2f); // Ray will stay visible for 2 seconds
         }
 
-        Debug.Log("-------------------------------------------------");
     }
 }
