@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 8150081840223315316}
   - component: {fileID: -6236892295857613362}
   m_Layer: 0
-  m_Name: Plane
+  m_Name: Tile_Space
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -122,4 +122,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 37e8e5ce29c04d3428bfb83320cd695e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  space_event: {fileID: 11400000, guid: 1086e64c58d2c134199461340e447de3, type: 2}
+  _tileEvent: {fileID: 0}
+  _isSpawnPoint: 0
+  _tileMaterials: {fileID: 0}

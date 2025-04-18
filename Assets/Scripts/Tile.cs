@@ -4,32 +4,35 @@ using UnityEngine;
 public class Tile : MonoBehaviour
 {   
 
-    [SerializeField] private TileSO tile_event;
+    [SerializeField] private TileSO _tileEvent;
     [SerializeField] private bool _isSpawnPoint;
-    [SerializeField] private MaterialsSO tile_materials;
+    [SerializeField] private MaterialsSO _tileMaterials;
 
     void Start() {
-        tile_event.TriggerRegister(gameObject); // Pass game obj to the board 
+        // _tileEvent.TriggerRegister(this); // Pass game obj to the board 
+        Debug.Log("gameObject : " + gameObject);
+        Debug.Log("Tile Event: " + _tileEvent);
+        _tileEvent.TriggerRegister(gameObject);
         Renderer renderer = GetComponent<Renderer>(); // Get the Renderer component
         if (renderer != null && _isSpawnPoint)
         {
-            renderer.material = tile_materials.spawn_material; // Set the material
+            renderer.material = _tileMaterials.spawn_material; // Set the material
         }
     }
 
     void OnMouseDown()
     {   
         Debug.Log("Object clicked: " + gameObject.name);
-        tile_event.TirggerOnTileClick(gameObject);
+        _tileEvent.TirggerOnTileClick(gameObject);
     }
 
     void OnMouseEnter()
     {
-        tile_event.TirggerOnTileEnter(gameObject);
+        _tileEvent.TirggerOnTileEnter(gameObject);
     }
 
     void OnMouseExit()
     {   
-        tile_event.TirggerOnTileExit(gameObject);
+        _tileEvent.TirggerOnTileExit(gameObject);
     }
 }

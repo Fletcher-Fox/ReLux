@@ -13,36 +13,41 @@ public class BoardSO : ScriptableObject
 
     private GameObject selectedTile;
     private GameObject selectedUnit;
-    [SerializeField] private List<Plane> boardTiles;
+    [SerializeField] private List<GameObject> boardTiles;
     void OnEnable()
     {
-        boardTiles = new List<Plane>();
-        tile_event.RegisterTile += registerTile;
-        tile_event.TileClick += onClick;
-        tile_event.TileEnter += onEnter;
-        tile_event.TileExit += onExit;
+        boardTiles = new List<GameObject>();
+        tile_event.RegisterTile += RegisterTile;
+        tile_event.TileClick += OnClick;
+        tile_event.TileEnter += OnEnter;
+        tile_event.TileExit += OnExit;
 
         unit_event = Resources.Load<UnitSO>("SOInstance/Core/Unit"); // TODO: I believe this is being saved in a bad way...
-        unit_event.UnitClickedEvent += onUnitClicked;
+        unit_event.UnitClickedEvent += OnUnitClicked;
     }
 
     void OnDisable()
     {
-        tile_event.RegisterTile -= registerTile;
-        tile_event.TileClick -= onClick;
-        tile_event.TileEnter -= onEnter;
-        tile_event.TileExit -= onExit;
+        tile_event.RegisterTile -= RegisterTile;
+        tile_event.TileClick -= OnClick;
+        tile_event.TileEnter -= OnEnter;
+        tile_event.TileExit -= OnExit;
 
-        unit_event.UnitClickedEvent -= onUnitClicked;
+        unit_event.UnitClickedEvent -= OnUnitClicked;
     }
 
-    void registerTile(GameObject plane)
+    void RegisterTile(GameObject tile_space)
     {
-        boardTiles.Add(plane);
+        boardTiles.Add(tile_space);
+    }
+
+    public void ClearTiles() 
+    {
+        boardTiles = new List<GameObject>();
     }
     
 
-    void onUnitClicked(GameObject unit)
+    void OnUnitClicked(GameObject unit)
     {
         Unit u = unit.GetComponent<Unit>();
 
@@ -61,44 +66,44 @@ public class BoardSO : ScriptableObject
         }
     }
 
-    void update_material(GameObject tile, Material material)
+    void UpdateMaterial(GameObject tile, Material material)
     {
         tile.GetComponent<MeshRenderer>().material = material;
     }
 
-    void onClick(GameObject tile)
+    void OnClick(GameObject tile)
     {    
         if (tile == selectedTile)
         {
             selectedTile = null;
-            update_material(tile, tile_materials.deafault_material);
+            UpdateMaterial(tile, tile_materials.deafault_material);
         }
         else 
         {   
             if (selectedTile != null)
             {
-                update_material(selectedTile, tile_materials.deafault_material);
+                UpdateMaterial(selectedTile, tile_materials.deafault_material);
             }
 
             selectedTile = tile;
-            update_material(tile, tile_materials.select_material);
+            UpdateMaterial(tile, tile_materials.select_material);
         }
     }
 
-    void onEnter(GameObject tile)
+    void OnEnter(GameObject tile)
     {   
-        update_material(tile, tile_materials.hover_material);
+        UpdateMaterial(tile, tile_materials.hover_material);
     }
 
-    void onExit(GameObject tile)
+    void OnExit(GameObject tile)
     {   
         if (tile == selectedTile)
         {
-            update_material(tile, tile_materials.select_material); 
+            UpdateMaterial(tile, tile_materials.select_material); 
         }
         else 
         {
-            update_material(tile, tile_materials.deafault_material);
+            UpdateMaterial(tile, tile_materials.deafault_material);
         }
     }
 

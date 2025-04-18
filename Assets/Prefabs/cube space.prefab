@@ -116,7 +116,7 @@ PrefabInstance:
       objectReference: {fileID: 11400000, guid: 9dbc684d16d6a6d4e8d478f5fb1b0c79, type: 2}
     - target: {fileID: 7248661225682726292, guid: 0e400cbdbf7e71d498c7fbd92767be2c, type: 3}
       propertyPath: m_Name
-      value: Plane
+      value: Tile_Space
       objectReference: {fileID: 0}
     - target: {fileID: 8072871220656808180, guid: 0e400cbdbf7e71d498c7fbd92767be2c, type: 3}
       propertyPath: m_LocalPosition.x
