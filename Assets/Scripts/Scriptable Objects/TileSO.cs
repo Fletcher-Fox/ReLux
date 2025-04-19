@@ -1,10 +1,8 @@
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "NewTile", menuName = "Scriptable Objects/Tile")]
-public class TileSO : ScriptableObject
+public class TileSO : GameTokenSO
 {
-    public delegate void OnRegisterTile(GameObject plane);
-    public event OnRegisterTile RegisterTile;
     public delegate void OnTileClick(GameObject gameObject);
     public event OnTileClick TileClick;
     public delegate void OnTileEnter(GameObject gameObject);
@@ -12,11 +10,6 @@ public class TileSO : ScriptableObject
     public delegate void OnTileExit(GameObject gameObject);
     public event OnTileExit TileExit;
 
-
-    public void TriggerRegister(GameObject plane)
-    {
-        RegisterTile?.Invoke(plane);
-    }
     public void TirggerOnTileClick(GameObject tile)
     {  
         TileClick?.Invoke(tile);

@@ -10,24 +10,24 @@ public class Loader : MonoBehaviour
         LoadAllScriptableObjects();
     }
 
-  private void LoadAllScriptableObjects()
+    private void LoadAllScriptableObjects()
     {
         // TODO: Update later to just load specific assets for scenes / states
         // Load all ScriptableObject assets from the entire Resources folder
         allScriptableObjects = Resources.LoadAll<ScriptableObject>("SOInstance/Core");
 
-        if (allScriptableObjects.Length > 0)
-        {
-            Debug.Log($"Loaded {allScriptableObjects.Length} ScriptableObject assets.");
-            foreach (var obj in allScriptableObjects)
-            {
-                Debug.Log($"Loaded: {obj.name} (Type: {obj.GetType()})");
-            }
-        }
-        else
-        {
-            Debug.LogWarning("No ScriptableObjects found in Resources!");
-        }
+        // if (allScriptableObjects.Length > 0)
+        // {
+        //     Debug.Log($"Loaded {allScriptableObjects.Length} ScriptableObject assets.");
+        //     foreach (var obj in allScriptableObjects)
+        //     {
+        //         Debug.Log($"Loaded: {obj.name} (Type: {obj.GetType()})");
+        //     }
+        // }
+        // else
+        // {
+        //     Debug.LogWarning("No ScriptableObjects found in Resources!");
+        // }
     }
 
 

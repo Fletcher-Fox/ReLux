@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "NewUnit", menuName = "Scriptable Objects/Unit")]
-public class UnitSO : ScriptableObject
+public class UnitSO : GameTokenSO
 {
     public delegate void UnitClicked(GameObject gameObject);
     public event UnitClicked UnitClickedEvent;

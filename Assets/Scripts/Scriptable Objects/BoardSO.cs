@@ -7,52 +7,63 @@ using UnityEngine.UIElements;
 [CreateAssetMenu(fileName = "NewBoard", menuName = "Scriptable Objects/Board")]
 public class BoardSO : ScriptableObject
 {
-    [SerializeField] private TileSO tile_event;
-    [SerializeField] private UnitSO unit_event;
-    [SerializeField] private MaterialsSO tile_materials;
+    private TileSO _tileEvent;
+    private UnitSO _unitEvent;
+    private MaterialsSO _tileMaterials;
 
-    private GameObject selectedTile;
-    private GameObject selectedUnit;
-    [SerializeField] private List<GameObject> boardTiles;
+    private GameObject _selectedTile;
+    private GameObject _selectedUnit;
+    private List<GameObject> _boardTiles;
+    private List<GameObject> _boardUnits;
     void OnEnable()
     {
-        boardTiles = new List<GameObject>();
-        tile_event.RegisterTile += RegisterTile;
-        tile_event.TileClick += OnClick;
-        tile_event.TileEnter += OnEnter;
-        tile_event.TileExit += OnExit;
+        ClearBoardTokens();
+        _tileEvent = Resources.Load<TileSO>("SOInstance/Core/Tiles");
+        _unitEvent = Resources.Load<UnitSO>("SOInstance/Core/Unit");
+        _tileMaterials = Resources.Load<MaterialsSO>("SOInstance/Core/Materials");
 
-        unit_event = Resources.Load<UnitSO>("SOInstance/Core/Unit"); // TODO: I believe this is being saved in a bad way...
-        unit_event.UnitClickedEvent += OnUnitClicked;
+        _tileEvent.RegisterToken += RegisterTile;
+        _tileEvent.TileClick += OnClick;
+        _tileEvent.TileEnter += OnEnter;
+        _tileEvent.TileExit += OnExit;
+
+        _unitEvent.RegisterToken += RegisterUnit;
+        _unitEvent.UnitClickedEvent += OnUnitClicked;
     }
 
     void OnDisable()
     {
-        tile_event.RegisterTile -= RegisterTile;
-        tile_event.TileClick -= OnClick;
-        tile_event.TileEnter -= OnEnter;
-        tile_event.TileExit -= OnExit;
+        _tileEvent.RegisterToken -= RegisterTile;
+        _tileEvent.TileClick -= OnClick;
+        _tileEvent.TileEnter -= OnEnter;
+        _tileEvent.TileExit -= OnExit;
 
-        unit_event.UnitClickedEvent -= OnUnitClicked;
+        _unitEvent.RegisterToken -= RegisterUnit;
+        _unitEvent.UnitClickedEvent -= OnUnitClicked;
     }
 
-    void RegisterTile(GameObject tile_space)
+    void RegisterTile(GameObject tile)
     {
-        boardTiles.Add(tile_space);
+        _boardTiles.Add(tile);
     }
-
-    public void ClearTiles() 
+    void RegisterUnit(GameObject unit)
     {
-        boardTiles = new List<GameObject>();
+        _boardUnits.Add(unit);
+        Debug.Log("Board Units:");
+        Debug.Log(string.Join(", ", _boardUnits));
+    }
+    public void ClearBoardTokens() 
+    {
+        _boardTiles = new List<GameObject>();
+        _boardUnits = new List<GameObject>();
     }
     
-
     void OnUnitClicked(GameObject unit)
     {
         Unit u = unit.GetComponent<Unit>();
 
-        if (selectedUnit != unit) {
-            selectedUnit = unit;
+        if (_selectedUnit != unit) {
+            _selectedUnit = unit;
             Debug.Log("Board: Selected Unit: " + u.getName());
         }
 
@@ -73,37 +84,37 @@ public class BoardSO : ScriptableObject
 
     void OnClick(GameObject tile)
     {    
-        if (tile == selectedTile)
+        if (tile == _selectedTile)
         {
-            selectedTile = null;
-            UpdateMaterial(tile, tile_materials.deafault_material);
+            _selectedTile = null;
+            UpdateMaterial(tile, _tileMaterials.deafault_material);
         }
         else 
         {   
-            if (selectedTile != null)
+            if (_selectedTile != null)
             {
-                UpdateMaterial(selectedTile, tile_materials.deafault_material);
+                UpdateMaterial(_selectedTile, _tileMaterials.deafault_material);
             }
 
-            selectedTile = tile;
-            UpdateMaterial(tile, tile_materials.select_material);
+            _selectedTile = tile;
+            UpdateMaterial(tile, _tileMaterials.select_material);
         }
     }
 
     void OnEnter(GameObject tile)
-    {   
-        UpdateMaterial(tile, tile_materials.hover_material);
+    {
+        UpdateMaterial(tile, _tileMaterials.hover_material);
     }
 
     void OnExit(GameObject tile)
     {   
-        if (tile == selectedTile)
+        if (tile == _selectedTile)
         {
-            UpdateMaterial(tile, tile_materials.select_material); 
+            UpdateMaterial(tile, _tileMaterials.select_material); 
         }
         else 
         {
-            UpdateMaterial(tile, tile_materials.deafault_material);
+            UpdateMaterial(tile, _tileMaterials.deafault_material);
         }
     }
 

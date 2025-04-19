@@ -3,25 +3,26 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     [Header("Runtime Board Data")]
-    [SerializeField] private BoardSO board;
+    [SerializeField] private BoardSO _board;
 
-    private static GameManager instance;
+    private static GameManager _instance;
 
     private void Awake()
     {
         // Ensure only one GameManager exists
-        if (instance != null && instance != this)
+        if (_instance != null && _instance != this)
         {
             Destroy(gameObject);
             return;
         }
 
-        instance = this;
+        _instance = this;
         DontDestroyOnLoad(gameObject); // Persist between scenes
     }
 
     private void OnEnable()
     {
+        _board = Resources.Load<BoardSO>("SOInstance/Core/Board");
         Application.quitting += OnAppQuit;
     }
 
@@ -37,9 +38,9 @@ public class GameManager : MonoBehaviour
 
     private void ClearBoard()
     {
-        if (board != null)
+        if (_board != null)
         {
-            board.ClearTiles();
+            _board.ClearBoardTokens();
             Debug.Log("Board cleared on application quit.");
         }
     }

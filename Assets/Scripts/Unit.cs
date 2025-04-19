@@ -3,11 +3,15 @@ using UnityEngine;
 
 public class Unit : MonoBehaviour
 {
-    private TileSO tile_event;
-    private UnitSO unit_event;
+    private TileSO _tileEvent;
+    private UnitSO _unitEvent;
 
     [SerializeField] private string unitName = "EVA-00";
     [SerializeField] private int movementRange = 1;
+
+    void Start() {
+        _unitEvent.TriggerRegister(gameObject); // Pass game obj to the board 
+    }
 
     public string getName()
     {
@@ -21,23 +25,23 @@ public class Unit : MonoBehaviour
 
     void OnEnable()
     {
-        tile_event = Resources.Load<TileSO>("SOInstance/Core/Tiles");
-        unit_event = Resources.Load<UnitSO>("SOInstance/Core/Unit");
+        _unitEvent = Resources.Load<UnitSO>("SOInstance/Core/Unit");
+        _tileEvent = Resources.Load<TileSO>("SOInstance/Core/Tiles");
 
-        if (tile_event != null)
-            tile_event.TileClick += checkIfMyTile;
+        if (_tileEvent != null)
+            _tileEvent.TileClick += checkIfMyTile;
     }
 
     void OnDisable()
     {
-        if (tile_event != null)
-            tile_event.TileClick -= checkIfMyTile;
+        if (_tileEvent != null)
+            _tileEvent.TileClick -= checkIfMyTile;
     }
 
 
     void checkIfMyTile(GameObject tile) {
         if (transform.position == tile.transform.position) {
-            unit_event.EventUnitClicked(gameObject);
+            _unitEvent.EventUnitClicked(gameObject);
         }
     }
 
