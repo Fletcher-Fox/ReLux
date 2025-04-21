@@ -1,0 +1,43 @@
+using UnityEngine;
+using TMPro;
+
+public class CombatUnitHUD : MonoBehaviour
+{
+    [SerializeField] private CombatSelectedUnit data;
+    [SerializeField] private TMP_Text nameText;
+    [SerializeField] private TMP_Text healthText;
+    [SerializeField] private TMP_Text moveText;
+
+    private void OnEnable()
+    {
+        data.onChanged.AddListener(UpdateUI);
+        UpdateUI();
+    }
+
+    private void OnDisable()
+    {
+        data.onChanged.RemoveListener(UpdateUI);
+    }
+
+    private void UpdateUI()
+    {
+        gameObject.SetActive(data.visible);
+
+        if (!data.visible) return;
+
+        nameText.text = data.characterName;
+        healthText.text = $"HP: {data.health}";
+        moveText.text = $"Move: {data.movement}";
+    }
+
+    private void UpdateUI()
+    {
+        gameObject.SetActive(data.visible);
+
+        if (!data.visible) return;
+
+        nameText.text = data.characterName;
+        healthText.text = $"HP: {data.health}";
+        moveText.text = $"Move: {data.movement}";
+    }
+}

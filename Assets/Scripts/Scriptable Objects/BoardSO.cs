@@ -49,8 +49,6 @@ public class BoardSO : ScriptableObject
     void RegisterUnit(GameObject unit)
     {
         _boardUnits.Add(unit);
-        Debug.Log("Board Units:");
-        Debug.Log(string.Join(", ", _boardUnits));
     }
     public void ClearBoardTokens() 
     {
