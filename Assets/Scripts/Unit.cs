@@ -7,6 +7,7 @@ public class Unit : MonoBehaviour
     private UnitSO _unitEvent;
 
     [SerializeField] private string unitName = "EVA-00";
+    [SerializeField] private int unitHealth = 100;
     [SerializeField] private int movementRange = 1;
 
     void Start() {
@@ -16,6 +17,11 @@ public class Unit : MonoBehaviour
     public string getName()
     {
         return unitName;
+    }
+
+    public int getHealth()
+    {
+        return unitHealth;
     }
 
     public int getMovementRange()

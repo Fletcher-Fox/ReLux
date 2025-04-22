@@ -1,12 +1,12 @@
-using System;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.UIElements;
+using UnityEngine.Events;
 
 [CreateAssetMenu(fileName = "NewBoard", menuName = "Scriptable Objects/Board")]
 public class BoardSO : ScriptableObject
 {
+    public UnityEvent<GameObject> selectedUnit;
+
     private TileSO _tileEvent;
     private UnitSO _unitEvent;
     private MaterialsSO _tileMaterials;
@@ -62,17 +62,17 @@ public class BoardSO : ScriptableObject
 
         if (_selectedUnit != unit) {
             _selectedUnit = unit;
+            selectedUnit?.Invoke(unit);
             Debug.Log("Board: Selected Unit: " + u.getName());
         }
 
-        Transform unitTransform = unit.transform;
-
-        if (unitTransform != null) {
-            Vector3 start = new Vector3(unitTransform.position.x, unitTransform.position.y, unitTransform.position.z);
-            Vector3 end = new Vector3(unitTransform.position.x + 1, unitTransform.position.y, unitTransform.position.z);
-
-            CheckHit(start, end);
-        }
+        // *** PATHING TBC... ***
+        // Transform unitTransform = unit.transform;
+        // if (unitTransform != null) {
+        //     Vector3 start = new Vector3(unitTransform.position.x, unitTransform.position.y, unitTransform.position.z);
+        //     Vector3 end = new Vector3(unitTransform.position.x + 1, unitTransform.position.y, unitTransform.position.z);
+        //     CheckHit(start, end);
+        // }
     }
 
     void UpdateMaterial(GameObject tile, Material material)
@@ -81,10 +81,12 @@ public class BoardSO : ScriptableObject
     }
 
     void OnClick(GameObject tile)
-    {    
+    {
+        DeselectUnit(tile);
         if (tile == _selectedTile)
         {
             _selectedTile = null;
+            selectedUnit?.Invoke(null);
             UpdateMaterial(tile, _tileMaterials.deafault_material);
         }
         else 
@@ -96,6 +98,14 @@ public class BoardSO : ScriptableObject
 
             _selectedTile = tile;
             UpdateMaterial(tile, _tileMaterials.select_material);
+        }
+    }
+
+    void DeselectUnit(GameObject tile)
+    {
+        if (_selectedUnit != null && _selectedUnit.transform.position != tile.transform.position) {
+            Debug.Log("Prev Selected unit (" + _selectedUnit.GetComponent<Unit>().getName() + ") nulled!");
+            _selectedUnit = null;
         }
     }
 
