@@ -1,26 +1,24 @@
 using UnityEngine;
+using UnityEngine.Events;
 
 [CreateAssetMenu(fileName = "NewTile", menuName = "Scriptable Objects/Tile")]
 public class TileSO : GameTokenSO
 {
-    public delegate void OnTileClick(GameObject gameObject);
-    public event OnTileClick TileClick;
-    public delegate void OnTileEnter(GameObject gameObject);
-    public event OnTileEnter TileEnter;
-    public delegate void OnTileExit(GameObject gameObject);
-    public event OnTileExit TileExit;
+    public UnityEvent<Vector3> tileClick;
+    public UnityEvent<Vector3> tileEnter;
+    public UnityEvent<Vector3> tileExit;
 
-    public void TirggerOnTileClick(GameObject tile)
+    public void OnTileClick(Vector3 tilePosition)
     {  
-        TileClick?.Invoke(tile);
+        tileClick?.Invoke(tilePosition);
     }
-    public void TirggerOnTileEnter(GameObject tile)
+    public void OnTileEnter(Vector3 tilePosition)
     {
-        TileEnter?.Invoke(tile);
+        tileEnter?.Invoke(tilePosition);
     }
-    public void TirggerOnTileExit(GameObject tile)
+    public void OnTileExit(Vector3 tilePosition)
     {
-        TileExit?.Invoke(tile);
+        tileExit?.Invoke(tilePosition);
     }
 
 }

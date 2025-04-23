@@ -13,18 +13,18 @@ public class CombatSelectedUnitSO : ScriptableObject
 
     [Header("Events")]
     public UnityEvent onDataChange;
-    [SerializeField] private BoardSO _boardData;
+    // [SerializeField] private BoardSO _boardData;
 
     private void OnEnable()
     {
-        _boardData = Resources.Load<BoardSO>("SOInstance/Core/Board");
-        _boardData.selectedUnit.AddListener(CheckSelection);
+        // _boardData = Resources.Load<BoardSO>("SOInstance/Core/Board");
+        // _boardData.selectedUnit.AddListener(CheckSelection);
         CheckSelection(null);
     }
 
     private void OnDisable()
     {
-        _boardData.selectedUnit.RemoveListener(CheckSelection);
+        // _boardData.selectedUnit.RemoveListener(CheckSelection);
     }
 
     private void CheckSelection(GameObject unit)

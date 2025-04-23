@@ -5,125 +5,122 @@ using UnityEngine.Events;
 [CreateAssetMenu(fileName = "NewBoard", menuName = "Scriptable Objects/Board")]
 public class BoardSO : ScriptableObject
 {
-    public UnityEvent<GameObject> selectedUnit;
+    // public UnityEvent<GameObject> selectedUnit;
 
     private TileSO _tileEvent;
     private UnitSO _unitEvent;
     private MaterialsSO _tileMaterials;
 
-    private GameObject _selectedTile;
-    private GameObject _selectedUnit;
-    private List<GameObject> _boardTiles;
-    private List<GameObject> _boardUnits;
+    private Vector3 _selectedTile;
+    private Vector3 _selectedUnit;
+
     void OnEnable()
     {
         ClearBoardTokens();
         _tileEvent = Resources.Load<TileSO>("SOInstance/Core/Tiles");
         _unitEvent = Resources.Load<UnitSO>("SOInstance/Core/Unit");
-        _tileMaterials = Resources.Load<MaterialsSO>("SOInstance/Core/Materials");
+        // _tileMaterials = Resources.Load<MaterialsSO>("SOInstance/Core/Materials");
 
-        _tileEvent.RegisterToken += RegisterTile;
-        _tileEvent.TileClick += OnClick;
-        _tileEvent.TileEnter += OnEnter;
-        _tileEvent.TileExit += OnExit;
+        _tileEvent.tileClick.AddListener(OnClick);
+        _tileEvent.tileEnter.AddListener(OnEnter);
+        _tileEvent.tileExit.AddListener(OnExit);
 
-        _unitEvent.RegisterToken += RegisterUnit;
-        _unitEvent.UnitClickedEvent += OnUnitClicked;
+        // _unitEvent.UnitClickedEvent += OnUnitClicked;
     }
 
     void OnDisable()
     {
-        _tileEvent.RegisterToken -= RegisterTile;
-        _tileEvent.TileClick -= OnClick;
-        _tileEvent.TileEnter -= OnEnter;
-        _tileEvent.TileExit -= OnExit;
+        _tileEvent.tileClick.RemoveListener(OnClick);
+        _tileEvent.tileEnter.RemoveListener(OnEnter);
+        _tileEvent.tileExit.RemoveListener(OnExit);
 
-        _unitEvent.RegisterToken -= RegisterUnit;
-        _unitEvent.UnitClickedEvent -= OnUnitClicked;
+        // _unitEvent.UnitClickedEvent -= OnUnitClicked;
     }
 
-    void RegisterTile(GameObject tile)
-    {
-        _boardTiles.Add(tile);
-    }
-    void RegisterUnit(GameObject unit)
-    {
-        _boardUnits.Add(unit);
-    }
+    // void RegisterTile(GameObject tile)
+    // {
+    //     _boardTiles.Add(tile);
+    // }
+    // void RegisterUnit(GameObject unit)
+    // {
+    //     _boardUnits.Add(unit);
+    // }
     public void ClearBoardTokens() 
     {
-        _boardTiles = new List<GameObject>();
-        _boardUnits = new List<GameObject>();
+        // _boardTiles = new List<GameObject>();
+        // _boardUnits = new List<GameObject>();
     }
     
-    void OnUnitClicked(GameObject unit)
+    // void OnUnitClicked(GameObject unit)
+    // {
+    //     Unit u = unit.GetComponent<Unit>();
+
+    //     if (_selectedUnit != unit) {
+    //         _selectedUnit = unit;
+    //         // selectedUnit?.Invoke(unit);
+    //         Debug.Log("Board: Selected Unit: " + u.getName());
+    //     }
+
+    //     // *** PATHING TBC... ***
+    //     // Transform unitTransform = unit.transform;
+    //     // if (unitTransform != null) {
+    //     //     Vector3 start = new Vector3(unitTransform.position.x, unitTransform.position.y, unitTransform.position.z);
+    //     //     Vector3 end = new Vector3(unitTransform.position.x + 1, unitTransform.position.y, unitTransform.position.z);
+    //     //     CheckHit(start, end);
+    //     // }
+    // }
+
+    // void UpdateMaterial(GameObject tile, Material material)
+    // {
+    //     tile.GetComponent<MeshRenderer>().material = material;
+    // }
+
+    void OnClick(Vector3 tilePosition)
     {
-        Unit u = unit.GetComponent<Unit>();
-
-        if (_selectedUnit != unit) {
-            _selectedUnit = unit;
-            selectedUnit?.Invoke(unit);
-            Debug.Log("Board: Selected Unit: " + u.getName());
-        }
-
-        // *** PATHING TBC... ***
-        // Transform unitTransform = unit.transform;
-        // if (unitTransform != null) {
-        //     Vector3 start = new Vector3(unitTransform.position.x, unitTransform.position.y, unitTransform.position.z);
-        //     Vector3 end = new Vector3(unitTransform.position.x + 1, unitTransform.position.y, unitTransform.position.z);
-        //     CheckHit(start, end);
-        // }
-    }
-
-    void UpdateMaterial(GameObject tile, Material material)
-    {
-        tile.GetComponent<MeshRenderer>().material = material;
-    }
-
-    void OnClick(GameObject tile)
-    {
-        DeselectUnit(tile);
-        if (tile == _selectedTile)
+        // DeselectUnit(null);
+        if (tilePosition == _selectedTile)
         {
-            _selectedTile = null;
-            selectedUnit?.Invoke(null);
-            UpdateMaterial(tile, _tileMaterials.deafault_material);
+            _selectedTile = new Vector3(0, 0, 0); // no tiles should be here, reserved for empty position...
+            // _tileEvent. TODO: Tell TileSO that original tile position (_selectedTile) back to default material...
+        //     // selectedUnit?.Invoke(null);
+        //     // UpdateMaterial(tile, _tileMaterials.deafault_material);
         }
         else 
         {   
             if (_selectedTile != null)
             {
-                UpdateMaterial(_selectedTile, _tileMaterials.deafault_material);
+                // _tileEvent. TODO: Tell TileSO that new slected tile position (_selectedTile) to selected material...
+                // UpdateMaterial(_selectedTile, _tileMaterials.deafault_material);
             }
 
-            _selectedTile = tile;
-            UpdateMaterial(tile, _tileMaterials.select_material);
+        //     _selectedTile = tile;
+        //     // UpdateMaterial(tile, _tileMaterials.select_material);
         }
     }
 
-    void DeselectUnit(GameObject tile)
+    // void DeselectUnit(GameObject tile)
+    // {
+    //     if (_selectedUnit != null && _selectedUnit.transform.position != tile.transform.position) {
+    //         Debug.Log("Prev Selected unit (" + _selectedUnit.GetComponent<Unit>().getName() + ") nulled!");
+    //         _selectedUnit = null;
+    //     }
+    // }
+
+    void OnEnter(Vector3 tilePosition)
     {
-        if (_selectedUnit != null && _selectedUnit.transform.position != tile.transform.position) {
-            Debug.Log("Prev Selected unit (" + _selectedUnit.GetComponent<Unit>().getName() + ") nulled!");
-            _selectedUnit = null;
-        }
+        // UpdateMaterial(tile, _tileMaterials.hover_material);
     }
 
-    void OnEnter(GameObject tile)
-    {
-        UpdateMaterial(tile, _tileMaterials.hover_material);
-    }
-
-    void OnExit(GameObject tile)
+    void OnExit(Vector3 tilePosition)
     {   
-        if (tile == _selectedTile)
-        {
-            UpdateMaterial(tile, _tileMaterials.select_material); 
-        }
-        else 
-        {
-            UpdateMaterial(tile, _tileMaterials.deafault_material);
-        }
+        // if (tile == _selectedTile)
+        // {
+        //     UpdateMaterial(tile, _tileMaterials.select_material); 
+        // }
+        // else 
+        // {
+        //     UpdateMaterial(tile, _tileMaterials.deafault_material);
+        // }
     }
 
 

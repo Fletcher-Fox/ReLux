@@ -1,14 +1,17 @@
 using UnityEngine;
+using System.Collections.Generic;
+using UnityEngine.Events;
 
 [CreateAssetMenu(fileName = "NewGameToken", menuName = "Scriptable Objects/Token")]
 public class GameTokenSO : ScriptableObject
 {
-    public delegate void OnRegisterToken(GameObject gameObject);
-    public event OnRegisterToken RegisterToken;
+    // public UnityEvent<Vector3> RegisterToken;
+    private List<Vector3> _tokenBag;
 
-    public void TriggerRegister(GameObject token)
+    public void TriggerRegister(Vector3 tokenPosition)
     {
-        RegisterToken?.Invoke(token);
+        // RegisterToken?.Invoke(tokenPosition);
+        _tokenBag.Add(tokenPosition);
     }
 
 }

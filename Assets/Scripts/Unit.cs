@@ -11,7 +11,7 @@ public class Unit : MonoBehaviour
     [SerializeField] private int movementRange = 1;
 
     void Start() {
-        _unitEvent.TriggerRegister(gameObject); // Pass game obj to the board 
+        _unitEvent.TriggerRegister(transform.position); // Pass game obj to the board 
     }
 
     public string getName()
@@ -35,20 +35,19 @@ public class Unit : MonoBehaviour
         _tileEvent = Resources.Load<TileSO>("SOInstance/Core/Tiles");
 
         if (_tileEvent != null)
-            _tileEvent.TileClick += checkIfMyTile;
+            _tileEvent.tileClick.AddListener(checkIfMyTile);
     }
 
     void OnDisable()
     {
         if (_tileEvent != null)
-            _tileEvent.TileClick -= checkIfMyTile;
+            _tileEvent.tileClick.RemoveListener(checkIfMyTile);
     }
 
 
-    void checkIfMyTile(GameObject tile) {
-        if (transform.position == tile.transform.position) {
-            _unitEvent.EventUnitClicked(gameObject);
-        }
+    void checkIfMyTile(Vector3 tilePosition) {
+        if (transform.position == tilePosition)
+            _unitEvent.EventUnitClicked(transform.position);
     }
 
 

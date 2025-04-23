@@ -4,7 +4,7 @@ using TMPro;
 
 public class PostionUI : MonoBehaviour
 {   
-    [SerializeField] private TileSO tile_event;
+    [SerializeField] private TileSO _tileEvent;
     [SerializeField] private TextMeshProUGUI posField;
 
 
@@ -12,21 +12,21 @@ public class PostionUI : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        tile_event.TileClick += onTileClick;
+        _tileEvent.tileClick.AddListener(onTileClick);
     }
 
     void OnEnable()
     {
-        tile_event.TileClick += onTileClick;
+        _tileEvent.tileClick.AddListener(onTileClick);
     }
 
     void OnDisable()
     {
-        tile_event.TileClick -= onTileClick;
+        _tileEvent.tileClick.AddListener(onTileClick);
     }
 
-    void onTileClick(GameObject tile)
+    void onTileClick(Vector3 tilePosition)
     {
-        posField.text = string.Format("Pos: [{0},{1}]", tile.transform.position.x.ToString(), tile.transform.position.z.ToString());
+        posField.text = string.Format("Pos: [{0},{1}]", tilePosition.x.ToString(), tilePosition.z.ToString());
     }
 }

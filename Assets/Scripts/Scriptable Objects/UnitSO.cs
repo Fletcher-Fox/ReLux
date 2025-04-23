@@ -1,16 +1,14 @@
 using System;
 using UnityEngine;
+using UnityEngine.Events;
 
 [CreateAssetMenu(fileName = "NewUnit", menuName = "Scriptable Objects/Unit")]
 public class UnitSO : GameTokenSO
 {
-    public delegate void UnitClicked(GameObject gameObject);
-    public event UnitClicked UnitClickedEvent;
+    public UnityEvent<Vector3> UnitClicked;
 
-    public void EventUnitClicked(GameObject unit)
+    public void EventUnitClicked(Vector3 unitPosition)
     {
-        Unit unitScript = unit.GetComponent<Unit>();
-        UnitClickedEvent?.Invoke(unit);
-        Debug.Log("Unit: Was Clicked : " + unitScript.getName());
+        UnitClicked?.Invoke(unitPosition);
     }
 }
