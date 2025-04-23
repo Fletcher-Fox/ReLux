@@ -1,4 +1,3 @@
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class Tile : MonoBehaviour
@@ -17,6 +16,8 @@ public class Tile : MonoBehaviour
         // {
         //     renderer.material = _tileMaterials.spawn_material; // Set the material
         // }
+
+        _tileEvent.changeMaterial.AddListener(materialChange);
     }
 
     void OnMouseDown()
@@ -32,5 +33,13 @@ public class Tile : MonoBehaviour
     void OnMouseExit()
     {   
         _tileEvent.OnTileExit(transform.position);
+    }
+
+    void materialChange(Vector3 tilePosition, Material material)
+    {   
+        if (transform.position == tilePosition)
+        {   
+            GetComponent<MeshRenderer>().material = material;
+        }
     }
 }

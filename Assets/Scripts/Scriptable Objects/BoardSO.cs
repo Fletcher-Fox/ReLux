@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.InputSystem.Utilities;
 
 [CreateAssetMenu(fileName = "NewBoard", menuName = "Scriptable Objects/Board")]
 public class BoardSO : ScriptableObject
@@ -13,17 +14,18 @@ public class BoardSO : ScriptableObject
 
     private Vector3 _selectedTile;
     private Vector3 _selectedUnit;
+    public UnityEvent<Vector3, Material> changeTileMaterial;
 
     void OnEnable()
     {
         ClearBoardTokens();
         _tileEvent = Resources.Load<TileSO>("SOInstance/Core/Tiles");
         _unitEvent = Resources.Load<UnitSO>("SOInstance/Core/Unit");
-        // _tileMaterials = Resources.Load<MaterialsSO>("SOInstance/Core/Materials");
+        _tileMaterials = Resources.Load<MaterialsSO>("SOInstance/Core/Materials");
 
         _tileEvent.tileClick.AddListener(OnClick);
-        _tileEvent.tileEnter.AddListener(OnEnter);
-        _tileEvent.tileExit.AddListener(OnExit);
+        // _tileEvent.tileEnter.AddListener(OnEnter);
+        // _tileEvent.tileExit.AddListener(OnExit);
 
         // _unitEvent.UnitClickedEvent += OnUnitClicked;
     }
@@ -31,8 +33,8 @@ public class BoardSO : ScriptableObject
     void OnDisable()
     {
         _tileEvent.tileClick.RemoveListener(OnClick);
-        _tileEvent.tileEnter.RemoveListener(OnEnter);
-        _tileEvent.tileExit.RemoveListener(OnExit);
+        // _tileEvent.tileEnter.RemoveListener(OnEnter);
+        // _tileEvent.tileExit.RemoveListener(OnExit);
 
         // _unitEvent.UnitClickedEvent -= OnUnitClicked;
     }
@@ -84,17 +86,20 @@ public class BoardSO : ScriptableObject
             // _tileEvent. TODO: Tell TileSO that original tile position (_selectedTile) back to default material...
         //     // selectedUnit?.Invoke(null);
         //     // UpdateMaterial(tile, _tileMaterials.deafault_material);
+            changeTileMaterial.Invoke(tilePosition, _tileMaterials.deafault_material);
         }
         else 
         {   
-            if (_selectedTile != null)
+            if (_selectedTile != new Vector3(0, 0, 0))
             {
                 // _tileEvent. TODO: Tell TileSO that new slected tile position (_selectedTile) to selected material...
                 // UpdateMaterial(_selectedTile, _tileMaterials.deafault_material);
+                changeTileMaterial.Invoke(_selectedTile, _tileMaterials.deafault_material);
             }
 
-        //     _selectedTile = tile;
+            _selectedTile = tilePosition;
         //     // UpdateMaterial(tile, _tileMaterials.select_material);
+            changeTileMaterial.Invoke(tilePosition, _tileMaterials.select_material);
         }
     }
 
