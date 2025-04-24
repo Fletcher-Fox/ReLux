@@ -3,32 +3,32 @@ using TMPro;
 
 public class CombatUnitHUD : MonoBehaviour
 {
-    [SerializeField] private CombatSelectedUnitSO _unitData;
+    [SerializeField] private CombatSelectedUnitSO _unitHUD;
     [SerializeField] private TMP_Text nameText;
     [SerializeField] private TMP_Text healthText;
     [SerializeField] private TMP_Text moveText;
 
     private void OnEnable()
     {
-        _unitData = Resources.Load<CombatSelectedUnitSO>("SOInstance/Core/Combat Unit HUD");
-        _unitData.onDataChange.AddListener(UpdateUI);
+        _unitHUD = Resources.Load<CombatSelectedUnitSO>("SOInstance/Core/Combat Unit HUD");
+        _unitHUD.onDataChange.AddListener(UpdateUI);
         UpdateUI();
     }
 
     private void OnDisable()
     {
-        _unitData.onDataChange.RemoveListener(UpdateUI);
+        _unitHUD.onDataChange.RemoveListener(UpdateUI);
     }
 
     private void UpdateUI()
     {
-        gameObject.SetActive(_unitData.visible);
+        gameObject.SetActive(_unitHUD.visible);
 
-        if (!_unitData.visible) return;
+        if (!_unitHUD.visible) return;
 
-        nameText.text = _unitData.characterName;
-        healthText.text = $"HP: {_unitData.health}";
-        moveText.text = $"Move: {_unitData.movement}";
+        nameText.text = _unitHUD.characterName;
+        healthText.text = $"HP: {_unitHUD.health}";
+        moveText.text = $"Move: {_unitHUD.movement}";
     }
 
 }

@@ -9,7 +9,7 @@ public class CombatSelectedUnitSO : ScriptableObject
     public string characterName;
     public int health;
     public int movement;
-    public bool visible = false;
+    public bool visible = true;
 
     [Header("Events")]
     public UnityEvent onDataChange;
@@ -19,7 +19,7 @@ public class CombatSelectedUnitSO : ScriptableObject
     {
         // _boardData = Resources.Load<BoardSO>("SOInstance/Core/Board");
         // _boardData.selectedUnit.AddListener(CheckSelection);
-        CheckSelection(null);
+        // CheckSelection(null);
     }
 
     private void OnDisable()
