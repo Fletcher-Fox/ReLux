@@ -18,6 +18,11 @@ public class TileSO : GameTokenSO
 
         _board.changeTileMaterial.AddListener(changeTileMaterials);
     }
+    public void OnDisable()
+    {
+        _board.changeTileMaterial.RemoveListener(changeTileMaterials);
+    }
+
     public void OnTileClick(Vector3 tilePosition)
     {  
         tileClick.Invoke(tilePosition);

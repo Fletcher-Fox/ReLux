@@ -199,6 +199,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   unitName: EVA-00
+  unitHealth: 100
   movementRange: 2
 --- !u!1001 &262640887
 PrefabInstance:

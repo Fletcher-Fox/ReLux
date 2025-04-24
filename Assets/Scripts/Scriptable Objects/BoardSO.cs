@@ -8,8 +8,8 @@ public class BoardSO : ScriptableObject
 {
     // public UnityEvent<GameObject> selectedUnit;
 
-    private TileSO _tileEvent;
-    private UnitSO _unitEvent;
+    private TileSO _tile;
+    private UnitSO _unit;
     private MaterialsSO _tileMaterials;
 
     private Vector3 _selectedTile;
@@ -19,24 +19,25 @@ public class BoardSO : ScriptableObject
     void OnEnable()
     {
         ClearBoardTokens();
-        _tileEvent = Resources.Load<TileSO>("SOInstance/Core/Tiles");
-        _unitEvent = Resources.Load<UnitSO>("SOInstance/Core/Unit");
-        _tileMaterials = Resources.Load<MaterialsSO>("SOInstance/Core/Materials");
+        _tile = Resources.Load<TileSO>("SOInstance/Core/Tiles");
+        _unit = Resources.Load<UnitSO>("SOInstance/Core/Unit");
+        _tileMaterials = Resources.Load<MaterialsSO>("SOInstance/Core/Materials"); // TODO: remove and replace with ref to a const file
 
-        _tileEvent.tileClick.AddListener(OnClick);
-        _tileEvent.tileEnter.AddListener(OnEnter);
-        _tileEvent.tileExit.AddListener(OnExit);
+        _tile.tileClick.AddListener(OnClick);
+        _tile.tileEnter.AddListener(OnEnter);
+        _tile.tileExit.AddListener(OnExit);
 
-        // _unitEvent.UnitClickedEvent += OnUnitClicked;
+        // _unit.UnitClickedEvent += OnUnitClicked;
+        _unit.unitClicked.AddListener(OnUnitClicked);
     }
 
     void OnDisable()
     {
-        _tileEvent.tileClick.RemoveListener(OnClick);
-        _tileEvent.tileEnter.RemoveListener(OnEnter);
-        _tileEvent.tileExit.RemoveListener(OnExit);
+        _tile.tileClick.RemoveListener(OnClick);
+        _tile.tileEnter.RemoveListener(OnEnter);
+        _tile.tileExit.RemoveListener(OnExit);
 
-        // _unitEvent.UnitClickedEvent -= OnUnitClicked;
+        // _unit.UnitClickedEvent -= OnUnitClicked;
     }
 
     // void RegisterTile(GameObject tile)
@@ -53,8 +54,10 @@ public class BoardSO : ScriptableObject
         // _boardUnits = new List<GameObject>();
     }
     
-    // void OnUnitClicked(GameObject unit)
-    // {
+    void OnUnitClicked(Vector3 unitPosition)
+    {
+        Debug.Log("Board: Selected Unit: " + unitPosition);
+
     //     Unit u = unit.GetComponent<Unit>();
 
     //     if (_selectedUnit != unit) {
@@ -70,12 +73,7 @@ public class BoardSO : ScriptableObject
     //     //     Vector3 end = new Vector3(unitTransform.position.x + 1, unitTransform.position.y, unitTransform.position.z);
     //     //     CheckHit(start, end);
     //     // }
-    // }
-
-    // void UpdateMaterial(GameObject tile, Material material)
-    // {
-    //     tile.GetComponent<MeshRenderer>().material = material;
-    // }
+    }
 
     void OnClick(Vector3 tilePosition)
     {
