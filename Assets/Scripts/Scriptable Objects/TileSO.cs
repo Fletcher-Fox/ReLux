@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -8,14 +9,14 @@ public class TileSO : GameTokenSO
     public UnityEvent<Vector3> tileEnter;
     public UnityEvent<Vector3> tileExit;
 
-    public UnityEvent<Vector3, Material> changeMaterial;
-    private BoardSO _boardEvent;
+    public UnityEvent<List<Vector3>, Material> changeMaterial;
+    private BoardSO _board;
 
     public void OnEnable()
     {
-        _boardEvent = Resources.Load<BoardSO>("SOInstance/Core/Board");
+        _board = Resources.Load<BoardSO>("SOInstance/Core/Board");
 
-        _boardEvent.changeTileMaterial.AddListener(changeTileMaterials);
+        _board.changeTileMaterial.AddListener(changeTileMaterials);
     }
     public void OnTileClick(Vector3 tilePosition)
     {  
@@ -30,8 +31,8 @@ public class TileSO : GameTokenSO
         tileExit?.Invoke(tilePosition);
     }
 
-    public void changeTileMaterials(Vector3 tilePosition, Material material)
+    public void changeTileMaterials(List<Vector3> tiles, Material material)
     {   
-        changeMaterial.Invoke(tilePosition, material);
+        changeMaterial.Invoke(tiles, material);
     }
 }

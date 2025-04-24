@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class Tile : MonoBehaviour
@@ -35,10 +36,10 @@ public class Tile : MonoBehaviour
         _tileEvent.OnTileExit(transform.position);
     }
 
-    void materialChange(Vector3 tilePosition, Material material)
+    void materialChange(List<Vector3> tiles, Material material)
     {   
-        if (transform.position == tilePosition)
-        {   
+        if (tiles.Contains(transform.position))
+        {
             GetComponent<MeshRenderer>().material = material;
         }
     }

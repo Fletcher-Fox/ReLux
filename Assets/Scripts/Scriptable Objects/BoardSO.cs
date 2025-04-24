@@ -14,7 +14,7 @@ public class BoardSO : ScriptableObject
 
     private Vector3 _selectedTile;
     private Vector3 _selectedUnit;
-    public UnityEvent<Vector3, Material> changeTileMaterial;
+    public UnityEvent<List<Vector3>, Material> changeTileMaterial;
 
     void OnEnable()
     {
@@ -24,8 +24,8 @@ public class BoardSO : ScriptableObject
         _tileMaterials = Resources.Load<MaterialsSO>("SOInstance/Core/Materials");
 
         _tileEvent.tileClick.AddListener(OnClick);
-        // _tileEvent.tileEnter.AddListener(OnEnter);
-        // _tileEvent.tileExit.AddListener(OnExit);
+        _tileEvent.tileEnter.AddListener(OnEnter);
+        _tileEvent.tileExit.AddListener(OnExit);
 
         // _unitEvent.UnitClickedEvent += OnUnitClicked;
     }
@@ -33,8 +33,8 @@ public class BoardSO : ScriptableObject
     void OnDisable()
     {
         _tileEvent.tileClick.RemoveListener(OnClick);
-        // _tileEvent.tileEnter.RemoveListener(OnEnter);
-        // _tileEvent.tileExit.RemoveListener(OnExit);
+        _tileEvent.tileEnter.RemoveListener(OnEnter);
+        _tileEvent.tileExit.RemoveListener(OnExit);
 
         // _unitEvent.UnitClickedEvent -= OnUnitClicked;
     }
@@ -79,27 +79,23 @@ public class BoardSO : ScriptableObject
 
     void OnClick(Vector3 tilePosition)
     {
+        List<Vector3> tiles = new List<Vector3>{tilePosition};
         // DeselectUnit(null);
         if (tilePosition == _selectedTile)
         {
             _selectedTile = new Vector3(0, 0, 0); // no tiles should be here, reserved for empty position...
-            // _tileEvent. TODO: Tell TileSO that original tile position (_selectedTile) back to default material...
-        //     // selectedUnit?.Invoke(null);
-        //     // UpdateMaterial(tile, _tileMaterials.deafault_material);
-            changeTileMaterial.Invoke(tilePosition, _tileMaterials.deafault_material);
+            changeTileMaterial.Invoke(tiles, _tileMaterials.deafault_material);
         }
         else 
         {   
             if (_selectedTile != new Vector3(0, 0, 0))
             {
-                // _tileEvent. TODO: Tell TileSO that new slected tile position (_selectedTile) to selected material...
-                // UpdateMaterial(_selectedTile, _tileMaterials.deafault_material);
-                changeTileMaterial.Invoke(_selectedTile, _tileMaterials.deafault_material);
+                changeTileMaterial.Invoke(new List<Vector3>{_selectedTile}, _tileMaterials.deafault_material);
             }
 
             _selectedTile = tilePosition;
         //     // UpdateMaterial(tile, _tileMaterials.select_material);
-            changeTileMaterial.Invoke(tilePosition, _tileMaterials.select_material);
+            changeTileMaterial.Invoke(tiles, _tileMaterials.select_material);
         }
     }
 
@@ -113,19 +109,24 @@ public class BoardSO : ScriptableObject
 
     void OnEnter(Vector3 tilePosition)
     {
-        // UpdateMaterial(tile, _tileMaterials.hover_material);
+        List<Vector3> tiles = new List<Vector3>{tilePosition};
+        if (tilePosition != _selectedTile) 
+        {
+            changeTileMaterial.Invoke(tiles, _tileMaterials.hover_material);
+        }
     }
 
     void OnExit(Vector3 tilePosition)
     {   
-        // if (tile == _selectedTile)
-        // {
-        //     UpdateMaterial(tile, _tileMaterials.select_material); 
-        // }
-        // else 
-        // {
-        //     UpdateMaterial(tile, _tileMaterials.deafault_material);
-        // }
+        List<Vector3> tiles = new List<Vector3>{tilePosition};
+        if (tilePosition == _selectedTile)
+        {
+            changeTileMaterial.Invoke(tiles, _tileMaterials.select_material); 
+        }
+        else 
+        {
+            changeTileMaterial.Invoke(tiles, _tileMaterials.deafault_material);
+        }
     }
 
 

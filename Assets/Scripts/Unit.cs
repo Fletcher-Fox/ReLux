@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class Unit : MonoBehaviour
 {
-    private TileSO _tileEvent;
+    // private TileSO _tileEvent;
     private UnitSO _unitEvent;
 
     [SerializeField] private string unitName = "EVA-00";
@@ -32,16 +32,16 @@ public class Unit : MonoBehaviour
     void OnEnable()
     {
         _unitEvent = Resources.Load<UnitSO>("SOInstance/Core/Unit");
-        _tileEvent = Resources.Load<TileSO>("SOInstance/Core/Tiles");
+        // _tileEvent = Resources.Load<TileSO>("SOInstance/Core/Tiles");
 
-        if (_tileEvent != null)
-            _tileEvent.tileClick.AddListener(checkIfMyTile);
+        // if (_tileEvent != null)
+        //     _tileEvent.tileClick.AddListener(checkIfMyTile);
     }
 
     void OnDisable()
     {
-        if (_tileEvent != null)
-            _tileEvent.tileClick.RemoveListener(checkIfMyTile);
+        // if (_tileEvent != null)
+        //     _tileEvent.tileClick.RemoveListener(checkIfMyTile);
     }
 
 
