@@ -15,7 +15,7 @@ MonoBehaviour:
   characterName: Shinji
   health: 100
   movement: 1
-  visible: 0
+  visible: 1
   onDataChange:
     m_PersistentCalls:
       m_Calls: []
