@@ -40,14 +40,6 @@ public class BoardSO : ScriptableObject
         // _unit.UnitClickedEvent -= OnUnitClicked;
     }
 
-    // void RegisterTile(GameObject tile)
-    // {
-    //     _boardTiles.Add(tile);
-    // }
-    // void RegisterUnit(GameObject unit)
-    // {
-    //     _boardUnits.Add(unit);
-    // }
     public void ClearBoardTokens() 
     {
         // _boardTiles = new List<GameObject>();
@@ -82,7 +74,7 @@ public class BoardSO : ScriptableObject
         if (tilePosition == _selectedTile)
         {
             _selectedTile = new Vector3(0, 0, 0); // no tiles should be here, reserved for empty position...
-            changeTileMaterial.Invoke(tiles, _tileMaterials.deafault_material);
+            changeTileMaterial.Invoke(tiles, _tileMaterials.hover_material);
         }
         else 
         {   
