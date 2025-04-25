@@ -11,7 +11,7 @@ public class Unit : MonoBehaviour
 
     void Start() 
     {
-        _unit.TriggerRegister(transform.position); // Pass game obj to the board 
+        _unit.RegisterToken(transform.position); // Pass game obj to the board 
     }
 
     public string getName()

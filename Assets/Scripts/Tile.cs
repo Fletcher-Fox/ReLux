@@ -9,7 +9,7 @@ public class Tile : MonoBehaviour
 
     void Start() {
         _tileEvent = Resources.Load<TileSO>("SOInstance/Core/Tiles");
-        _tileEvent.TriggerRegister(transform.position); // Pass game obj to the board 
+        _tileEvent.RegisterToken(transform.position); // Pass game obj to the board 
         // _tileMaterials = Resources.Load<MaterialsSO>("SOInstance/Core/Materials");
 
         // Renderer renderer = GetComponent<Renderer>(); // Get the Renderer component
@@ -24,6 +24,7 @@ public class Tile : MonoBehaviour
     void OnMouseDown()
     {
         _tileEvent.OnTileClick(transform.position);
+        _tileEvent.PrintDictionary(_tileEvent._tokenBag);
     }
 
     void OnMouseEnter()
