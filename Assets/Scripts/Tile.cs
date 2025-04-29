@@ -4,12 +4,15 @@ using UnityEngine;
 public class Tile : MonoBehaviour
 {   
     [SerializeField] private TileSO _tileEvent;
+    [SerializeField] private int _tokenID;
     [SerializeField] private bool _isSpawnPoint;
     // [SerializeField] private MaterialsSO _tileMaterials;
 
     void Start() {
         _tileEvent = Resources.Load<TileSO>("SOInstance/Core/Tiles");
-        _tileEvent.RegisterToken(transform.position); // Pass game obj to the board 
+        _tokenID = _tileEvent.RegisterToken(transform.position); // Pass game obj to the board 
+        Debug.Log("Tiles Token Bag Size: " + _tileEvent.GetTokenCount());
+
         // _tileMaterials = Resources.Load<MaterialsSO>("SOInstance/Core/Materials");
 
         // Renderer renderer = GetComponent<Renderer>(); // Get the Renderer component
@@ -24,7 +27,7 @@ public class Tile : MonoBehaviour
     void OnMouseDown()
     {
         _tileEvent.OnTileClick(transform.position);
-        _tileEvent.PrintDictionary(_tileEvent._tokenBag);
+        Debug.Log("Tiles Token Bag Size: " + _tileEvent.GetTokenCount());
     }
 
     void OnMouseEnter()

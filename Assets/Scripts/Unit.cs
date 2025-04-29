@@ -4,14 +4,15 @@ using UnityEngine;
 public class Unit : MonoBehaviour
 {
     private UnitSO _unit;
-
+    [SerializeField] private int _tokenID;
     [SerializeField] private string unitName = "EVA-00";
     [SerializeField] private int unitHealth = 100;
     [SerializeField] private int movementRange = 1;
 
     void Start() 
     {
-        _unit.RegisterToken(transform.position); // Pass game obj to the board 
+        _tokenID = _unit.RegisterToken(transform.position); // Pass game obj to the board 
+        Debug.Log("Units Token Bag Size: " + _unit.GetTokenCount());
     }
 
     public string getName()

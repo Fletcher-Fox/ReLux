@@ -7,21 +7,33 @@ using UnityEngine.InputSystem;
 public class GameTokenSO : ScriptableObject
 {
     // public UnityEvent<Vector3> RegisterToken;
-    public Dictionary<int, Vector3> _tokenBag = new Dictionary<int, Vector3>();
-    private int _tokenID = 0;
+    private Dictionary<int, Vector3> _tokenBag = new Dictionary<int, Vector3>();
+    private int _lastTokenID = 0;
 
-    public void RegisterToken(Vector3 tokenPosition)
+    public int RegisterToken(Vector3 tokenPosition)
     {
-        _tokenID++;
-        _tokenBag.Add(_tokenID, tokenPosition);
+        _lastTokenID++;
+        _tokenBag.Add(_lastTokenID, tokenPosition);
+        return _lastTokenID;
     }
 
-    public void PrintDictionary<TKey, TValue>(Dictionary<TKey, TValue> dictionary)
+    public int GetTokenCount() 
     {
-        foreach (KeyValuePair<TKey, TValue> pair in dictionary)
-        {
-            Debug.Log($"Key: {pair.Key}, Value: {pair.Value}");
-        }
+        return _tokenBag.Count;
     }
+
+    public void ClearTokenBag()
+    {
+        _tokenBag = new Dictionary<int, Vector3>();
+        _lastTokenID = 0;
+    }
+
+    // public void PrintDictionary<TKey, TValue>(Dictionary<TKey, TValue> dictionary)
+    // {
+    //     foreach (KeyValuePair<TKey, TValue> pair in dictionary)
+    //     {
+    //         Debug.Log($"Key: {pair.Key}, Value: {pair.Value}");
+    //     }
+    // }
 
 }

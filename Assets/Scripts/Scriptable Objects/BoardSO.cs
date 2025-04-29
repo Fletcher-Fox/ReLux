@@ -42,8 +42,8 @@ public class BoardSO : ScriptableObject
 
     public void ClearBoardTokens() 
     {
-        // _boardTiles = new List<GameObject>();
-        // _boardUnits = new List<GameObject>();
+        _tile.ClearTokenBag();
+        _unit.ClearTokenBag();
     }
     
     void OnUnitClicked(Vector3 unitPosition)
