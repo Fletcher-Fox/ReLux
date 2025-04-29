@@ -28,12 +28,4 @@ public class GameTokenSO : ScriptableObject
         _lastTokenID = 0;
     }
 
-    // public void PrintDictionary<TKey, TValue>(Dictionary<TKey, TValue> dictionary)
-    // {
-    //     foreach (KeyValuePair<TKey, TValue> pair in dictionary)
-    //     {
-    //         Debug.Log($"Key: {pair.Key}, Value: {pair.Value}");
-    //     }
-    // }
-
 }

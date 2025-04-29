@@ -3,11 +3,13 @@ using UnityEngine;
 
 public class Unit : MonoBehaviour
 {
+    public PlayerCharacterSO characterData;
     private UnitSO _unit;
     [SerializeField] private int _tokenID;
-    [SerializeField] private string unitName = "EVA-00";
-    [SerializeField] private int unitHealth = 100;
-    [SerializeField] private int movementRange = 1;
+    [SerializeField] private string _name = "";
+    [SerializeField] private int _health = 0;
+    [SerializeField] private int _movement = 1;
+    [SerializeField] private int _level = 1;
 
     void Start() 
     {
@@ -17,24 +19,37 @@ public class Unit : MonoBehaviour
 
     public string getName()
     {
-        return unitName;
+        return _name;
     }
 
     public int getHealth()
     {
-        return unitHealth;
+        return _health;
     }
 
     public int getMovementRange()
     {
-        return movementRange;
+        return _movement;
+    }
+
+    private void LoadCharacterData() 
+    {
+        if (characterData != null) {
+            _name = characterData.GetName();
+            _health = characterData.GetHealth();
+            _movement = characterData.GetMovement();
+            Debug.Log("Character :" + _name);
+            Debug.Log(" HP:" + _health);
+            Debug.Log(" MV:" + _movement);
+        } else {
+            Debug.Log("!!!ERROR!!! Character Data Could Not Be Found!");
+        }
     }
 
     void OnEnable()
     {
         _unit = Resources.Load<UnitSO>("SOInstance/Core/Unit");
-        // _tileEvent = Resources.Load<TileSO>("SOInstance/Core/Tiles");
-
+        LoadCharacterData();
         _unit.checkUnit.AddListener(checkUnitTile);
     }
 

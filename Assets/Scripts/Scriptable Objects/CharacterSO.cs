@@ -1,12 +1,34 @@
 using UnityEngine;
+using UnityEngine.Events;
 
-[CreateAssetMenu(fileName = "NewCharacter", menuName = "Scriptable Objects/Character")]
 public class CharacterSO : ScriptableObject
-{
-    [SerializeField] private StringSO CharacterName;
-    [SerializeField] private IntegerSO Health;
-    [SerializeField] private IntegerSO CurrentHealth;
-    [SerializeField] private IntegerSO Movement;
-    [SerializeField] private IntegerSO CurrentMovement;    
-
+{  
+    private string _name;
+    private int _health;
+    private int _movement;
+    
+    public string GetName()
+    {
+        return _name;
+    }
+    public void SetName(string n)
+    {
+        _name = n;
+    } 
+    public int GetHealth() 
+    {
+        return _health;
+    }
+    public void SetHealth(int hp)
+    {
+        _health = hp;
+    } 
+    public int GetMovement()
+    {
+        return _movement;
+    }
+    public void SetMovement(int mv)
+    {
+        _movement = mv;
+    } 
 }
