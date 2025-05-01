@@ -7,7 +7,7 @@ public class UnitSO : GameTokenSO
 {
     private TileSO _tile;
     private BoardSO _board;
-    public UnityEvent<Vector3> unitClicked;
+    public UnityEvent<Vector3, PlayerCharacterSO> unitClicked;
     public UnityEvent<Vector3> checkUnit;
 
     public void OnEnable()
@@ -27,8 +27,10 @@ public class UnitSO : GameTokenSO
         checkUnit.Invoke(tilePosition);
     }
 
-    public void EventUnitClicked(Vector3 unitPosition)
+    public void EventUnitClicked(Vector3 unitPosition, PlayerCharacterSO playerCharacterData)
     {
-        unitClicked?.Invoke(unitPosition);
+        
+        unitClicked?.Invoke(unitPosition, playerCharacterData);
     }
+
 }

@@ -3,18 +3,24 @@ using UnityEngine.Events;
 
 public class CharacterSO : ScriptableObject
 {  
-    private string _name;
+    [SerializeField] private string _name;
+    [SerializeField] private int _baseHealth;
+    [SerializeField] private int _baseMovement;
+
     private int _health;
     private int _movement;
-    
+
+    void OnEnable()
+    {
+        _health = _baseHealth;
+        _movement = _baseMovement;
+    }
+
     public string GetName()
     {
         return _name;
     }
-    public void SetName(string n)
-    {
-        _name = n;
-    } 
+ 
     public int GetHealth() 
     {
         return _health;
@@ -30,5 +36,5 @@ public class CharacterSO : ScriptableObject
     public void SetMovement(int mv)
     {
         _movement = mv;
-    } 
+    }
 }

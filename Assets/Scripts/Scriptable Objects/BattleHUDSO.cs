@@ -1,8 +1,11 @@
+using System.Collections.Generic;
+using TMPro;
+using UnityEditor.VersionControl;
 using UnityEngine;
 using UnityEngine.Events;
 
 [CreateAssetMenu(menuName = "HUD/Character HUD Data")]
-public class CombatSelectedUnitSO : ScriptableObject
+public class BattleHUDSO : ScriptableObject
 {
 
     [Header("Character HUD Info")]
@@ -13,28 +16,27 @@ public class CombatSelectedUnitSO : ScriptableObject
 
     [Header("Events")]
     public UnityEvent onDataChange;
-    // [SerializeField] private BoardSO _boardData;
+    [SerializeField] private BoardSO _boardData;
 
     private void OnEnable()
     {
-        // _boardData = Resources.Load<BoardSO>("SOInstance/Core/Board");
-        // _boardData.selectedUnit.AddListener(CheckSelection);
-        // CheckSelection(null);
+        _boardData = Resources.Load<BoardSO>("SOInstance/Core/Board");
+        _boardData.unitSelected.AddListener(CheckSelection);
+        CheckSelection(Vector3.zero, null);
     }
 
     private void OnDisable()
     {
-        // _boardData.selectedUnit.RemoveListener(CheckSelection);
+        _boardData.unitSelected.RemoveListener(CheckSelection);
     }
 
-    private void CheckSelection(GameObject unit)
+    private void CheckSelection(Vector3 unitPosition, PlayerCharacterSO character = null)
     {
-        if (unit == null) {
+        Debug.Log("BattleHUD! : " + character.GetName());
+        if (unitPosition == Vector3.zero) {
             Clear();
         } else {
-            Unit u = unit.GetComponent<Unit>();
-            Debug.Log("UNIT HUD:" + u.getName());
-            Set(u.getName(), u.getHealth(), u.getMovementRange());
+            Set(character.GetName(), character.GetHealth(), character.GetMovement());
         }
     }
 

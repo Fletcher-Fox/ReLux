@@ -13,12 +13,13 @@ public class BoardSO : ScriptableObject
     private MaterialsSO _tileMaterials;
 
     private Vector3 _selectedTile;
-    private Vector3 _selectedUnit;
+    [SerializeField] private Vector3 _selectedUnitPosition;
+    
+    public UnityEvent<Vector3, PlayerCharacterSO> unitSelected;
     public UnityEvent<List<Vector3>, Material> changeTileMaterial;
 
     void OnEnable()
     {
-        ClearBoardTokens();
         _tile = Resources.Load<TileSO>("SOInstance/Core/Tiles");
         _unit = Resources.Load<UnitSO>("SOInstance/Core/Unit");
         _tileMaterials = Resources.Load<MaterialsSO>("SOInstance/Core/Materials"); // TODO: remove and replace with ref to a const file
@@ -27,7 +28,6 @@ public class BoardSO : ScriptableObject
         _tile.tileEnter.AddListener(OnEnter);
         _tile.tileExit.AddListener(OnExit);
 
-        // _unit.UnitClickedEvent += OnUnitClicked;
         _unit.unitClicked.AddListener(OnUnitClicked);
     }
 
@@ -37,7 +37,7 @@ public class BoardSO : ScriptableObject
         _tile.tileEnter.RemoveListener(OnEnter);
         _tile.tileExit.RemoveListener(OnExit);
 
-        // _unit.UnitClickedEvent -= OnUnitClicked;
+        _unit.unitClicked.RemoveListener(OnUnitClicked);
     }
 
     public void ClearBoardTokens() 
@@ -46,9 +46,17 @@ public class BoardSO : ScriptableObject
         _unit.ClearTokenBag();
     }
     
-    void OnUnitClicked(Vector3 unitPosition)
+    void OnUnitClicked(Vector3 unitPosition, PlayerCharacterSO playerCharacterData)
     {
-        Debug.Log("Board: Selected Unit: " + unitPosition);
+        if (_selectedUnitPosition == unitPosition) 
+        {
+            _selectedUnitPosition = new Vector3(0,0,0);
+        } 
+        else 
+        {
+            _selectedUnitPosition = unitPosition;
+        }
+        unitSelected?.Invoke(_selectedUnitPosition, playerCharacterData);
 
     //     Unit u = unit.GetComponent<Unit>();
 
@@ -67,10 +75,10 @@ public class BoardSO : ScriptableObject
     //     // }
     }
 
+
     void OnClick(Vector3 tilePosition)
     {
         List<Vector3> tiles = new List<Vector3>{tilePosition};
-        // DeselectUnit(null);
         if (tilePosition == _selectedTile)
         {
             _selectedTile = new Vector3(0, 0, 0); // no tiles should be here, reserved for empty position...
@@ -88,14 +96,6 @@ public class BoardSO : ScriptableObject
             changeTileMaterial.Invoke(tiles, _tileMaterials.select_material);
         }
     }
-
-    // void DeselectUnit(GameObject tile)
-    // {
-    //     if (_selectedUnit != null && _selectedUnit.transform.position != tile.transform.position) {
-    //         Debug.Log("Prev Selected unit (" + _selectedUnit.GetComponent<Unit>().getName() + ") nulled!");
-    //         _selectedUnit = null;
-    //     }
-    // }
 
     void OnEnter(Vector3 tilePosition)
     {

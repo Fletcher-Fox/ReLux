@@ -12,10 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5dd4fc79030a4db48a482a57ff8e12f2, type: 3}
   m_Name: Combat Unit HUD
   m_EditorClassIdentifier: 
-  characterName: Shinji
-  health: 100
-  movement: 1
+  characterName: 
+  health: 0
+  movement: 0
   visible: 1
   onDataChange:
     m_PersistentCalls:
       m_Calls: []
+  _boardData: {fileID: 11400000, guid: 5553455e22fe34469a5ae0ccbc438fed, type: 2}

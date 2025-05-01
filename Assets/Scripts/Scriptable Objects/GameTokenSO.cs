@@ -7,13 +7,13 @@ using UnityEngine.InputSystem;
 public class GameTokenSO : ScriptableObject
 {
     // public UnityEvent<Vector3> RegisterToken;
-    private Dictionary<int, Vector3> _tokenBag = new Dictionary<int, Vector3>();
+    private Dictionary<Vector3, int> _tokenBag = new Dictionary<Vector3, int>();
     private int _lastTokenID = 0;
 
     public int RegisterToken(Vector3 tokenPosition)
     {
         _lastTokenID++;
-        _tokenBag.Add(_lastTokenID, tokenPosition);
+        _tokenBag.Add(tokenPosition, _lastTokenID);
         return _lastTokenID;
     }
 
@@ -24,7 +24,7 @@ public class GameTokenSO : ScriptableObject
 
     public void ClearTokenBag()
     {
-        _tokenBag = new Dictionary<int, Vector3>();
+        _tokenBag = new Dictionary<Vector3, int>();
         _lastTokenID = 0;
     }
 

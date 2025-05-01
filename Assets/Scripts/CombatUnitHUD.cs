@@ -1,16 +1,16 @@
 using UnityEngine;
 using TMPro;
 
-public class CombatUnitHUD : MonoBehaviour
+public class BattleUnitHUD : MonoBehaviour
 {
-    [SerializeField] private CombatSelectedUnitSO _unitHUD;
+    [SerializeField] private BattleHUDSO _unitHUD;
     [SerializeField] private TMP_Text nameText;
     [SerializeField] private TMP_Text healthText;
     [SerializeField] private TMP_Text moveText;
 
     private void OnEnable()
     {
-        _unitHUD = Resources.Load<CombatSelectedUnitSO>("SOInstance/Core/Combat Unit HUD");
+        _unitHUD = Resources.Load<BattleHUDSO>("SOInstance/Core/Combat Unit HUD");
         _unitHUD.onDataChange.AddListener(UpdateUI);
         UpdateUI();
     }
