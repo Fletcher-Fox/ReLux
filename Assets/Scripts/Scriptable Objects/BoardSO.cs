@@ -48,7 +48,7 @@ public class BoardSO : ScriptableObject
     
     void OnUnitClicked(Vector3 unitPosition, string name, int hp, int movement)
     {
-        Debug.Log("BOARD: UNIT CLICKED");
+        Debug.Log("BOARD: ON UNIT : position: " + unitPosition + ", name: " + name);
         if (_selectedUnitPosition == unitPosition) 
         {
             _selectedUnitPosition = new Vector3(0,0,0);
@@ -80,21 +80,22 @@ public class BoardSO : ScriptableObject
     void OnClick(Vector3 tilePosition)
     {
         List<Vector3> tiles = new List<Vector3>{tilePosition};
-        if (tilePosition == _selectedTile)
+        if (tilePosition == _selectedTile) 
         {
             _selectedTile = new Vector3(0, 0, 0); // no tiles should be here, reserved for empty position...
-            changeTileMaterial.Invoke(tiles, _tileMaterials.hover_material);
+            changeTileMaterial.Invoke(tiles, _tileMaterials.hover_material);  // Deselect on same location
         }
         else 
         {   
             if (_selectedTile != new Vector3(0, 0, 0))
             {
-                changeTileMaterial.Invoke(new List<Vector3>{_selectedTile}, _tileMaterials.deafault_material);
+                changeTileMaterial.Invoke(new List<Vector3>{_selectedTile}, _tileMaterials.deafault_material); // Revert original tile back to default material
             }
-
+            
             _selectedTile = tilePosition;
         //     // UpdateMaterial(tile, _tileMaterials.select_material);
             changeTileMaterial.Invoke(tiles, _tileMaterials.select_material);
+            OnUnitClicked(_selectedUnitPosition, "", 0, 0); // Deselect prev unit // TODO: ? logic like this might not work when selecting another unit...
         }
     }
 

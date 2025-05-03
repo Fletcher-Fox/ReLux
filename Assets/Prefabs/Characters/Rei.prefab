@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 5350656145346095844}
   - component: {fileID: 6358525172996344962}
   m_Layer: 0
-  m_Name: Shinji
+  m_Name: Rei
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -45,7 +45,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 379c3bc270e2e414dbbe1bb50b14d149, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  characterData: {fileID: 11400000, guid: 1870155d60e4ced4bbe7b4b739ae2ff7, type: 2}
+  characterData: {fileID: 11400000, guid: 24b32974a4289db4391daee332c8334d, type: 2}
   _tokenID: 0
 --- !u!1001 &4343116234207752665
 PrefabInstance:
@@ -55,9 +55,33 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 5350656145346095844}
     m_Modifications:
+    - target: {fileID: 250891133492182113, guid: add9f075ca0f3477aaf7e4b0ea6d0739, type: 3}
+      propertyPath: gizmoColor.b
+      value: 0.8253765
+      objectReference: {fileID: 0}
+    - target: {fileID: 250891133492182113, guid: add9f075ca0f3477aaf7e4b0ea6d0739, type: 3}
+      propertyPath: gizmoColor.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 250891133492182113, guid: add9f075ca0f3477aaf7e4b0ea6d0739, type: 3}
+      propertyPath: gizmoColor.r
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3682051611704968635, guid: add9f075ca0f3477aaf7e4b0ea6d0739, type: 3}
       propertyPath: m_Name
       value: UnitSpriteBoard
+      objectReference: {fileID: 0}
+    - target: {fileID: 4560590670814670701, guid: add9f075ca0f3477aaf7e4b0ea6d0739, type: 3}
+      propertyPath: m_Color.b
+      value: 0.9245283
+      objectReference: {fileID: 0}
+    - target: {fileID: 4560590670814670701, guid: add9f075ca0f3477aaf7e4b0ea6d0739, type: 3}
+      propertyPath: m_Color.g
+      value: 0.6405602
+      objectReference: {fileID: 0}
+    - target: {fileID: 4560590670814670701, guid: add9f075ca0f3477aaf7e4b0ea6d0739, type: 3}
+      propertyPath: m_Color.r
+      value: 0.38202205
       objectReference: {fileID: 0}
     - target: {fileID: 7610469434656316197, guid: add9f075ca0f3477aaf7e4b0ea6d0739, type: 3}
       propertyPath: m_LocalPosition.x

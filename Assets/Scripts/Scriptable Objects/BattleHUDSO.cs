@@ -32,7 +32,6 @@ public class BattleHUDSO : ScriptableObject
 
     private void CheckSelection(Vector3 unitPosition, string name, int health, int movement)
     {
-        // Debug.Log("BattleHUD! : " + character.GetName());
         Debug.Log("Battle HUD SO:" + unitPosition);
         if (unitPosition == Vector3.zero) {
             Clear();
