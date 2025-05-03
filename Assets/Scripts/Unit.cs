@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class Unit : MonoBehaviour
 {
+    // TODO: Refactor logic for prefab of unit this is attached to. The Transfrom Position is at <0, 0.6, 0> Was at <0, 0, 0> and not working before.
     public PlayerCharacterSO characterData;
     private UnitSO _unit;
     [SerializeField] private int _tokenID;
@@ -10,7 +11,6 @@ public class Unit : MonoBehaviour
     void Start()
     {
         _tokenID = _unit.RegisterToken(transform.position); // Pass game obj to the board 
-        Debug.Log("Units Token Bag Size: " + _unit.GetTokenCount());
     }
     
     void OnEnable()
@@ -38,9 +38,9 @@ public class Unit : MonoBehaviour
     {
         return characterData.GetMovement();
     }
-    void checkUnitTile(Vector3 tilePosition) 
+    void checkUnitTile(int unitID) 
     {
-        if (transform.position == tilePosition) 
+        if (_tokenID == unitID) 
         {
             _unit.EventUnitClicked(transform.position, characterData.GetName(), characterData.GetHealth(), characterData.GetMovement());
         }

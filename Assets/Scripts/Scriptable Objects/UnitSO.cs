@@ -8,23 +8,25 @@ public class UnitSO : GameTokenSO
     private TileSO _tile;
     private BoardSO _board;
     public UnityEvent<Vector3, string, int, int> unitClicked;
-    public UnityEvent<Vector3> checkUnit;
+    public UnityEvent<int> checkUnit;
 
     public void OnEnable()
     {
         _tile = Resources.Load<TileSO>("SOInstance/Core/Tiles");
         _board = Resources.Load<BoardSO>("SOInstance/Core/Board");
 
-        _tile.tileClick.AddListener(CheckUnitTile);
+        _tile.tileClick.AddListener(IsUnitOnTile);
     }
     public void OnDisable()
     {
-        _tile.tileClick.RemoveListener(CheckUnitTile);
+        _tile.tileClick.RemoveListener(IsUnitOnTile);
     }
 
-    private void CheckUnitTile(Vector3 tilePosition)
+    private void IsUnitOnTile(Vector3 tilePosition)
     {
-        checkUnit.Invoke(tilePosition);
+        int unitID = GetToken(tilePosition);
+        if (unitID == 0) return;
+        checkUnit?.Invoke(unitID);
     }
 
     public void EventUnitClicked(Vector3 unitPosition, string name, int hp, int movement)

@@ -11,7 +11,6 @@ public class Tile : MonoBehaviour
     void Start() {
         _tileEvent = Resources.Load<TileSO>("SOInstance/Core/Tiles");
         _tokenID = _tileEvent.RegisterToken(transform.position); // Pass game obj to the board 
-        Debug.Log("Tiles Token Bag Size: " + _tileEvent.GetTokenCount());
 
         // _tileMaterials = Resources.Load<MaterialsSO>("SOInstance/Core/Materials");
 
@@ -27,7 +26,6 @@ public class Tile : MonoBehaviour
     void OnMouseDown()
     {
         _tileEvent.OnTileClick(transform.position);
-        Debug.Log("Tiles Token Bag Size: " + _tileEvent.GetTokenCount());
     }
 
     void OnMouseEnter()

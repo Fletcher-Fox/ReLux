@@ -17,6 +17,11 @@ public class GameTokenSO : ScriptableObject
         return _lastTokenID;
     }
 
+    public int GetToken(Vector3 vectorKey) 
+    {
+        return _tokenBag.ContainsKey(vectorKey) ? _tokenBag[vectorKey] : 0;
+    }
+
     public int GetTokenCount() 
     {
         return _tokenBag.Count;

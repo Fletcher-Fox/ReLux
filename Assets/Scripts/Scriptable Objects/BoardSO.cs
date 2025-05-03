@@ -48,6 +48,7 @@ public class BoardSO : ScriptableObject
     
     void OnUnitClicked(Vector3 unitPosition, string name, int hp, int movement)
     {
+        Debug.Log("BOARD: UNIT CLICKED");
         if (_selectedUnitPosition == unitPosition) 
         {
             _selectedUnitPosition = new Vector3(0,0,0);

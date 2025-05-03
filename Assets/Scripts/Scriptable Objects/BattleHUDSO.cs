@@ -4,7 +4,7 @@ using UnityEditor.VersionControl;
 using UnityEngine;
 using UnityEngine.Events;
 
-[CreateAssetMenu(menuName = "HUD/Character HUD Data")]
+[CreateAssetMenu(menuName = "HUD/BattleHUDSO")]
 public class BattleHUDSO : ScriptableObject
 {
 
@@ -12,7 +12,7 @@ public class BattleHUDSO : ScriptableObject
     public string characterName;
     public int health;
     public int movement;
-    public bool visible = true;
+    public bool visible = false;
 
     [Header("Events")]
     public UnityEvent onDataChange;
@@ -33,6 +33,7 @@ public class BattleHUDSO : ScriptableObject
     private void CheckSelection(Vector3 unitPosition, string name, int health, int movement)
     {
         // Debug.Log("BattleHUD! : " + character.GetName());
+        Debug.Log("Battle HUD SO:" + unitPosition);
         if (unitPosition == Vector3.zero) {
             Clear();
         } else {
@@ -42,6 +43,7 @@ public class BattleHUDSO : ScriptableObject
 
     public void Set(string name, int hp, int move)
     {
+        Debug.Log("SET!");
         characterName = name;
         health = hp;
         movement = move;
@@ -51,7 +53,8 @@ public class BattleHUDSO : ScriptableObject
 
     public void Clear()
     {
-        characterName = string.Empty;
+        Debug.Log("CLEAR!");
+        characterName = "";
         health = 0;
         movement = 0;
         visible = false;

@@ -8,21 +8,27 @@ public class BattleUnitHUD : MonoBehaviour
     [SerializeField] private TMP_Text healthText;
     [SerializeField] private TMP_Text moveText;
 
-    private void OnEnable()
+    void OnEnable()
     {
-        _unitHUD = Resources.Load<BattleHUDSO>("SOInstance/Core/CombatHUDSO");
+        _unitHUD = Resources.Load<BattleHUDSO>("SOInstance/Core/BattleHUD");
         _unitHUD.onDataChange.AddListener(UpdateUI);
-        UpdateUI();
     }
 
-    private void OnDisable()
+    void OnDisable()
     {
         _unitHUD.onDataChange.RemoveListener(UpdateUI);
     }
 
+    void Start()
+    {
+        UpdateUI();
+    }
+
     private void UpdateUI()
     {
-        gameObject.SetActive(_unitHUD.visible);
+        nameText.gameObject.SetActive(_unitHUD.visible);
+        healthText.gameObject.SetActive(_unitHUD.visible);
+        moveText.gameObject.SetActive(_unitHUD.visible);
 
         if (!_unitHUD.visible) return;
 
