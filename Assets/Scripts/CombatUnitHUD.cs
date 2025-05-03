@@ -10,7 +10,7 @@ public class BattleUnitHUD : MonoBehaviour
 
     private void OnEnable()
     {
-        _unitHUD = Resources.Load<BattleHUDSO>("SOInstance/Core/Combat Unit HUD");
+        _unitHUD = Resources.Load<BattleHUDSO>("SOInstance/Core/CombatHUDSO");
         _unitHUD.onDataChange.AddListener(UpdateUI);
         UpdateUI();
     }

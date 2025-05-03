@@ -323,7 +323,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f5de71c76bdeaa448ba887fc77ad0cc0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  unitData: {fileID: 0}
+  _unitHUD: {fileID: 11400000, guid: 3f5da69bcf4b72b4d9e9c5c6adbab3f4, type: 2}
   nameText: {fileID: 8440177781277351479}
   healthText: {fileID: 4188081841284070977}
   moveText: {fileID: 7591794062045988179}

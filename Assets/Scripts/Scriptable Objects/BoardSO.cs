@@ -15,7 +15,7 @@ public class BoardSO : ScriptableObject
     private Vector3 _selectedTile;
     [SerializeField] private Vector3 _selectedUnitPosition;
     
-    public UnityEvent<Vector3, PlayerCharacterSO> unitSelected;
+    public UnityEvent<Vector3, string, int, int> unitSelected;
     public UnityEvent<List<Vector3>, Material> changeTileMaterial;
 
     void OnEnable()
@@ -46,7 +46,7 @@ public class BoardSO : ScriptableObject
         _unit.ClearTokenBag();
     }
     
-    void OnUnitClicked(Vector3 unitPosition, PlayerCharacterSO playerCharacterData)
+    void OnUnitClicked(Vector3 unitPosition, string name, int hp, int movement)
     {
         if (_selectedUnitPosition == unitPosition) 
         {
@@ -56,7 +56,7 @@ public class BoardSO : ScriptableObject
         {
             _selectedUnitPosition = unitPosition;
         }
-        unitSelected?.Invoke(_selectedUnitPosition, playerCharacterData);
+        unitSelected?.Invoke(_selectedUnitPosition, name, hp, movement);
 
     //     Unit u = unit.GetComponent<Unit>();
 

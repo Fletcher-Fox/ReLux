@@ -22,7 +22,7 @@ public class BattleHUDSO : ScriptableObject
     {
         _boardData = Resources.Load<BoardSO>("SOInstance/Core/Board");
         _boardData.unitSelected.AddListener(CheckSelection);
-        CheckSelection(Vector3.zero, null);
+        CheckSelection(Vector3.zero, "", 0, 0);
     }
 
     private void OnDisable()
@@ -30,13 +30,13 @@ public class BattleHUDSO : ScriptableObject
         _boardData.unitSelected.RemoveListener(CheckSelection);
     }
 
-    private void CheckSelection(Vector3 unitPosition, PlayerCharacterSO character = null)
+    private void CheckSelection(Vector3 unitPosition, string name, int health, int movement)
     {
-        Debug.Log("BattleHUD! : " + character.GetName());
+        // Debug.Log("BattleHUD! : " + character.GetName());
         if (unitPosition == Vector3.zero) {
             Clear();
         } else {
-            Set(character.GetName(), character.GetHealth(), character.GetMovement());
+            Set(name, health, movement);
         }
     }
 

@@ -42,7 +42,7 @@ public class Unit : MonoBehaviour
     {
         if (transform.position == tilePosition) 
         {
-            _unit.EventUnitClicked(transform.position, characterData);
+            _unit.EventUnitClicked(transform.position, characterData.GetName(), characterData.GetHealth(), characterData.GetMovement());
         }
     }
 
