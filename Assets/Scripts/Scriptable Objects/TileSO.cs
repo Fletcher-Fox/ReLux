@@ -9,7 +9,7 @@ public class TileSO : GameTokenSO
     public UnityEvent<Vector3> tileEnter;
     public UnityEvent<Vector3> tileExit;
 
-    public UnityEvent<List<Vector3>, Material> changeMaterial;
+    public UnityEvent<List<int>, Material> changeMaterial;
     private BoardSO _board;
 
     public void OnEnable()
@@ -38,6 +38,8 @@ public class TileSO : GameTokenSO
 
     public void changeTileMaterials(List<Vector3> tiles, Material material)
     {   
-        changeMaterial.Invoke(tiles, material);
+        List<int> tileIds = GetTokens(tiles);
+
+        changeMaterial.Invoke(tileIds, material);
     }
 }

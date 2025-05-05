@@ -22,6 +22,23 @@ public class GameTokenSO : ScriptableObject
         return _tokenBag.ContainsKey(vectorKey) ? _tokenBag[vectorKey] : 0;
     }
 
+    public List<int> GetTokens(List<Vector3> vectorKeys)
+    {
+        List<int> tokenIdList = new List<int>();
+
+        foreach (Vector3 vectorKey in vectorKeys)
+        {
+            int tokenId = GetToken(vectorKey);
+
+            if (tokenId != 0)
+            {
+                tokenIdList.Add(tokenId);
+            }
+        }
+
+        return tokenIdList;
+    }
+
     public int GetTokenCount() 
     {
         return _tokenBag.Count;

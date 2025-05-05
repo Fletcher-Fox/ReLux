@@ -38,9 +38,9 @@ public class Tile : MonoBehaviour
         _tileEvent.OnTileExit(transform.position);
     }
 
-    void materialChange(List<Vector3> tiles, Material material)
+    void materialChange(List<int> tiles, Material material)
     {   
-        if (tiles.Contains(transform.position))
+        if (tiles.Contains(_tokenID))
         {
             GetComponent<MeshRenderer>().material = material;
         }
