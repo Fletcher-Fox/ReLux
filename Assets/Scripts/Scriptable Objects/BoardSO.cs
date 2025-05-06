@@ -95,7 +95,7 @@ public class BoardSO : ScriptableObject
             _selectedTile = tilePosition;
         //     // UpdateMaterial(tile, _tileMaterials.select_material);
             changeTileMaterial.Invoke(tiles, _tileMaterials.select_material);
-            OnUnitClicked(_selectedUnitPosition, "", 0, 0); // Deselect prev unit // TODO: ? logic like this might not work when selecting another unit...
+            // OnUnitClicked(_selectedUnitPosition, "", 0, 0); // Deselect prev unit // TODO: ? logic like this might not work when selecting another unit...
         }
     }
 
