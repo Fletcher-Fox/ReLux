@@ -15,4 +15,4 @@ MonoBehaviour:
   _name: Shinji
   _baseHealth: 100
   _baseMovement: 3
-  level: 3
+  level: 1
