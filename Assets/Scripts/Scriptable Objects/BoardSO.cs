@@ -13,7 +13,7 @@ public class BoardSO : ScriptableObject
     private MaterialsSO _tileMaterials;
 
     private Vector3 _selectedTile;
-    [SerializeField] private Vector3 _selectedUnitPosition;
+    private Vector3 _selectedUnitPosition;
     
     public UnityEvent<Vector3, string, int, int> unitSelected;
     public UnityEvent<List<Vector3>, Material> changeTileMaterial;
@@ -49,61 +49,42 @@ public class BoardSO : ScriptableObject
     void OnUnitClicked(Vector3 unitPosition, string name, int hp, int movement)
     {
         Debug.Log("BOARD: ON UNIT : position: " + unitPosition + ", name: " + name);
-        if (_selectedUnitPosition == unitPosition) 
-        {
+
+        if (_selectedUnitPosition == unitPosition) {
             _selectedUnitPosition = new Vector3(0,0,0);
-        } 
-        else 
-        {
+        } else {
             _selectedUnitPosition = unitPosition;
         }
         unitSelected?.Invoke(_selectedUnitPosition, name, hp, movement);
-
-    //     Unit u = unit.GetComponent<Unit>();
-
-    //     if (_selectedUnit != unit) {
-    //         _selectedUnit = unit;
-    //         // selectedUnit?.Invoke(unit);
-    //         Debug.Log("Board: Selected Unit: " + u.getName());
-    //     }
-
-    //     // *** PATHING TBC... ***
-    //     // Transform unitTransform = unit.transform;
-    //     // if (unitTransform != null) {
-    //     //     Vector3 start = new Vector3(unitTransform.position.x, unitTransform.position.y, unitTransform.position.z);
-    //     //     Vector3 end = new Vector3(unitTransform.position.x + 1, unitTransform.position.y, unitTransform.position.z);
-    //     //     CheckHit(start, end);
-    //     // }
     }
 
 
-    void OnClick(Vector3 tilePosition)
+    void OnClick(Vector3 tilePosition) 
     {
         List<Vector3> tiles = new List<Vector3>{tilePosition};
-        if (tilePosition == _selectedTile) 
-        {
+
+        if (tilePosition == _selectedTile) {
             _selectedTile = new Vector3(0, 0, 0); // no tiles should be here, reserved for empty position...
             changeTileMaterial.Invoke(tiles, _tileMaterials.hover_material);  // Deselect on same location
-        }
-        else 
-        {   
-            if (_selectedTile != new Vector3(0, 0, 0))
-            {
+        } else {   
+            if (_selectedTile != new Vector3(0, 0, 0)) {
                 changeTileMaterial.Invoke(new List<Vector3>{_selectedTile}, _tileMaterials.deafault_material); // Revert original tile back to default material
             }
             
             _selectedTile = tilePosition;
-        //     // UpdateMaterial(tile, _tileMaterials.select_material);
             changeTileMaterial.Invoke(tiles, _tileMaterials.select_material);
-            // OnUnitClicked(_selectedUnitPosition, "", 0, 0); // Deselect prev unit // TODO: ? logic like this might not work when selecting another unit...
+            
+            if (_selectedTile != _selectedUnitPosition) {
+                OnUnitClicked(_selectedUnitPosition, "", 0, 0); // Change the HUD as the Selected Tile and Selected Unit no longer match
+            }
         }
     }
 
     void OnEnter(Vector3 tilePosition)
     {
         List<Vector3> tiles = new List<Vector3>{tilePosition};
-        if (tilePosition != _selectedTile) 
-        {
+
+        if (tilePosition != _selectedTile) {
             changeTileMaterial.Invoke(tiles, _tileMaterials.hover_material);
         }
     }
@@ -111,12 +92,10 @@ public class BoardSO : ScriptableObject
     void OnExit(Vector3 tilePosition)
     {   
         List<Vector3> tiles = new List<Vector3>{tilePosition};
-        if (tilePosition == _selectedTile)
-        {
+
+        if (tilePosition == _selectedTile) {
             changeTileMaterial.Invoke(tiles, _tileMaterials.select_material); 
-        }
-        else 
-        {
+        } else {
             changeTileMaterial.Invoke(tiles, _tileMaterials.deafault_material);
         }
     }
@@ -131,8 +110,7 @@ public class BoardSO : ScriptableObject
 
         // Perform the raycast with the calculated direction and distance
         RaycastHit hit;
-        if (Physics.Raycast(startPosition, direction.normalized, out hit, distance))
-        {
+        if (Physics.Raycast(startPosition, direction.normalized, out hit, distance)) {
             Debug.Log("Hit object: " + hit.collider.gameObject.name);
 
             // Draw a ray with the specified color (e.g., red)  
