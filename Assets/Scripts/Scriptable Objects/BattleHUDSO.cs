@@ -22,12 +22,15 @@ public class BattleHUDSO : ScriptableObject
     {
         _boardData = Resources.Load<BoardSO>("SOInstance/Core/Board");
         _boardData.unitSelected.AddListener(CheckSelection);
+        _boardData.unitHover.AddListener(HoverSet);
+        _boardData.clearHUD.AddListener(Clear);
         CheckSelection(Vector3.zero, "", 0, 0);
     }
 
     private void OnDisable()
     {
         _boardData.unitSelected.RemoveListener(CheckSelection);
+         _boardData.unitHover.RemoveListener(HoverSet);
     }
 
     private void CheckSelection(Vector3 unitPosition, string name, int health, int movement)
@@ -35,6 +38,16 @@ public class BattleHUDSO : ScriptableObject
         Debug.Log("Battle HUD SO:" + unitPosition);
         if (unitPosition == Vector3.zero) {
             Clear();
+        } else {
+            Set(name, health, movement);
+        }
+    }
+
+    private void HoverSet(Vector3 unitPosition, string name, int health, int movement)
+    {    
+        Debug.Log("HOVER SET Battle HUD SO:" + unitPosition);    
+        if (unitPosition == Vector3.zero) {
+            return;
         } else {
             Set(name, health, movement);
         }

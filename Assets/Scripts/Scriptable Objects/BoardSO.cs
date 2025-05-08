@@ -16,6 +16,8 @@ public class BoardSO : ScriptableObject
     private Vector3 _selectedUnitPosition;
     
     public UnityEvent<Vector3, string, int, int> unitSelected;
+    public UnityEvent<Vector3, string, int, int> unitHover;
+    public UnityEvent clearHUD;
     public UnityEvent<List<Vector3>, Material> changeTileMaterial;
 
     void OnEnable()
@@ -29,6 +31,7 @@ public class BoardSO : ScriptableObject
         _tile.tileExit.AddListener(OnExit);
 
         _unit.unitClicked.AddListener(OnUnitClicked);
+        _unit.unitHoverEnter.AddListener(UnitOnEnter);
     }
 
     void OnDisable()
@@ -38,6 +41,7 @@ public class BoardSO : ScriptableObject
         _tile.tileExit.RemoveListener(OnExit);
 
         _unit.unitClicked.RemoveListener(OnUnitClicked);
+        _unit.unitHoverEnter.AddListener(UnitOnEnter);
     }
 
     public void ClearBoardTokens() 
@@ -47,15 +51,17 @@ public class BoardSO : ScriptableObject
     }
     
     void OnUnitClicked(Vector3 unitPosition, string name, int hp, int movement)
-    {
-        Debug.Log("BOARD: ON UNIT : position: " + unitPosition + ", name: " + name);
+    {   
+        // TODO: Need to make menu when a unit is clicked.
 
-        if (_selectedUnitPosition == unitPosition) {
-            _selectedUnitPosition = new Vector3(0,0,0);
-        } else {
-            _selectedUnitPosition = unitPosition;
-        }
-        unitSelected?.Invoke(_selectedUnitPosition, name, hp, movement);
+        // Debug.Log("BOARD: ON UNIT : position: " + unitPosition + ", name: " + name);
+
+        // if (_selectedUnitPosition == unitPosition) {
+        //     _selectedUnitPosition = new Vector3(0,0,0);
+        // } else {
+        //     _selectedUnitPosition = unitPosition;
+        // }
+        // unitSelected?.Invoke(_selectedUnitPosition, name, hp, movement);
     }
 
 
@@ -68,11 +74,11 @@ public class BoardSO : ScriptableObject
             changeTileMaterial.Invoke(tiles, _tileMaterials.hover_material);  // Deselect on same location
         } else {   
             if (_selectedTile != new Vector3(0, 0, 0)) {
-                changeTileMaterial.Invoke(new List<Vector3>{_selectedTile}, _tileMaterials.deafault_material); // Revert original tile back to default material
+                changeTileMaterial?.Invoke(new List<Vector3>{_selectedTile}, _tileMaterials.deafault_material); // Revert original tile back to default material
             }
             
             _selectedTile = tilePosition;
-            changeTileMaterial.Invoke(tiles, _tileMaterials.select_material);
+            changeTileMaterial?.Invoke(tiles, _tileMaterials.select_material);
             
             if (_selectedTile != _selectedUnitPosition) {
                 OnUnitClicked(_selectedUnitPosition, "", 0, 0); // Change the HUD as the Selected Tile and Selected Unit no longer match
@@ -85,22 +91,26 @@ public class BoardSO : ScriptableObject
         List<Vector3> tiles = new List<Vector3>{tilePosition};
 
         if (tilePosition != _selectedTile) {
-            changeTileMaterial.Invoke(tiles, _tileMaterials.hover_material);
+            changeTileMaterial?.Invoke(tiles, _tileMaterials.hover_material);
         }
+    }
+
+    void UnitOnEnter(Vector3 unitPosition, string name, int hp, int movement)
+    {
+        unitHover?.Invoke(unitPosition, name, hp, movement);
     }
 
     void OnExit(Vector3 tilePosition)
     {   
         List<Vector3> tiles = new List<Vector3>{tilePosition};
+        clearHUD?.Invoke();
 
         if (tilePosition == _selectedTile) {
-            changeTileMaterial.Invoke(tiles, _tileMaterials.select_material); 
+            changeTileMaterial?.Invoke(tiles, _tileMaterials.select_material); 
         } else {
-            changeTileMaterial.Invoke(tiles, _tileMaterials.deafault_material);
+            changeTileMaterial?.Invoke(tiles, _tileMaterials.deafault_material);
         }
     }
-
-
 
     void CheckHit(Vector3 startPosition, Vector3 endPosition)
     {

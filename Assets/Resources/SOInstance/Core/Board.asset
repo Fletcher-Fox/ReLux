@@ -12,7 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8e7dd445cd5f34cd0b08aaf054db5df8, type: 3}
   m_Name: Board
   m_EditorClassIdentifier: 
-  _selectedUnitPosition: {x: 0, y: 0, z: 0}
   unitSelected:
     m_PersistentCalls:
       m_Calls: []

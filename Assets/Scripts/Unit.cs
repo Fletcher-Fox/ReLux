@@ -17,11 +17,14 @@ public class Unit : MonoBehaviour
     {
         _unit = Resources.Load<UnitSO>("SOInstance/Core/Unit");
         _unit.checkUnit.AddListener(checkUnitTile);
+        _unit.checkUnitHover.AddListener(checkUnitTileHoverEnter);
+
     }
 
     void OnDisable()
     {
         _unit.checkUnit.RemoveListener(checkUnitTile);
+        _unit.checkUnitHover.RemoveListener(checkUnitTileHoverEnter);
     }
 
     public string GetName()
@@ -41,12 +44,14 @@ public class Unit : MonoBehaviour
     void checkUnitTile(int unitID) 
     {
         if (_tokenID == unitID) 
-        {
             _unit.EventUnitClicked(transform.position, characterData.GetName(), characterData.GetHealth(), characterData.GetMovement());
-        }
     }
 
-
+    void checkUnitTileHoverEnter(int unitID)
+    {
+        if (_tokenID == unitID)
+            _unit.EventUnitHoverEnter(transform.position, characterData.GetName(), characterData.GetHealth(), characterData.GetMovement());
+    }
     // void warpUnitTo(GameObject space) {
     //     transform.position = space.transform.position;
     // }
