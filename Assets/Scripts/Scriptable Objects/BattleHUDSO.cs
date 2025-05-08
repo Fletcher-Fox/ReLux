@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using TMPro;
 using UnityEditor.VersionControl;
@@ -21,6 +22,7 @@ public class BattleHUDSO : ScriptableObject
     private void OnEnable()
     {
         _boardData = Resources.Load<BoardSO>("SOInstance/Core/Board");
+        _boardData.tileHover.AddListener(TileHUD);
         _boardData.unitSelected.AddListener(CheckSelection);
         _boardData.unitHover.AddListener(HoverSet);
         _boardData.clearHUD.AddListener(Clear);
@@ -30,7 +32,12 @@ public class BattleHUDSO : ScriptableObject
     private void OnDisable()
     {
         _boardData.unitSelected.RemoveListener(CheckSelection);
-         _boardData.unitHover.RemoveListener(HoverSet);
+        _boardData.unitHover.RemoveListener(HoverSet);
+    }
+
+    private void TileHUD(String type)
+    {
+        
     }
 
     private void CheckSelection(Vector3 unitPosition, string name, int health, int movement)

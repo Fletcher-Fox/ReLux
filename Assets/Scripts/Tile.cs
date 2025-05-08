@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -6,6 +7,8 @@ public class Tile : MonoBehaviour
     [SerializeField] private TileSO _tileEvent;
     [SerializeField] private int _tokenID;
     [SerializeField] private bool _isSpawnPoint;
+
+    [SerializeField] private String _type;
     // [SerializeField] private MaterialsSO _tileMaterials;
 
     void Start() {
@@ -30,12 +33,12 @@ public class Tile : MonoBehaviour
 
     void OnMouseEnter()
     {
-        _tileEvent.OnTileEnter(transform.position);
+        _tileEvent.OnTileEnter(transform.position, _type);
     }
 
     void OnMouseExit()
     {   
-        _tileEvent.OnTileExit(transform.position);
+        _tileEvent.OnTileExit(transform.position, _type);
     }
 
     void materialChange(List<int> tiles, Material material)

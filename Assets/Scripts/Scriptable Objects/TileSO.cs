@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
@@ -6,8 +7,8 @@ using UnityEngine.Events;
 public class TileSO : GameTokenSO
 {
     public UnityEvent<Vector3> tileClick;
-    public UnityEvent<Vector3> tileEnter;
-    public UnityEvent<Vector3> tileExit;
+    public UnityEvent<Vector3, String> tileEnter;
+    public UnityEvent<Vector3, String> tileExit;
 
     public UnityEvent<List<int>, Material> changeMaterial;
     private BoardSO _board;
@@ -27,13 +28,13 @@ public class TileSO : GameTokenSO
     {  
         tileClick.Invoke(tilePosition);
     }
-    public void OnTileEnter(Vector3 tilePosition)
+    public void OnTileEnter(Vector3 tilePosition, String type)
     {
-        tileEnter?.Invoke(tilePosition);
+        tileEnter?.Invoke(tilePosition, type);
     }
-    public void OnTileExit(Vector3 tilePosition)
+    public void OnTileExit(Vector3 tilePosition, String type)
     {
-        tileExit?.Invoke(tilePosition);
+        tileExit?.Invoke(tilePosition, type);
     }
 
     public void changeTileMaterials(List<Vector3> tiles, Material material)
