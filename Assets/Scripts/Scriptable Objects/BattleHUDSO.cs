@@ -15,8 +15,13 @@ public class BattleHUDSO : ScriptableObject
     public int movement;
     public bool visible = false;
 
+    public string tilePosition;
+    public string tileType;
+    public bool tileInfoVisible = false;
+
     [Header("Events")]
     public UnityEvent onDataChange;
+    public UnityEvent onTileChange;
     [SerializeField] private BoardSO _boardData;
 
     private void OnEnable()
@@ -35,9 +40,12 @@ public class BattleHUDSO : ScriptableObject
         _boardData.unitHover.RemoveListener(HoverSet);
     }
 
-    private void TileHUD(String type)
+    private void TileHUD(Vector3 position, String type)
     {
-        
+        tileInfoVisible = true;
+        tilePosition = position + "";
+        tileType = type;
+        onTileChange?.Invoke();
     }
 
     private void CheckSelection(Vector3 unitPosition, string name, int health, int movement)

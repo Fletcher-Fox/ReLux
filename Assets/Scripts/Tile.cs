@@ -38,7 +38,7 @@ public class Tile : MonoBehaviour
 
     void OnMouseExit()
     {   
-        _tileEvent.OnTileExit(transform.position, _type);
+        _tileEvent.OnTileExit(transform.position);
     }
 
     void materialChange(List<int> tiles, Material material)

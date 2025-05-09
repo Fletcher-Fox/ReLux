@@ -18,6 +18,7 @@ public class BoardSO : ScriptableObject
     
     public UnityEvent<Vector3, string, int, int> unitSelected;
     public UnityEvent<Vector3, string, int, int> unitHover;
+    public UnityEvent<Vector3, string> tileHover;
     public UnityEvent clearHUD;
     public UnityEvent<List<Vector3>, Material> changeTileMaterial;
 
@@ -90,6 +91,8 @@ public class BoardSO : ScriptableObject
     void TileOnEnter(Vector3 tilePosition, String type)
     {
         List<Vector3> tiles = new List<Vector3>{tilePosition};
+        
+        tileHover?.Invoke(tilePosition, type);
 
         if (tilePosition != _selectedTile) {
             changeTileMaterial?.Invoke(tiles, _tileMaterials.hover_material);
@@ -101,7 +104,7 @@ public class BoardSO : ScriptableObject
         unitHover?.Invoke(unitPosition, name, hp, movement);
     }
 
-    void TileOnExit(Vector3 tilePosition, String type)
+    void TileOnExit(Vector3 tilePosition)
     {   
         List<Vector3> tiles = new List<Vector3>{tilePosition};
         clearHUD?.Invoke();

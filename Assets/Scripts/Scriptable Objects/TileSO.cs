@@ -8,7 +8,7 @@ public class TileSO : GameTokenSO
 {
     public UnityEvent<Vector3> tileClick;
     public UnityEvent<Vector3, String> tileEnter;
-    public UnityEvent<Vector3, String> tileExit;
+    public UnityEvent<Vector3> tileExit;
 
     public UnityEvent<List<int>, Material> changeMaterial;
     private BoardSO _board;
@@ -32,9 +32,9 @@ public class TileSO : GameTokenSO
     {
         tileEnter?.Invoke(tilePosition, type);
     }
-    public void OnTileExit(Vector3 tilePosition, String type)
+    public void OnTileExit(Vector3 tilePosition)
     {
-        tileExit?.Invoke(tilePosition, type);
+        tileExit?.Invoke(tilePosition);
     }
 
     public void changeTileMaterials(List<Vector3> tiles, Material material)
