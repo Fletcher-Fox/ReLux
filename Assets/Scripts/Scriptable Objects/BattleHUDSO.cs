@@ -43,7 +43,7 @@ public class BattleHUDSO : ScriptableObject
     private void TileHUD(Vector3 position, String type)
     {
         tileInfoVisible = true;
-        tilePosition = position + "";
+        tilePosition = "[ " + position.x + " , " + position.z + " ]";
         tileType = type;
         onTileChange?.Invoke();
     }
@@ -81,10 +81,15 @@ public class BattleHUDSO : ScriptableObject
     public void Clear()
     {
         Debug.Log("CLEAR!");
+        visible = false;
         characterName = "";
         health = 0;
         movement = 0;
-        visible = false;
+
+        tileInfoVisible = false;
+        tilePosition = "";
+        tileType = "";
+
         onDataChange?.Invoke();
     }
 }

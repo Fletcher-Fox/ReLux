@@ -1,7 +1,8 @@
 using UnityEngine;
 using TMPro;
+using System.Linq;
 
-public class BattleUnitHUD : MonoBehaviour
+public class BattleHUD : MonoBehaviour
 {
     [SerializeField] private BattleHUDSO _unitHUD;
     [SerializeField] private TMP_Text nameText;
@@ -15,39 +16,31 @@ public class BattleUnitHUD : MonoBehaviour
     {
         _unitHUD = Resources.Load<BattleHUDSO>("SOInstance/Core/BattleHUD");
         _unitHUD.onDataChange.AddListener(UpdateUI);
-        _unitHUD.onTileChange.AddListener(UpdateTileHUD);
+        _unitHUD.onTileChange.AddListener(UpdateUI);
     }
 
     void OnDisable()
     {
         _unitHUD.onDataChange.RemoveListener(UpdateUI);
-        _unitHUD.onTileChange.RemoveListener(UpdateTileHUD);
+        _unitHUD.onTileChange.RemoveListener(UpdateUI);
     }
 
     void Start()
     {
         UpdateUI();
-        UpdateTileHUD();
     }
-
-    private void UpdateTileHUD()
-    {
-        tileTypeText.gameObject.SetActive(_unitHUD.tileInfoVisible);
-        tilePositionText.gameObject.SetActive(_unitHUD.tileInfoVisible);
-
-        if (!_unitHUD.tileInfoVisible) return;
-
-        tileTypeText.text = _unitHUD.tileType;
-        tilePositionText.text = _unitHUD.tilePosition;
-    } 
 
     private void UpdateUI()
     {
+        tileTypeText.gameObject.SetActive(_unitHUD.tileInfoVisible);
+        tilePositionText.gameObject.SetActive(_unitHUD.tileInfoVisible);
+        
         nameText.gameObject.SetActive(_unitHUD.visible);
         healthText.gameObject.SetActive(_unitHUD.visible);
         moveText.gameObject.SetActive(_unitHUD.visible);
 
-        if (!_unitHUD.visible) return;
+        tileTypeText.text = _unitHUD.tileType;
+        tilePositionText.text = _unitHUD.tilePosition;
 
         nameText.text = _unitHUD.characterName;
         healthText.text = $"HP: {_unitHUD.health}";
