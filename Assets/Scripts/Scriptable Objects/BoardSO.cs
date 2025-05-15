@@ -14,7 +14,7 @@ public class BoardSO : ScriptableObject
     private MaterialsSO _tileMaterials;
 
     private Vector3 _selectedTile;
-    private Vector3 _selectedUnitPosition;
+    [SerializeField] private Vector3 _selectedUnitPosition;
     
     public UnityEvent<Vector3, string, int, int> unitSelected;
     public UnityEvent<Vector3, string, int, int> unitHover;
@@ -54,9 +54,34 @@ public class BoardSO : ScriptableObject
     
     void OnUnitClicked(Vector3 unitPosition, string name, int hp, int movement)
     {   
+
+        if (_selectedUnitPosition == unitPosition) {
+            _selectedUnitPosition = new Vector3(0,0,0);
+        } else {
+            _selectedUnitPosition = unitPosition;
+
+            // Display Unit Movement On Board
+
+            // Check all spaces of movement orthogonaly around the unit.
+            
+            int start = 0;
+
+            List<Vector3> MovementSet = new List<Vector3>();
+
+            while (start < movement)
+            {
+                // Find all spaces around unit
+                // <x + 1, y, z>
+                // <x - 1, y, z>
+                // <x, y, z + 1>
+                // <x, y, z - 1>
+            }
+
+        }
+
+
         // TODO: Need to make menu when a unit is clicked.
 
-        // Debug.Log("BOARD: ON UNIT : position: " + unitPosition + ", name: " + name);
 
         // if (_selectedUnitPosition == unitPosition) {
         //     _selectedUnitPosition = new Vector3(0,0,0);

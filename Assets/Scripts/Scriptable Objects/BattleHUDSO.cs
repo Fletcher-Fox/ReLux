@@ -50,7 +50,6 @@ public class BattleHUDSO : ScriptableObject
 
     private void CheckSelection(Vector3 unitPosition, string name, int health, int movement)
     {
-        Debug.Log("Battle HUD SO:" + unitPosition);
         if (unitPosition == Vector3.zero) {
             Clear();
         } else {
@@ -60,7 +59,6 @@ public class BattleHUDSO : ScriptableObject
 
     private void HoverSet(Vector3 unitPosition, string name, int health, int movement)
     {    
-        Debug.Log("HOVER SET Battle HUD SO:" + unitPosition);    
         if (unitPosition == Vector3.zero) {
             return;
         } else {
@@ -70,7 +68,6 @@ public class BattleHUDSO : ScriptableObject
 
     public void Set(string name, int hp, int move)
     {
-        Debug.Log("SET!");
         characterName = name;
         health = hp;
         movement = move;
@@ -80,7 +77,6 @@ public class BattleHUDSO : ScriptableObject
 
     public void Clear()
     {
-        Debug.Log("CLEAR!");
         visible = false;
         characterName = "";
         health = 0;
