@@ -23,7 +23,7 @@ public class UnitSO : GameTokenSO
     public void OnDisable()
     {
         _tile.tileClick.RemoveListener(IsUnitOnTile);
-        _tile.tileEnter.RemoveListener(IsUnitOnTile);
+        _tile.tileEnter.RemoveListener(IsUnitOnHoverTile);
     }
 
     private void IsUnitOnTile(Vector3 tilePosition)
@@ -33,7 +33,7 @@ public class UnitSO : GameTokenSO
         checkUnit?.Invoke(unitID);
     }
 
-    private void IsUnitOnHoverTile(Vector3 tilePosition)
+    private void IsUnitOnHoverTile(Vector3 tilePosition, string tileType) //TODO: is this the best way? Just ignore the args not meant for this?
     {
         int unitID = GetToken(tilePosition);
         if (unitID == 0) return;

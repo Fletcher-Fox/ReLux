@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using TMPro;
 using UnityEditor.VersionControl;
@@ -14,13 +15,19 @@ public class BattleHUDSO : ScriptableObject
     public int movement;
     public bool visible = false;
 
+    public string tilePosition;
+    public string tileType;
+    public bool tileInfoVisible = false;
+
     [Header("Events")]
     public UnityEvent onDataChange;
+    public UnityEvent onTileChange;
     [SerializeField] private BoardSO _boardData;
 
     private void OnEnable()
     {
         _boardData = Resources.Load<BoardSO>("SOInstance/Core/Board");
+        _boardData.tileHover.AddListener(TileHUD);
         _boardData.unitSelected.AddListener(CheckSelection);
         _boardData.unitHover.AddListener(HoverSet);
         _boardData.clearHUD.AddListener(Clear);
@@ -30,7 +37,15 @@ public class BattleHUDSO : ScriptableObject
     private void OnDisable()
     {
         _boardData.unitSelected.RemoveListener(CheckSelection);
-         _boardData.unitHover.RemoveListener(HoverSet);
+        _boardData.unitHover.RemoveListener(HoverSet);
+    }
+
+    private void TileHUD(Vector3 position, String type)
+    {
+        tileInfoVisible = true;
+        tilePosition = "[ " + position.x + " , " + position.z + " ]";
+        tileType = type;
+        onTileChange?.Invoke();
     }
 
     private void CheckSelection(Vector3 unitPosition, string name, int health, int movement)
@@ -66,10 +81,15 @@ public class BattleHUDSO : ScriptableObject
     public void Clear()
     {
         Debug.Log("CLEAR!");
+        visible = false;
         characterName = "";
         health = 0;
         movement = 0;
-        visible = false;
+
+        tileInfoVisible = false;
+        tilePosition = "";
+        tileType = "";
+
         onDataChange?.Invoke();
     }
 }

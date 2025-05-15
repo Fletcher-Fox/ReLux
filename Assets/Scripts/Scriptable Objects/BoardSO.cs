@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
@@ -17,6 +18,7 @@ public class BoardSO : ScriptableObject
     
     public UnityEvent<Vector3, string, int, int> unitSelected;
     public UnityEvent<Vector3, string, int, int> unitHover;
+    public UnityEvent<Vector3, string> tileHover;
     public UnityEvent clearHUD;
     public UnityEvent<List<Vector3>, Material> changeTileMaterial;
 
@@ -27,8 +29,8 @@ public class BoardSO : ScriptableObject
         _tileMaterials = Resources.Load<MaterialsSO>("SOInstance/Core/Materials"); // TODO: remove and replace with ref to a const file
 
         _tile.tileClick.AddListener(OnClick);
-        _tile.tileEnter.AddListener(OnEnter);
-        _tile.tileExit.AddListener(OnExit);
+        _tile.tileEnter.AddListener(TileOnEnter);
+        _tile.tileExit.AddListener(TileOnExit);
 
         _unit.unitClicked.AddListener(OnUnitClicked);
         _unit.unitHoverEnter.AddListener(UnitOnEnter);
@@ -37,8 +39,8 @@ public class BoardSO : ScriptableObject
     void OnDisable()
     {
         _tile.tileClick.RemoveListener(OnClick);
-        _tile.tileEnter.RemoveListener(OnEnter);
-        _tile.tileExit.RemoveListener(OnExit);
+        _tile.tileEnter.RemoveListener(TileOnEnter);
+        _tile.tileExit.RemoveListener(TileOnExit);
 
         _unit.unitClicked.RemoveListener(OnUnitClicked);
         _unit.unitHoverEnter.AddListener(UnitOnEnter);
@@ -86,9 +88,11 @@ public class BoardSO : ScriptableObject
         }
     }
 
-    void OnEnter(Vector3 tilePosition)
+    void TileOnEnter(Vector3 tilePosition, String type)
     {
         List<Vector3> tiles = new List<Vector3>{tilePosition};
+        
+        tileHover?.Invoke(tilePosition, type);
 
         if (tilePosition != _selectedTile) {
             changeTileMaterial?.Invoke(tiles, _tileMaterials.hover_material);
@@ -100,7 +104,7 @@ public class BoardSO : ScriptableObject
         unitHover?.Invoke(unitPosition, name, hp, movement);
     }
 
-    void OnExit(Vector3 tilePosition)
+    void TileOnExit(Vector3 tilePosition)
     {   
         List<Vector3> tiles = new List<Vector3>{tilePosition};
         clearHUD?.Invoke();
