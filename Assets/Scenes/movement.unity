@@ -836,6 +836,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 107385582138894017, guid: bf6b69f563bd5b84fbeea8e128d0d6ed, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.5
+      objectReference: {fileID: 0}
     - target: {fileID: 1560363441560155999, guid: bf6b69f563bd5b84fbeea8e128d0d6ed, type: 3}
       propertyPath: m_Name
       value: Shinji
@@ -1320,6 +1324,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _board: {fileID: 0}
+  inputLayerMask:
+    serializedVersion: 2
+    m_Bits: 1
 --- !u!1001 &8060004487748923635
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1457,5 +1464,5 @@ SceneRoots:
   - {fileID: 1130676011}
   - {fileID: 2123670172}
   - {fileID: 1296976065}
-  - {fileID: 312997238}
   - {fileID: 1019997485}
+  - {fileID: 312997238}

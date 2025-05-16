@@ -70,6 +70,12 @@ public class BoardSO : ScriptableObject
 
             while (start < movement)
             {
+                start += 1;
+                CheckHit(new Vector3(unitPosition.x, 1f, unitPosition.z), new Vector3(unitPosition.x + start, 1f, unitPosition.z));
+                CheckHit(new Vector3(unitPosition.x, 1f, unitPosition.z), new Vector3(unitPosition.x - start, 1f, unitPosition.z));
+                CheckHit(new Vector3(unitPosition.x, 1f, unitPosition.z), new Vector3(unitPosition.x, 1f, unitPosition.z + start));
+                CheckHit(new Vector3(unitPosition.x, 1f, unitPosition.z), new Vector3(unitPosition.x, 1f, unitPosition.z - start));
+
                 // Find all spaces around unit
                 // <x + 1, y, z>
                 // <x - 1, y, z>
@@ -153,14 +159,14 @@ public class BoardSO : ScriptableObject
             Debug.Log("Hit object: " + hit.collider.gameObject.name);
 
             // Draw a ray with the specified color (e.g., red)  
-            Debug.DrawRay(startPosition, direction, Color.red, 2f); // Ray will stay visible for 2 seconds
+            Debug.DrawRay(startPosition, direction, Color.red, 1f); // Ray will stay visible for 2 seconds
 
-            // You can also do other things with the hit object, e.g., change color
-            GameObject hitObject = hit.collider.gameObject;
-            hitObject.GetComponent<Renderer>().material.color = Color.red;
+            // // You can also do other things with the hit object, e.g., change color
+            // GameObject hitObject = hit.collider.gameObject;
+            // hitObject.GetComponent<Renderer>().material.color = Color.red;
         } else {        
             // Draw a ray to show the path even if it doesn't hit anything
-            Debug.DrawRay(startPosition, direction, Color.green, 2f); // Ray will stay visible for 2 seconds
+            Debug.DrawRay(startPosition, direction, Color.green, 1f); // Ray will stay visible for 2 seconds
         }
 
     }

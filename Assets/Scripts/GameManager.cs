@@ -7,6 +7,13 @@ public class GameManager : MonoBehaviour
 
     private static GameManager _instance;
 
+    [SerializeField] private LayerMask inputLayerMask; // Layers the mouse raycast will interact with.
+        
+    private void Start()
+    {
+        Camera.main.eventMask = inputLayerMask;
+    }
+
     private void Awake()
     {
         // Ensure only one GameManager exists
@@ -44,4 +51,5 @@ public class GameManager : MonoBehaviour
             Debug.Log("Board cleared on application quit.");
         }
     }
+
 }
