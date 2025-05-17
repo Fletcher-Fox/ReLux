@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _name: Asuka
   _baseHealth: 313
-  _baseMovement: 3
+  _baseMovement: 2
   level: 1

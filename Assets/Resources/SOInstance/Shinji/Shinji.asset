@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _name: Shinji
   _baseHealth: 100
-  _baseMovement: 3
+  _baseMovement: 1
   level: 1

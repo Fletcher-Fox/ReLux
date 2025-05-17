@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using Unity.VisualScripting;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem.Utilities;
@@ -51,7 +53,7 @@ public class BoardSO : ScriptableObject
         _tile.ClearTokenBag();
         _unit.ClearTokenBag();
     }
-    
+
     void OnUnitClicked(Vector3 unitPosition, string name, int hp, int movement)
     {   
 
@@ -61,28 +63,47 @@ public class BoardSO : ScriptableObject
             _selectedUnitPosition = unitPosition;
 
             // Display Unit Movement On Board
-
-            // Check all spaces of movement orthogonaly around the unit.
             
-            int start = 0;
+            List<Vector3> cardinalDirections = new List<Vector3>
+            {
+                Vector3.right,
+                Vector3.left,
+                Vector3.forward,
+                Vector3.back
+            }; 
 
-            List<Vector3> MovementSet = new List<Vector3>();
+            HashSet<Vector3> MovementSet = new HashSet<Vector3> {unitPosition};
+            HashSet<Vector3> tempSet;
+            int start = 0;
 
             while (start < movement)
             {
                 start += 1;
-                CheckHit(new Vector3(unitPosition.x, unitPosition.y + 0.5f, unitPosition.z), new Vector3(unitPosition.x + start, unitPosition.y + 0.5f, unitPosition.z));
-                CheckHit(new Vector3(unitPosition.x, unitPosition.y + 0.5f, unitPosition.z), new Vector3(unitPosition.x - start, unitPosition.y + 0.5f, unitPosition.z));
-                CheckHit(new Vector3(unitPosition.x, unitPosition.y + 0.5f, unitPosition.z), new Vector3(unitPosition.x, unitPosition.y + 0.5f, unitPosition.z + start));
-                CheckHit(new Vector3(unitPosition.x, unitPosition.y + 0.5f, unitPosition.z), new Vector3(unitPosition.x, unitPosition.y + 0.5f, unitPosition.z - start));
+                tempSet = new HashSet<Vector3>();
 
-                // Find all spaces around unit
-                // <x + 1, y, z>
-                // <x - 1, y, z>
-                // <x, y, z + 1>
-                // <x, y, z - 1>
+                foreach (Vector3 pos in MovementSet)
+                {   
+                    foreach (Vector3 direction in cardinalDirections) 
+                    {
+                        Vector3 map_pos = pos + direction;
+                        Vector3 realPosition = ConfirmTile(CheckHit(pos, map_pos));
+
+                        if (realPosition != Vector3.zero) 
+                        {
+                            tempSet.Add(map_pos);
+                        }
+                    }
+                }
+
+                MovementSet.UnionWith(tempSet);
             }
 
+            foreach (Vector3 v in MovementSet)
+            {
+                Debug.Log(v);
+            }
+
+            changeTileMaterial?.Invoke(new List<Vector3>(MovementSet), _tileMaterials.select_material);
         }
 
 
@@ -97,6 +118,23 @@ public class BoardSO : ScriptableObject
         // unitSelected?.Invoke(_selectedUnitPosition, name, hp, movement);
     }
 
+    Vector3 ConfirmTile(GameObject thing) {
+        if (thing != null) {
+            switch (thing.tag)
+            {
+                case "Unit":
+                    // Debug.Log("Unit Hit: " + thing.name);
+                    // Debug.Log("Unit Transform: " + thing.transform.position);
+                    return thing.transform.position;
+
+                case "Tile":
+                    // Debug.Log("Tile Hit: " + thing.name);
+                    // Debug.Log("Tile Transform: " + thing.transform.position);
+                    return thing.transform.GetChild(0).position;
+            }
+        }
+        return Vector3.zero;
+    }
 
     void OnClick(Vector3 tilePosition) 
     {
@@ -147,7 +185,8 @@ public class BoardSO : ScriptableObject
         }
     }
 
-    void CheckHit(Vector3 startPosition, Vector3 endPosition)
+
+    GameObject CheckHit(Vector3 startPosition, Vector3 endPosition)
     {
         // Calculate the direction and distance using Vector3
         Vector3 direction = endPosition - startPosition;
@@ -156,10 +195,12 @@ public class BoardSO : ScriptableObject
         // Perform the raycast with the calculated direction and distance
         RaycastHit hit;
         if (Physics.Raycast(startPosition, direction.normalized, out hit, distance)) {
-            Debug.Log("Hit object: " + hit.collider.gameObject.name);
+
+            // Debug.DrawRay(startPosition, direction, Color.red, distance); // Ray will stay visible for 2 seconds
+            return hit.collider.gameObject;
+            // Debug.Log("Hit object: " + hit.collider.gameObject.name);
 
             // Draw a ray with the specified color (e.g., red)  
-            Debug.DrawRay(startPosition, direction, Color.red, distance); // Ray will stay visible for 2 seconds
 
             // // You can also do other things with the hit object, e.g., change color
             // GameObject hitObject = hit.collider.gameObject;
@@ -167,6 +208,7 @@ public class BoardSO : ScriptableObject
         } else {        
             // Draw a ray to show the path even if it doesn't hit anything
             Debug.DrawRay(startPosition, direction, Color.green, distance); // Ray will stay visible for 2 seconds
+            return null;
         }
 
     }
