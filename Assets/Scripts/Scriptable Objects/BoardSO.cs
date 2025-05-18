@@ -98,9 +98,11 @@ public class BoardSO : ScriptableObject
                 MovementSet.UnionWith(tempSet);
             }
 
-            foreach (Vector3 v in MovementSet)
+            HashSet<Vector3> temp = new HashSet<Vector3>(MovementSet);
+            foreach (Vector3 v in temp)
             {
-                Debug.Log(v);
+                if (_unit.IsUnit(v))
+                    MovementSet.Remove(v);
             }
 
             changeTileMaterial?.Invoke(new List<Vector3>(MovementSet), _tileMaterials.select_material);

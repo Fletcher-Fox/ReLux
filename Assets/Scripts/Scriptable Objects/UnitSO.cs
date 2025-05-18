@@ -8,7 +8,7 @@ public class UnitSO : GameTokenSO
     private TileSO _tile;
     private BoardSO _board;
     public UnityEvent<Vector3, string, int, int> unitClicked;
-     public UnityEvent<Vector3, string, int, int> unitHoverEnter;
+    public UnityEvent<Vector3, string, int, int> unitHoverEnter;
     public UnityEvent<int> checkUnit;
     public UnityEvent<int> checkUnitHover;
 
@@ -48,6 +48,15 @@ public class UnitSO : GameTokenSO
     public void EventUnitHoverEnter(Vector3 unitPosition, string name, int hp, int movement)
     {
         unitHoverEnter?.Invoke(unitPosition, name, hp, movement);
+    }
+
+    public bool IsUnit(Vector3 position)
+    {
+        int unitID = GetToken(position);
+        if (unitID == 0)
+            return false;
+        else
+            return true;
     }
 
 }
