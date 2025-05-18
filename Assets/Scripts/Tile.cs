@@ -12,8 +12,7 @@ public class Tile : MonoBehaviour
     // [SerializeField] private MaterialsSO _tileMaterials;
 
     void Start() {
-        _tileEvent = Resources.Load<TileSO>("SOInstance/Core/Tiles");
-        _tokenID = _tileEvent.RegisterToken(transform.position); // Pass game obj to the board 
+        _tokenID = _tileEvent.RegisterToken(transform.position); // Pass game obj to the board
 
         // _tileMaterials = Resources.Load<MaterialsSO>("SOInstance/Core/Materials");
 
@@ -22,8 +21,17 @@ public class Tile : MonoBehaviour
         // {
         //     renderer.material = _tileMaterials.spawn_material; // Set the material
         // }
+    }
 
+    void OnEnable()
+    {
+        _tileEvent = Resources.Load<TileSO>("SOInstance/Core/Tiles");
         _tileEvent.changeMaterial.AddListener(materialChange);
+    }
+
+    void OnDisable()
+    {
+        _tileEvent.changeMaterial.RemoveListener(materialChange);
     }
 
     void OnMouseDown()

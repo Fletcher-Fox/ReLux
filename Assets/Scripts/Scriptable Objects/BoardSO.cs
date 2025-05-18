@@ -24,6 +24,8 @@ public class BoardSO : ScriptableObject
     public UnityEvent clearHUD;
     public UnityEvent<List<Vector3>, Material> changeTileMaterial;
 
+    public UnityEvent<bool, Vector3> reticleEvent;
+
     void OnEnable()
     {
         _tile = Resources.Load<TileSO>("SOInstance/Core/Tiles");
@@ -144,7 +146,7 @@ public class BoardSO : ScriptableObject
 
         if (tilePosition == _selectedTile) {
             _selectedTile = new Vector3(0, 0, 0); // no tiles should be here, reserved for empty position...
-            changeTileMaterial.Invoke(tiles, _tileMaterials.hover_material);  // Deselect on same location
+            // changeTileMaterial.Invoke(tiles, _tileMaterials.hover_material);  // Deselect on same location
         } else {   
             if (_selectedTile != new Vector3(0, 0, 0)) {
                 changeTileMaterial?.Invoke(new List<Vector3>{_selectedTile}, _tileMaterials.deafault_material); // Revert original tile back to default material
@@ -164,10 +166,12 @@ public class BoardSO : ScriptableObject
         List<Vector3> tiles = new List<Vector3>{tilePosition};
         
         tileHover?.Invoke(tilePosition, type);
+        reticleEvent?.Invoke(true, tilePosition);
 
-        if (tilePosition != _selectedTile) {
-            changeTileMaterial?.Invoke(tiles, _tileMaterials.hover_material);
-        }
+        // if (tilePosition != _selectedTile)
+        // {
+        //     changeTileMaterial?.Invoke(tiles, _tileMaterials.hover_material);
+        // }
     }
 
     void UnitOnEnter(Vector3 unitPosition, string name, int hp, int movement)
@@ -179,12 +183,17 @@ public class BoardSO : ScriptableObject
     {   
         List<Vector3> tiles = new List<Vector3>{tilePosition};
         clearHUD?.Invoke();
+        reticleEvent?.Invoke(false, Vector3.zero);
 
-        if (tilePosition == _selectedTile) {
-            changeTileMaterial?.Invoke(tiles, _tileMaterials.select_material); 
-        } else {
-            changeTileMaterial?.Invoke(tiles, _tileMaterials.deafault_material);
-        }
+
+        // if (tilePosition == _selectedTile)
+        // {
+        //     changeTileMaterial?.Invoke(tiles, _tileMaterials.select_material);
+        // }
+        // else
+        // {
+        //     changeTileMaterial?.Invoke(tiles, _tileMaterials.deafault_material);
+        // }
     }
 
 
@@ -196,18 +205,20 @@ public class BoardSO : ScriptableObject
 
         // Perform the raycast with the calculated direction and distance
         RaycastHit hit;
-        if (Physics.Raycast(startPosition, direction.normalized, out hit, distance)) {
+        if (Physics.Raycast(startPosition, direction.normalized, out hit, distance))
+        {
 
             // Debug.DrawRay(startPosition, direction, Color.red, distance); // Ray will stay visible for 2 seconds
             return hit.collider.gameObject;
+            
             // Debug.Log("Hit object: " + hit.collider.gameObject.name);
-
             // Draw a ray with the specified color (e.g., red)  
-
             // // You can also do other things with the hit object, e.g., change color
             // GameObject hitObject = hit.collider.gameObject;
             // hitObject.GetComponent<Renderer>().material.color = Color.red;
-        } else {        
+        }
+        else
+        {
             // Draw a ray to show the path even if it doesn't hit anything
             Debug.DrawRay(startPosition, direction, Color.green, distance); // Ray will stay visible for 2 seconds
             return null;
