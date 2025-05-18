@@ -105,7 +105,7 @@ public class BoardSO : ScriptableObject
                     MovementSet.Remove(v);
             }
 
-            changeTileMaterial?.Invoke(new List<Vector3>(MovementSet), _tileMaterials.select_material);
+            changeTileMaterial?.Invoke(new List<Vector3>(MovementSet), _tileMaterials.movement_material);
         }
 
 
