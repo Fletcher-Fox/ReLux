@@ -16,6 +16,8 @@ public class BoardSO : ScriptableObject
     private MaterialsSO _tileMaterials;
 
     private Vector3 _selectedTile;
+
+    private HashSet<Vector3> _movementTiles = new HashSet<Vector3>(); //empty set
     [SerializeField] private Vector3 _selectedUnitPosition;
     
     public UnityEvent<Vector3, string, int, int> unitSelected;
@@ -65,7 +67,13 @@ public class BoardSO : ScriptableObject
             _selectedUnitPosition = unitPosition;
 
             // Display Unit Movement On Board
-            
+
+            // Need to remove previous movement if it exists
+            if (_movementTiles?.Count > 0) {
+                changeTileMaterial?.Invoke(new List<Vector3>(_movementTiles), _tileMaterials.default_material);
+                _movementTiles.Clear();
+            }
+
             List<Vector3> cardinalDirections = new List<Vector3>
             {
                 Vector3.right,
@@ -106,7 +114,7 @@ public class BoardSO : ScriptableObject
                 if (_unit.IsUnit(v))
                     MovementSet.Remove(v);
             }
-
+            _movementTiles = MovementSet;
             changeTileMaterial?.Invoke(new List<Vector3>(MovementSet), _tileMaterials.movement_material);
         }
 
@@ -148,15 +156,17 @@ public class BoardSO : ScriptableObject
             _selectedTile = new Vector3(0, 0, 0); // no tiles should be here, reserved for empty position...
             // changeTileMaterial.Invoke(tiles, _tileMaterials.hover_material);  // Deselect on same location
         } else {   
-            if (_selectedTile != new Vector3(0, 0, 0)) {
-                changeTileMaterial?.Invoke(new List<Vector3>{_selectedTile}, _tileMaterials.deafault_material); // Revert original tile back to default material
-            }
+            // if (_selectedTile != new Vector3(0, 0, 0)) {
+            //     changeTileMaterial?.Invoke(new List<Vector3>{_selectedTile}, _tileMaterials.default_material); // Revert original tile back to default material
+            // }
             
             _selectedTile = tilePosition;
-            changeTileMaterial?.Invoke(tiles, _tileMaterials.select_material);
-            
+            // changeTileMaterial?.Invoke(tiles, _tileMaterials.select_material);
+
             if (_selectedTile != _selectedUnitPosition) {
                 OnUnitClicked(_selectedUnitPosition, "", 0, 0); // Change the HUD as the Selected Tile and Selected Unit no longer match
+                changeTileMaterial?.Invoke(new List<Vector3>(_movementTiles), _tileMaterials.default_material); // Change all current movement tiles to deafault 
+                _movementTiles.Clear(); // Make the movement set empty now
             }
         }
     }
@@ -192,7 +202,7 @@ public class BoardSO : ScriptableObject
         // }
         // else
         // {
-        //     changeTileMaterial?.Invoke(tiles, _tileMaterials.deafault_material);
+        //     changeTileMaterial?.Invoke(tiles, _tileMaterials.default_material);
         // }
     }
 
