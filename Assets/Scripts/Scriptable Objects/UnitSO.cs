@@ -12,6 +12,8 @@ public class UnitSO : GameTokenSO
     public UnityEvent<int> checkUnit;
     public UnityEvent<int> checkUnitHover;
 
+    public UnityEvent<int, Vector3> moveUnit;
+
     public void OnEnable()
     {
         _tile = Resources.Load<TileSO>("SOInstance/Core/Tiles");
@@ -26,7 +28,7 @@ public class UnitSO : GameTokenSO
         _tile.tileEnter.RemoveListener(IsUnitOnHoverTile);
     }
 
-    private void IsUnitOnTile(Vector3 tilePosition)
+    private void IsUnitOnTile(Vector3 tilePosition, string type) // TODO: we just ignore the type?
     {
         int unitID = GetToken(tilePosition);
         if (unitID == 0) return;
@@ -57,6 +59,13 @@ public class UnitSO : GameTokenSO
             return false;
         else
             return true;
+    }
+
+    public void MoveUnitTo(Vector3 original, Vector3 position)
+    {
+        int id = GetToken(original); // Get unit id
+        ReregisterToken(original, position); // Change unit to new key in dictionary
+        moveUnit?.Invoke(id, position); // Tell unit to move to new position
     }
 
 }

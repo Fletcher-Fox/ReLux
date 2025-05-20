@@ -39,7 +39,14 @@ public class GameTokenSO : ScriptableObject
         return tokenIdList;
     }
 
-    public int GetTokenCount() 
+    public void ReregisterToken(Vector3 originalKey, Vector3 newKey)
+    {
+        int id = GetToken(originalKey);
+        _tokenBag.Remove(originalKey);
+        _tokenBag.Add(newKey, id);
+    }
+
+    public int GetTokenCount()
     {
         return _tokenBag.Count;
     }

@@ -8,23 +8,24 @@ public class Unit : MonoBehaviour
     private UnitSO _unit;
     [SerializeField] private int _tokenID;
 
-    void Start()
-    {
-        _tokenID = _unit.RegisterToken(transform.position); // Pass game obj to the board 
-    }
-    
+
     void OnEnable()
     {
         _unit = Resources.Load<UnitSO>("SOInstance/Core/Unit");
         _unit.checkUnit.AddListener(checkUnitTile);
         _unit.checkUnitHover.AddListener(checkUnitTileHoverEnter);
-
+        _unit.moveUnit.AddListener(moveUnit);
     }
 
     void OnDisable()
     {
         _unit.checkUnit.RemoveListener(checkUnitTile);
         _unit.checkUnitHover.RemoveListener(checkUnitTileHoverEnter);
+        _unit.moveUnit.RemoveListener(moveUnit);
+    }
+    void Start()
+    {
+        _tokenID = _unit.RegisterToken(transform.position); // Pass game obj to the board 
     }
 
     public string GetName()
@@ -41,9 +42,9 @@ public class Unit : MonoBehaviour
     {
         return characterData.GetMovement();
     }
-    void checkUnitTile(int unitID) 
+    void checkUnitTile(int unitID)
     {
-        if (_tokenID == unitID) 
+        if (_tokenID == unitID)
             _unit.EventUnitClicked(transform.position, characterData.GetName(), characterData.GetHealth(), characterData.GetMovement());
     }
 
@@ -56,4 +57,11 @@ public class Unit : MonoBehaviour
     //     transform.position = space.transform.position;
     // }
 
+    void moveUnit(int idCalled, Vector3 newPosition)
+    {
+        if (_tokenID == idCalled)
+        {
+            transform.position = newPosition;
+        }
+    }
 }

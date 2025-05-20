@@ -25,8 +25,8 @@ public class PostionUI : MonoBehaviour
         _tileEvent.tileClick.AddListener(onTileClick);
     }
 
-    void onTileClick(Vector3 tilePosition)
+    void onTileClick(Vector3 tilePosition, string tileType) // TODO: Ignoring the tile type again...
     {
-        posField.text = string.Format("Pos: [{0},{1}]", tilePosition.x.ToString(), tilePosition.z.ToString());
+        posField.text = string.Format("Pos: [{0},{1}] Type: {2}", tilePosition.x.ToString(), tilePosition.z.ToString());
     }
 }

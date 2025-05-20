@@ -13,8 +13,6 @@ public class BoardSO : ScriptableObject
 
     private TileSO _tile;
     private UnitSO _unit;
-    private MaterialsSO _tileMaterials;
-
     private Vector3 _selectedTile;
 
     private HashSet<Vector3> _movementTiles = new HashSet<Vector3>(); //empty set
@@ -24,7 +22,7 @@ public class BoardSO : ScriptableObject
     public UnityEvent<Vector3, string, int, int> unitHover;
     public UnityEvent<Vector3, string> tileHover;
     public UnityEvent clearHUD;
-    public UnityEvent<List<Vector3>, Material> changeTileMaterial;
+    public UnityEvent<List<Vector3>, string> changeTile;
 
     public UnityEvent<bool, Vector3> reticleEvent;
 
@@ -32,9 +30,8 @@ public class BoardSO : ScriptableObject
     {
         _tile = Resources.Load<TileSO>("SOInstance/Core/Tiles");
         _unit = Resources.Load<UnitSO>("SOInstance/Core/Unit");
-        _tileMaterials = Resources.Load<MaterialsSO>("SOInstance/Core/Materials"); // TODO: remove and replace with ref to a const file
 
-        _tile.tileClick.AddListener(OnClick);
+        _tile.tileClick.AddListener(TileOnClick);
         _tile.tileEnter.AddListener(TileOnEnter);
         _tile.tileExit.AddListener(TileOnExit);
 
@@ -44,7 +41,7 @@ public class BoardSO : ScriptableObject
 
     void OnDisable()
     {
-        _tile.tileClick.RemoveListener(OnClick);
+        _tile.tileClick.RemoveListener(TileOnClick);
         _tile.tileEnter.RemoveListener(TileOnEnter);
         _tile.tileExit.RemoveListener(TileOnExit);
 
@@ -59,7 +56,7 @@ public class BoardSO : ScriptableObject
     }
 
     void OnUnitClicked(Vector3 unitPosition, string name, int hp, int movement)
-    {   
+    {
 
         if (_selectedUnitPosition == unitPosition) {
             _selectedUnitPosition = new Vector3(0,0,0);
@@ -70,7 +67,7 @@ public class BoardSO : ScriptableObject
 
             // Need to remove previous movement if it exists
             if (_movementTiles?.Count > 0) {
-                changeTileMaterial?.Invoke(new List<Vector3>(_movementTiles), _tileMaterials.default_material);
+                changeTile?.Invoke(new List<Vector3>(_movementTiles), "default");
                 _movementTiles.Clear();
             }
 
@@ -115,7 +112,7 @@ public class BoardSO : ScriptableObject
                     MovementSet.Remove(v);
             }
             _movementTiles = MovementSet;
-            changeTileMaterial?.Invoke(new List<Vector3>(MovementSet), _tileMaterials.movement_material);
+            changeTile?.Invoke(new List<Vector3>(MovementSet), "movement");
         }
 
 
@@ -148,24 +145,27 @@ public class BoardSO : ScriptableObject
         return Vector3.zero;
     }
 
-    void OnClick(Vector3 tilePosition) 
+    void TileOnClick(Vector3 tilePosition, string tileType) 
     {
         List<Vector3> tiles = new List<Vector3>{tilePosition};
 
-        if (tilePosition == _selectedTile) {
+        if (tilePosition == _selectedTile)
+        {
             _selectedTile = new Vector3(0, 0, 0); // no tiles should be here, reserved for empty position...
-            // changeTileMaterial.Invoke(tiles, _tileMaterials.hover_material);  // Deselect on same location
-        } else {   
-            // if (_selectedTile != new Vector3(0, 0, 0)) {
-            //     changeTileMaterial?.Invoke(new List<Vector3>{_selectedTile}, _tileMaterials.default_material); // Revert original tile back to default material
-            // }
-            
+        }
+        else
+        {
             _selectedTile = tilePosition;
-            // changeTileMaterial?.Invoke(tiles, _tileMaterials.select_material);
 
-            if (_selectedTile != _selectedUnitPosition) {
+
+            if (_selectedTile != _selectedUnitPosition)
+            {
+                if (tileType == "movement")
+                {
+                    _unit.MoveUnitTo(_selectedUnitPosition, tilePosition);
+                }
                 OnUnitClicked(_selectedUnitPosition, "", 0, 0); // Change the HUD as the Selected Tile and Selected Unit no longer match
-                changeTileMaterial?.Invoke(new List<Vector3>(_movementTiles), _tileMaterials.default_material); // Change all current movement tiles to deafault 
+                changeTile?.Invoke(new List<Vector3>(_movementTiles), "default"); // Change all current movement tiles to deafault 
                 _movementTiles.Clear(); // Make the movement set empty now
             }
         }
@@ -177,11 +177,6 @@ public class BoardSO : ScriptableObject
         
         tileHover?.Invoke(tilePosition, type);
         reticleEvent?.Invoke(true, tilePosition);
-
-        // if (tilePosition != _selectedTile)
-        // {
-        //     changeTileMaterial?.Invoke(tiles, _tileMaterials.hover_material);
-        // }
     }
 
     void UnitOnEnter(Vector3 unitPosition, string name, int hp, int movement)
@@ -194,16 +189,6 @@ public class BoardSO : ScriptableObject
         List<Vector3> tiles = new List<Vector3>{tilePosition};
         clearHUD?.Invoke();
         reticleEvent?.Invoke(false, Vector3.zero);
-
-
-        // if (tilePosition == _selectedTile)
-        // {
-        //     changeTileMaterial?.Invoke(tiles, _tileMaterials.select_material);
-        // }
-        // else
-        // {
-        //     changeTileMaterial?.Invoke(tiles, _tileMaterials.default_material);
-        // }
     }
 
 
