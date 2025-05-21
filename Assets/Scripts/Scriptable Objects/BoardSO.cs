@@ -13,17 +13,14 @@ public class BoardSO : ScriptableObject
 
     private TileSO _tile;
     private UnitSO _unit;
-    private Vector3 _selectedTile;
-
     private HashSet<Vector3> _movementTiles = new HashSet<Vector3>(); //empty set
     [SerializeField] private Vector3 _selectedUnitPosition;
     
     public UnityEvent<Vector3, string, int, int> unitSelected;
     public UnityEvent<Vector3, string, int, int> unitHover;
     public UnityEvent<Vector3, string> tileHover;
+    public UnityEvent<List<Vector3>, string> tileChange;
     public UnityEvent clearHUD;
-    public UnityEvent<List<Vector3>, string> changeTile;
-
     public UnityEvent<bool, Vector3> reticleEvent;
 
     void OnEnable()
@@ -55,90 +52,66 @@ public class BoardSO : ScriptableObject
         _unit.ClearTokenBag();
     }
 
-    void OnUnitClicked(Vector3 unitPosition, string name, int hp, int movement)
+    void OnUnitClicked(Vector3 unitPosition, string name, int hp, int movement) // TODO: replace name, hp & movement with Object Data
     {
-
         if (_selectedUnitPosition == unitPosition) {
-            _selectedUnitPosition = new Vector3(0,0,0);
+            _selectedUnitPosition = new Vector3(0, 0, 0);
         } else {
             _selectedUnitPosition = unitPosition;
-
-            // Display Unit Movement On Board
-
-            // Need to remove previous movement if it exists
-            if (_movementTiles?.Count > 0) {
-                changeTile?.Invoke(new List<Vector3>(_movementTiles), "default");
-                _movementTiles.Clear();
-            }
-
-            List<Vector3> cardinalDirections = new List<Vector3>
-            {
-                Vector3.right,
-                Vector3.left,
-                Vector3.forward,
-                Vector3.back
-            }; 
-
-            HashSet<Vector3> MovementSet = new HashSet<Vector3> {unitPosition};
-            HashSet<Vector3> tempSet;
-            int start = 0;
-
-            while (start < movement)
-            {
-                start += 1;
-                tempSet = new HashSet<Vector3>();
-
-                foreach (Vector3 pos in MovementSet)
-                {   
-                    foreach (Vector3 direction in cardinalDirections) 
-                    {
-                        Vector3 map_pos = pos + direction;
-                        Vector3 realPosition = ConfirmTile(CheckHit(pos, map_pos));
-
-                        if (realPosition != Vector3.zero) 
-                        {
-                            tempSet.Add(map_pos);
-                        }
-                    }
-                }
-
-                MovementSet.UnionWith(tempSet);
-            }
-
-            HashSet<Vector3> temp = new HashSet<Vector3>(MovementSet);
-            foreach (Vector3 v in temp)
-            {
-                if (_unit.IsUnit(v))
-                    MovementSet.Remove(v);
-            }
-            _movementTiles = MovementSet;
-            changeTile?.Invoke(new List<Vector3>(MovementSet), "movement");
+            DisplayMovement(unitPosition, movement);
         }
-
-
-        // TODO: Need to make menu when a unit is clicked.
-
-
-        // if (_selectedUnitPosition == unitPosition) {
-        //     _selectedUnitPosition = new Vector3(0,0,0);
-        // } else {
-        //     _selectedUnitPosition = unitPosition;
-        // }
-        // unitSelected?.Invoke(_selectedUnitPosition, name, hp, movement);
     }
 
-    Vector3 ConfirmTile(GameObject thing) {
+    private void DisplayMovement(Vector3 unitPosition, int unitMovement)
+    {
+        // Need to remove previous movement if it exists
+        if (_movementTiles?.Count > 0) {
+            tileChange?.Invoke(new List<Vector3>(_movementTiles), "default");
+            _movementTiles.Clear();
+        }
+
+        List<Vector3> cardinalDirections = new List<Vector3> {
+            Vector3.left, Vector3.right, Vector3.forward, Vector3.back
+        }; 
+
+        HashSet<Vector3> MovementSet = new HashSet<Vector3> {unitPosition};
+        HashSet<Vector3> tempSet;
+        int start = 0;
+
+        while (start < unitMovement) {
+            start += 1;
+            tempSet = new HashSet<Vector3>();
+
+            foreach (Vector3 pos in MovementSet) {   
+                foreach (Vector3 direction in cardinalDirections) {
+                    Vector3 map_pos = pos + direction;
+                    Vector3 realPosition = ConfirmObject(CheckHit(pos, map_pos));
+
+                    if (realPosition != Vector3.zero)
+                        tempSet.Add(map_pos);
+                }
+            }
+
+            MovementSet.UnionWith(tempSet);
+        }
+
+        HashSet<Vector3> temp = new HashSet<Vector3>(MovementSet);
+        foreach (Vector3 v in temp) {
+            if (_unit.IsUnit(v))
+                MovementSet.Remove(v);
+        }
+        _movementTiles = MovementSet;
+        tileChange?.Invoke(new List<Vector3>(MovementSet), "movement");
+    }
+
+    Vector3 ConfirmObject(GameObject thing)
+    {
         if (thing != null) {
             switch (thing.tag)
             {
                 case "Unit":
-                    // Debug.Log("Unit Hit: " + thing.name);
-                    // Debug.Log("Unit Transform: " + thing.transform.position);
                     return thing.transform.position;
-
                 case "Tile":
-                    // Debug.Log("Tile Hit: " + thing.name);
-                    // Debug.Log("Tile Transform: " + thing.transform.position);
                     return thing.transform.GetChild(0).position;
             }
         }
@@ -147,35 +120,23 @@ public class BoardSO : ScriptableObject
 
     void TileOnClick(Vector3 tilePosition, string tileType) 
     {
-        List<Vector3> tiles = new List<Vector3>{tilePosition};
+        Debug.Log("Enter Tile:" + tilePosition + " (" + tileType + ")");
 
-        if (tilePosition == _selectedTile)
+        if (tilePosition != _selectedUnitPosition)
         {
-            _selectedTile = new Vector3(0, 0, 0); // no tiles should be here, reserved for empty position...
-        }
-        else
-        {
-            _selectedTile = tilePosition;
-
-
-            if (_selectedTile != _selectedUnitPosition)
+            if (tileType == "movement")
             {
-                if (tileType == "movement")
-                {
-                    _unit.MoveUnitTo(_selectedUnitPosition, tilePosition);
-                }
-                OnUnitClicked(_selectedUnitPosition, "", 0, 0); // Change the HUD as the Selected Tile and Selected Unit no longer match
-                changeTile?.Invoke(new List<Vector3>(_movementTiles), "default"); // Change all current movement tiles to deafault 
-                _movementTiles.Clear(); // Make the movement set empty now
+                _unit.MoveUnitTo(_selectedUnitPosition, tilePosition);
             }
+            OnUnitClicked(_selectedUnitPosition, "", 0, 0); // Change the HUD as the Selected Tile and Selected Unit no longer match
+            tileChange?.Invoke(new List<Vector3>(_movementTiles), "default"); // Change all current movement tiles to deafault 
+            _movementTiles.Clear(); // Make the movement set empty now
         }
     }
 
-    void TileOnEnter(Vector3 tilePosition, String type)
+    void TileOnEnter(Vector3 tilePosition, string terrain)
     {
-        List<Vector3> tiles = new List<Vector3>{tilePosition};
-        
-        tileHover?.Invoke(tilePosition, type);
+        tileHover?.Invoke(tilePosition, terrain);
         reticleEvent?.Invoke(true, tilePosition);
     }
 
@@ -184,9 +145,8 @@ public class BoardSO : ScriptableObject
         unitHover?.Invoke(unitPosition, name, hp, movement);
     }
 
-    void TileOnExit(Vector3 tilePosition)
+    void TileOnExit(Vector3 tilePosition) // TODO: Do we need tilePosition??? Look into later...
     {   
-        List<Vector3> tiles = new List<Vector3>{tilePosition};
         clearHUD?.Invoke();
         reticleEvent?.Invoke(false, Vector3.zero);
     }

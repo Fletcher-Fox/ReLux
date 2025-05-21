@@ -26,12 +26,10 @@ public class GameTokenSO : ScriptableObject
     {
         List<int> tokenIdList = new List<int>();
 
-        foreach (Vector3 vectorKey in vectorKeys)
-        {
+        foreach (Vector3 vectorKey in vectorKeys) {
             int tokenId = GetToken(vectorKey);
 
-            if (tokenId != 0)
-            {
+            if (tokenId != 0) {
                 tokenIdList.Add(tokenId);
             }
         }
@@ -41,9 +39,16 @@ public class GameTokenSO : ScriptableObject
 
     public void ReregisterToken(Vector3 originalKey, Vector3 newKey)
     {
+        Debug.Log("Re-Key:");
+
         int id = GetToken(originalKey);
+
+        Debug.Log("OG-key:" + originalKey + " value:" + id);
+
         _tokenBag.Remove(originalKey);
         _tokenBag.Add(newKey, id);
+   
+        Debug.Log("New-key:" + newKey + " value:" + id);
     }
 
     public int GetTokenCount()

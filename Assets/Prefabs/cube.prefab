@@ -112,6 +112,10 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -6236892295857613362, guid: 0e400cbdbf7e71d498c7fbd92767be2c, type: 3}
       propertyPath: _type
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: -6236892295857613362, guid: 0e400cbdbf7e71d498c7fbd92767be2c, type: 3}
+      propertyPath: _terrain
       value: Plains
       objectReference: {fileID: 0}
     - target: {fileID: -6236892295857613362, guid: 0e400cbdbf7e71d498c7fbd92767be2c, type: 3}

@@ -7,7 +7,9 @@ public class Tile : MonoBehaviour
     [SerializeField] private TileSO _tileEvent;
     [SerializeField] private int _tokenID;
     [SerializeField] private bool _isSpawnPoint;
-    [SerializeField] private String _type;
+    [SerializeField] private string _type = "default";
+    [SerializeField] private string _terrain;
+    
     // [SerializeField] private MaterialsSO _tileMaterials;
 
     void OnEnable()
@@ -31,7 +33,7 @@ public class Tile : MonoBehaviour
 
     void OnMouseEnter()
     {
-        _tileEvent.OnTileEnter(transform.position, _type);
+        _tileEvent.OnTileEnter(transform.position, _terrain);
     }
 
     void OnMouseExit()
