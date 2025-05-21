@@ -39,16 +39,9 @@ public class GameTokenSO : ScriptableObject
 
     public void ReregisterToken(Vector3 originalKey, Vector3 newKey)
     {
-        Debug.Log("Re-Key:");
-
         int id = GetToken(originalKey);
-
-        Debug.Log("OG-key:" + originalKey + " value:" + id);
-
         _tokenBag.Remove(originalKey);
         _tokenBag.Add(newKey, id);
-   
-        Debug.Log("New-key:" + newKey + " value:" + id);
     }
 
     public int GetTokenCount()
