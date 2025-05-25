@@ -54,9 +54,13 @@ public class BoardSO : ScriptableObject
 
     void OnUnitClicked(Vector3 unitPosition, string name, int hp, int movement) // TODO: replace name, hp & movement with Object Data
     {
-        if (_selectedUnitPosition == unitPosition) {
+        if (_selectedUnitPosition == unitPosition)
+        {
             _selectedUnitPosition = new Vector3(0, 0, 0);
-        } else {
+            HideMovement();
+        }
+        else
+        {
             _selectedUnitPosition = unitPosition;
             DisplayMovement(unitPosition, movement);
         }
@@ -104,6 +108,9 @@ public class BoardSO : ScriptableObject
         tileChange?.Invoke(new List<Vector3>(MovementSet), "movement");
     }
 
+    private void HideMovement() {
+        tileChange?.Invoke(new List<Vector3>(_movementTiles), "default"); // Change all current movement tiles to deafault 
+    }
     Vector3 ConfirmObject(GameObject thing)
     {
         if (thing != null) {
@@ -129,7 +136,7 @@ public class BoardSO : ScriptableObject
                 _unit.MoveUnitTo(_selectedUnitPosition, tilePosition);
             }
             OnUnitClicked(_selectedUnitPosition, "", 0, 0); // Change the HUD as the Selected Tile and Selected Unit no longer match
-            tileChange?.Invoke(new List<Vector3>(_movementTiles), "default"); // Change all current movement tiles to deafault 
+            HideMovement(); // Change all current movement tiles to deafault 
             _movementTiles.Clear(); // Make the movement set empty now
         }
     }
