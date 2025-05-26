@@ -1,16 +1,10 @@
-using System;
 using System.Collections.Generic;
-using Unity.VisualScripting;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.InputSystem.Utilities;
 
 [CreateAssetMenu(fileName = "NewBoard", menuName = "Scriptable Objects/Board")]
 public class BoardSO : ScriptableObject
 {
-    // public UnityEvent<GameObject> selectedUnit;
-
     private TileSO _tile;
     private UnitSO _unit;
     private HashSet<Vector3> _movementTiles = new HashSet<Vector3>(); //empty set
@@ -28,6 +22,12 @@ public class BoardSO : ScriptableObject
         _tile = Resources.Load<TileSO>("SOInstance/Core/Tiles");
         _unit = Resources.Load<UnitSO>("SOInstance/Core/Unit");
 
+        if (_tile == null || _unit == null)
+        {
+            Debug.LogError("BoardSO failed to load resources.");
+            return;
+        }
+
         _tile.tileClick.AddListener(TileOnClick);
         _tile.tileEnter.AddListener(TileOnEnter);
         _tile.tileExit.AddListener(TileOnExit);
@@ -43,7 +43,7 @@ public class BoardSO : ScriptableObject
         _tile.tileExit.RemoveListener(TileOnExit);
 
         _unit.unitClicked.RemoveListener(OnUnitClicked);
-        _unit.unitHoverEnter.AddListener(UnitOnEnter);
+        _unit.unitHoverEnter.RemoveListener(UnitOnEnter);
     }
 
     public void ClearBoardTokens() 
@@ -108,8 +108,10 @@ public class BoardSO : ScriptableObject
         tileChange?.Invoke(new List<Vector3>(MovementSet), "movement");
     }
 
-    private void HideMovement() {
+    private void HideMovement()
+    {
         tileChange?.Invoke(new List<Vector3>(_movementTiles), "default"); // Change all current movement tiles to deafault 
+        _movementTiles.Clear();
     }
     Vector3 ConfirmObject(GameObject thing)
     {
@@ -135,6 +137,7 @@ public class BoardSO : ScriptableObject
             {
                 _unit.MoveUnitTo(_selectedUnitPosition, tilePosition);
             }
+            // TODO: refactor passing values like this into OnUnitClicked() needs to be an obj or something...
             OnUnitClicked(_selectedUnitPosition, "", 0, 0); // Change the HUD as the Selected Tile and Selected Unit no longer match
             HideMovement(); // Change all current movement tiles to deafault 
             _movementTiles.Clear(); // Make the movement set empty now
