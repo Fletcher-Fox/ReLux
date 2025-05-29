@@ -35,7 +35,7 @@ public class UnitSO : GameTokenSO
         checkUnit?.Invoke(unitID);
     }
 
-    private void IsUnitOnHoverTile(Vector3 tilePosition, string tileType) //TODO: is this the best way? Just ignore the args not meant for this?
+    private void IsUnitOnHoverTile(Vector3 tilePosition, string tileTerrain, string tileType) //TODO: is this the best way? Just ignore the args not meant for this?
     {
         int unitID = GetToken(tilePosition);
         if (unitID == 0) return;

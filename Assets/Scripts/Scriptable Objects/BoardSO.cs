@@ -1,6 +1,9 @@
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 using UnityEngine.Events;
+
+
 
 [CreateAssetMenu(fileName = "NewBoard", menuName = "Scriptable Objects/Board")]
 public class BoardSO : ScriptableObject
@@ -16,7 +19,10 @@ public class BoardSO : ScriptableObject
     public UnityEvent<List<Vector3>, string> tileChange;
     public UnityEvent clearHUD;
     public UnityEvent<bool, Vector3> reticleEvent;
+    public UnityEvent<bool, Vector3, Vector3> drawPath;
 
+
+    
     void OnEnable()
     {
         _tile = Resources.Load<TileSO>("SOInstance/Core/Tiles");
@@ -136,6 +142,9 @@ public class BoardSO : ScriptableObject
             if (tileType == "movement")
             {
                 _unit.MoveUnitTo(_selectedUnitPosition, tilePosition);
+
+                PathFinder PF = new PathFinder(_movementTiles, _tile.TileDataBag);
+                Queue<Vector3> Path = PF.FindPath(_selectedUnitPosition, tilePosition);
             }
             // TODO: refactor passing values like this into OnUnitClicked() needs to be an obj or something...
             OnUnitClicked(_selectedUnitPosition, "", 0, 0); // Change the HUD as the Selected Tile and Selected Unit no longer match
@@ -144,10 +153,20 @@ public class BoardSO : ScriptableObject
         }
     }
 
-    void TileOnEnter(Vector3 tilePosition, string terrain)
+    void TileOnEnter(Vector3 tilePosition, string terrain, string tileType)
     {
-        tileHover?.Invoke(tilePosition, terrain);
-        reticleEvent?.Invoke(true, tilePosition);
+        if (tileType == "movement")
+        {
+            // display line of path to location.
+            drawPath?.Invoke(true, _selectedUnitPosition, tilePosition);
+        }
+        else
+        {
+            drawPath?.Invoke(false, Vector3.zero, Vector3.zero);
+        }
+        
+        tileHover?.Invoke(tilePosition, terrain); // battle HUD tile/unit info
+        reticleEvent?.Invoke(true, tilePosition); // update the reticle to the hovered tile
     }
 
     void UnitOnEnter(Vector3 unitPosition, string name, int hp, int movement)

@@ -6,9 +6,8 @@ using UnityEngine.InputSystem;
 [CreateAssetMenu(fileName = "NewGameToken", menuName = "Scriptable Objects/Token")]
 public class GameTokenSO : ScriptableObject
 {
-    // public UnityEvent<Vector3> RegisterToken;
-    private Dictionary<Vector3, int> _tokenBag = new Dictionary<Vector3, int>();
-    private int _lastTokenID = 0;
+    protected Dictionary<Vector3, int> _tokenBag = new Dictionary<Vector3, int>();
+    protected int _lastTokenID = 0;
 
     public int RegisterToken(Vector3 tokenPosition)
     {

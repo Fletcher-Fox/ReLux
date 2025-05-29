@@ -22,7 +22,8 @@ public class Tile : MonoBehaviour
     {
         _tileEvent.changeMaterial.RemoveListener(ChangeType);
     }
-    void Start() {
+    void Start()
+    {
         _tokenID = _tileEvent.RegisterToken(transform.position); // Pass game obj to the board
     }
 
@@ -33,7 +34,7 @@ public class Tile : MonoBehaviour
 
     void OnMouseEnter()
     {
-        _tileEvent.OnTileEnter(transform.position, _terrain);
+        _tileEvent.OnTileEnter(transform.position, _terrain, _type);
     }
 
     void OnMouseExit()

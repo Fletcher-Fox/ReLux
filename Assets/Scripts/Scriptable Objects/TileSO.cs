@@ -2,16 +2,33 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.Rendering.Universal;
 
 [CreateAssetMenu(fileName = "NewTile", menuName = "Scriptable Objects/Tile")]
 public class TileSO : GameTokenSO
 {
     public UnityEvent<Vector3, string> tileClick;
-    public UnityEvent<Vector3, string> tileEnter;
+    public UnityEvent<Vector3, string, string> tileEnter;
     public UnityEvent<Vector3> tileExit;
     public UnityEvent<List<int>, Material, string> changeMaterial;
     private BoardSO _board;
     private MaterialsSO _tileMaterials;
+
+    private Dictionary<int, TileData> _tileDataBag; // field
+
+    public Dictionary<int, TileData> TileDataBag // property
+    {
+        get { return _tileDataBag;}
+    }
+
+    // OVERLOAD GameTokenSO RegisterToken()
+    public int RegisterToken(Vector3 tokenPosition, string terrain)
+    {
+        _lastTokenID++;
+        _tokenBag.Add(tokenPosition, _lastTokenID);
+        _tileDataBag.Add(_lastTokenID, new TileData(terrain, 1));
+        return _lastTokenID;
+    }
 
     public void OnEnable()
     {
@@ -28,9 +45,9 @@ public class TileSO : GameTokenSO
     {
         tileClick.Invoke(tilePosition, tileType);
     }
-    public void OnTileEnter(Vector3 tilePosition, string terrain)
+    public void OnTileEnter(Vector3 tilePosition, string terrain, string type)
     {
-        tileEnter?.Invoke(tilePosition, terrain);
+        tileEnter?.Invoke(tilePosition, terrain, type);
     }
     public void OnTileExit(Vector3 tilePosition)
     {
@@ -58,4 +75,5 @@ public class TileSO : GameTokenSO
                 return _tileMaterials.default_material;
         }
     }
+
 }
