@@ -20,17 +20,21 @@ public class PathFinder
         }
     }
 
-    private HashSet<Vector3> _movementTiles; 
-    private  Dictionary<int, TileData> _tileCosts;
+    private HashSet<Vector3> _movementTiles;
+    private Dictionary<int, TileData> _tileCosts;
+    private Dictionary<Vector3, int> _tileBag;
+    private Dictionary<Vector3, int> _unitBag;
 
     List<Vector3> cardinalDirections = new List<Vector3> {
         Vector3.left, Vector3.right, Vector3.forward, Vector3.back
     };
 
-    public PathFinder(HashSet<Vector3> movementTiles, Dictionary<int, TileData> tileCosts)
+    public PathFinder(HashSet<Vector3> movementTiles, Dictionary<int, TileData> tileCosts, Dictionary<Vector3, int> tileBag, Dictionary<Vector3, int> unitBag)
     {
         _movementTiles = movementTiles;
         _tileCosts = tileCosts;
+        _tileBag = tileBag;
+        _unitBag = unitBag;
     }
 
     public Queue<Vector3> FindPath(Vector3 start, Vector3 end)
@@ -75,118 +79,154 @@ public class PathFinder
 
         return path; // TODO: return the path
     }
-    
+
+
+
 
     private void FindOpenPaths(Vector3 current, Vector3 end, Dictionary<Vector3, PathNode> open, Dictionary<Vector3, PathNode> closed)
     {
 
         PathNode currentNode = new PathNode(current);
-        
+
         foreach (var direction in cardinalDirections)
         {
             Vector3 newLocation = current + direction;
 
             if (_movementTiles.Contains(newLocation) && !closed.ContainsKey(newLocation))
             {
-                PathNode neighbor = new PathNode(newLocation)
+                PathNode neighbor = new PathNode(newLocation);
+                if (_unitBag.ContainsKey(neighbor.Position)) // tile is occupied by a unit
+                {
+                    // TODO: Add check if unit is a ally
+                    // Assuming the unit is an ally at this time
+
+                    int G = neighbor.cost + currentNode.G;
+                    double H = Math.Sqrt(Math.Pow(MapData[end].Position.x - newX, 2) + Math.Pow(MapData[end].Position.z - newZ, 2));
+                    double F = G + H;
+
+                    if (open.ContainsKey(newLocation))
+                    {
+                        if (F < open[newLocation].F)
+                        {
+                            neighbor.G = G;
+                            neighbor.H = H;
+                            neighbor.F = F;
+                            neighbor.Prev = MapData[current];
+                            Open[newLocation] = neighbor;
+                        }
+                    }
+                    else
+                    {
+                        neighbor.G = G;
+                        neighbor.H = H;
+                        neighbor.F = F;
+                        neighbor.Prev = MapData[current];
+                        Open[newLocation] = neighbor;
+                    }
+
+                    
+                }
             }
+        }
+    }
+}
 
             // if (MapData.ContainsKey(newLocation) && !Closed.ContainsKey(newLocation) && !WallData.ContainsKey(wallLocation))
             // {
-            Space neighbor = MapData[newLocation];
+            // Space neighbor = MapData[newLocation];
 
-            if (neighbor.State != SpaceState.Block)
-            {
-                if (neighbor.State == SpaceState.Occupied)
-                {
-                    if (neighbor.unit.Type == "hero")
-                    {
-                        int G = neighbor.Cost + MapData[current].G;
-                        double H = Math.Sqrt(Math.Pow(MapData[end].Position.x - newX, 2) + Math.Pow(MapData[end].Position.z - newZ, 2));
-                        double F = G + H;
+    //         if (neighbor.State != SpaceState.Block)
+    //         {
+    //             if (neighbor.State == SpaceState.Occupied)
+    //             {
+    //                 if (neighbor.unit.Type == "hero")
+    //                 {
+    //                     int G = neighbor.Cost + MapData[current].G;
+    //                     double H = Math.Sqrt(Math.Pow(MapData[end].Position.x - newX, 2) + Math.Pow(MapData[end].Position.z - newZ, 2));
+    //                     double F = G + H;
 
-                        if (Open.ContainsKey(newLocation))
-                        {
-                            if (F < Open[newLocation].F)
-                            {
-                                neighbor.G = G;
-                                neighbor.H = H;
-                                neighbor.F = F;
-                                neighbor.Prev = MapData[current];
-                                Open[newLocation] = neighbor;
-                            }
-                        }
-                        else
-                        {
-                            neighbor.G = G;
-                            neighbor.H = H;
-                            neighbor.F = F;
-                            neighbor.Prev = MapData[current];
-                            Open[newLocation] = neighbor;
-                        }
-                    }
-                }
-                else
-                {
-                    int G = neighbor.Cost + MapData[current].G;
-                    double H = Math.Sqrt(Math.Pow(MapData[end].Position.x - newX, 2) + Math.Pow(MapData[end].Position.z - newZ, 2));
-                    double F = G + H;
+    //                     if (Open.ContainsKey(newLocation))
+    //                     {
+    //                         if (F < Open[newLocation].F)
+    //                         {
+    //                             neighbor.G = G;
+    //                             neighbor.H = H;
+    //                             neighbor.F = F;
+    //                             neighbor.Prev = MapData[current];
+    //                             Open[newLocation] = neighbor;
+    //                         }
+    //                     }
+    //                     else
+    //                     {
+    //                         neighbor.G = G;
+    //                         neighbor.H = H;
+    //                         neighbor.F = F;
+    //                         neighbor.Prev = MapData[current];
+    //                         Open[newLocation] = neighbor;
+    //                     }
+    //                 }
+    //             }
+    //             else
+    //             {
+    //                 int G = neighbor.Cost + MapData[current].G;
+    //                 double H = Math.Sqrt(Math.Pow(MapData[end].Position.x - newX, 2) + Math.Pow(MapData[end].Position.z - newZ, 2));
+    //                 double F = G + H;
 
-                    if (Open.ContainsKey(newLocation))
-                    {
-                        if (F < Open[newLocation].F)
-                        {
-                            neighbor.G = G;
-                            neighbor.H = H;
-                            neighbor.F = F;
-                            neighbor.Prev = MapData[current];
-                            Open[newLocation] = neighbor;
-                        }
-                    }
-                    else
-                    {
-                        neighbor.G = G;
-                        neighbor.H = H;
-                        neighbor.F = F;
-                        neighbor.Prev = MapData[current];
-                        Open[newLocation] = neighbor;
-                    }
-                }
-            }
-            else if (neighbor.State == SpaceState.Occupied)
-            {
-                if (neighbor.unit.Type == "hero")
-                {
+    //                 if (Open.ContainsKey(newLocation))
+    //                 {
+    //                     if (F < Open[newLocation].F)
+    //                     {
+    //                         neighbor.G = G;
+    //                         neighbor.H = H;
+    //                         neighbor.F = F;
+    //                         neighbor.Prev = MapData[current];
+    //                         Open[newLocation] = neighbor;
+    //                     }
+    //                 }
+    //                 else
+    //                 {
+    //                     neighbor.G = G;
+    //                     neighbor.H = H;
+    //                     neighbor.F = F;
+    //                     neighbor.Prev = MapData[current];
+    //                     Open[newLocation] = neighbor;
+    //                 }
+    //             }
+    //         }
+    //         else if (neighbor.State == SpaceState.Occupied)
+    //         {
+    //             if (neighbor.unit.Type == "hero")
+    //             {
 
-                    int G = neighbor.Cost + MapData[current].G;
-                    double H = Math.Sqrt(Math.Pow(MapData[end].Position.x - newX, 2) + Math.Pow(MapData[end].Position.z - newZ, 2));
-                    double F = G + H;
+    //                 int G = neighbor.Cost + MapData[current].G;
+    //                 double H = Math.Sqrt(Math.Pow(MapData[end].Position.x - newX, 2) + Math.Pow(MapData[end].Position.z - newZ, 2));
+    //                 double F = G + H;
 
-                    if (Open.ContainsKey(newLocation))
-                    {
-                        if (F < Open[newLocation].F)
-                        {
-                            neighbor.G = G;
-                            neighbor.H = H;
-                            neighbor.F = F;
-                            neighbor.Prev = MapData[current];
-                            Open[newLocation] = neighbor;
-                        }
-                    }
-                    else
-                    {
-                        neighbor.G = G;
-                        neighbor.H = H;
-                        neighbor.F = F;
-                        neighbor.Prev = MapData[current];
-                        Open[newLocation] = neighbor;
-                    }
+    //                 if (Open.ContainsKey(newLocation))
+    //                 {
+    //                     if (F < Open[newLocation].F)
+    //                     {
+    //                         neighbor.G = G;
+    //                         neighbor.H = H;
+    //                         neighbor.F = F;
+    //                         neighbor.Prev = MapData[current];
+    //                         Open[newLocation] = neighbor;
+    //                     }
+    //                 }
+    //                 else
+    //                 {
+    //                     neighbor.G = G;
+    //                     neighbor.H = H;
+    //                     neighbor.F = F;
+    //                     neighbor.Prev = MapData[current];
+    //                     Open[newLocation] = neighbor;
+    //                 }
 
-                }
-            }
-        }
-        }
-    }
+    //             }
+    //         }
+    //     }
+    //     }
+    // }
 
     // public float DistanceFormula(Vector3 current, Vector3 end)
     // {
@@ -194,4 +234,4 @@ public class PathFinder
     // }
 
 
-};
+// };

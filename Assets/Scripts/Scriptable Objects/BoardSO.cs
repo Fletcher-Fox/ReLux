@@ -143,7 +143,7 @@ public class BoardSO : ScriptableObject
             {
                 _unit.MoveUnitTo(_selectedUnitPosition, tilePosition);
 
-                PathFinder PF = new PathFinder(_movementTiles, _tile.TileDataBag);
+                PathFinder PF = new PathFinder(_movementTiles, _tile.TileDataBag, _unit.GetTokenBag());
                 Queue<Vector3> Path = PF.FindPath(_selectedUnitPosition, tilePosition);
             }
             // TODO: refactor passing values like this into OnUnitClicked() needs to be an obj or something...

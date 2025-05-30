@@ -16,7 +16,7 @@ public class GameTokenSO : ScriptableObject
         return _lastTokenID;
     }
 
-    public int GetToken(Vector3 vectorKey) 
+    public int GetToken(Vector3 vectorKey)
     {
         return _tokenBag.ContainsKey(vectorKey) ? _tokenBag[vectorKey] : 0;
     }
@@ -25,10 +25,12 @@ public class GameTokenSO : ScriptableObject
     {
         List<int> tokenIdList = new List<int>();
 
-        foreach (Vector3 vectorKey in vectorKeys) {
+        foreach (Vector3 vectorKey in vectorKeys)
+        {
             int tokenId = GetToken(vectorKey);
 
-            if (tokenId != 0) {
+            if (tokenId != 0)
+            {
                 tokenIdList.Add(tokenId);
             }
         }
@@ -52,6 +54,11 @@ public class GameTokenSO : ScriptableObject
     {
         _tokenBag = new Dictionary<Vector3, int>();
         _lastTokenID = 0;
+    }
+
+    public Dictionary<Vector3, int> GetTokenBag()
+    {
+        return _tokenBag;
     }
 
 }
