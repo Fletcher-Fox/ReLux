@@ -81,50 +81,56 @@ public class PathFinder
     }
 
 
-
+    private (int, double, double) CalcPathValues(PathNode current, PathNode neighbor)
+    {
+        return (
+            neighbor.cost + current.G,
+            Vector3.Distance(neighbor.Position, current.Position),
+            neighbor.cost + current.G + Vector3.Distance(neighbor.Position, current.Position)
+        );
+    } 
 
     private void FindOpenPaths(Vector3 current, Vector3 end, Dictionary<Vector3, PathNode> open, Dictionary<Vector3, PathNode> closed)
     {
 
         PathNode currentNode = new PathNode(current);
 
-        foreach (var direction in cardinalDirections)
-        {
+        int G;
+        double H;
+        double F;
+
+        foreach (var direction in cardinalDirections) {
+
             Vector3 newLocation = current + direction;
 
-            if (_movementTiles.Contains(newLocation) && !closed.ContainsKey(newLocation))
-            {
+            if (_movementTiles.Contains(newLocation) && !closed.ContainsKey(newLocation)) {
+
                 PathNode neighbor = new PathNode(newLocation);
+
                 if (_unitBag.ContainsKey(neighbor.Position)) // tile is occupied by a unit
                 {
+                    
                     // TODO: Add check if unit is a ally
                     // Assuming the unit is an ally at this time
 
-                    int G = neighbor.cost + currentNode.G;
-                    double H = Math.Sqrt(Math.Pow(MapData[end].Position.x - newX, 2) + Math.Pow(MapData[end].Position.z - newZ, 2));
-                    double F = G + H;
-
-                    if (open.ContainsKey(newLocation))
+                    (G, H, F) = CalcPathValues(currentNode, neighbor);
+                    neighbor.G = G;
+                    neighbor.H = H;
+                    neighbor.F = F;
+                    
+                    if (open.ContainsKey(neighbor.Position))
                     {
-                        if (F < open[newLocation].F)
+                        if (F < open[neighbor.Position].F)
                         {
-                            neighbor.G = G;
-                            neighbor.H = H;
-                            neighbor.F = F;
-                            neighbor.Prev = MapData[current];
-                            Open[newLocation] = neighbor;
+                            neighbor.PrevPathNode = currentNode;
+                            open[neighbor.Position] = neighbor;
                         }
                     }
                     else
                     {
-                        neighbor.G = G;
-                        neighbor.H = H;
-                        neighbor.F = F;
-                        neighbor.Prev = MapData[current];
-                        Open[newLocation] = neighbor;
+                        neighbor.PrevPathNode = currentNode;
+                        open[neighbor.Position] = neighbor;
                     }
-
-                    
                 }
             }
         }
