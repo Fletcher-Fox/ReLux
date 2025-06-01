@@ -24,7 +24,7 @@ public class PathFinder
     }
 
     private HashSet<Vector3> _movementTiles;
-    private Dictionary<int, TileData> _tileCosts;
+    private Dictionary<int, TileData> _tileData;
     private Dictionary<Vector3, int> _tileBag;
     private Dictionary<Vector3, int> _unitBag;
 
@@ -32,14 +32,33 @@ public class PathFinder
         Vector3.left, Vector3.right, Vector3.forward, Vector3.back
     };
 
-    public PathFinder(HashSet<Vector3> movementTiles, Dictionary<int, TileData> tileCosts, Dictionary<Vector3, int> tileBag, Dictionary<Vector3, int> unitBag)
+    /// <summary>
+    /// Creates a PathFinder Object that can be used to calculate A * Pathing.
+    /// </summary>
+    /// <param name="movementTiles">Set of all movement tiles</param>
+    /// <param name="tileData">Dictionary of all tiles data</param>
+    /// <param name="tileBag">All Tiles</param>
+    /// <param name="movementTiles">All Units</param>
+    /// <returns>PathFinder Object based on the current stat of the board.</returns>
+    public PathFinder(
+        HashSet<Vector3> movementTiles,
+        Dictionary<int, TileData> tileData,
+        Dictionary<Vector3, int> tileBag,
+        Dictionary<Vector3, int> unitBag
+    )
     {
         _movementTiles = movementTiles;
-        _tileCosts = tileCosts;
+        _tileData = tileData;
         _tileBag = tileBag;
         _unitBag = unitBag;
     }
 
+    /// <summary>
+    /// Creates a Queue of Vector3(s). The path from start position to end position.
+    /// </summary>
+    /// <param name="start">Starting position</param>
+    /// <param name="end">Ending position</param>
+    /// <returns>Queue<Vector3>, of a path.</returns>
     public Queue<Vector3> FindPath(Vector3 start, Vector3 end)
     {
         Dictionary<Vector3, PathNode> open = new Dictionary<Vector3, PathNode>();
@@ -60,7 +79,7 @@ public class PathFinder
             currPos = position;
         }
 
-        List<Vector3> path = new List<Vector3>{end};
+        List<Vector3> path = new List<Vector3> { end };
         PathNode cursor = open[end];
         while (cursor.Position != start)
         {
@@ -73,7 +92,11 @@ public class PathFinder
     }
 
 
-    private Dictionary<Vector3, PathNode> FindOpenPaths(Vector3 curr, Vector3 end, Dictionary<Vector3, PathNode> open, Dictionary<Vector3, PathNode> closed)
+    private Dictionary<Vector3, PathNode> FindOpenPaths(
+        Vector3 curr, Vector3 end,
+        Dictionary<Vector3, PathNode> open,
+        Dictionary<Vector3, PathNode> closed
+    )
     {
         PathNode current = open[curr];
         Dictionary<Vector3, PathNode> openPaths = new Dictionary<Vector3, PathNode>();
@@ -130,5 +153,5 @@ public class PathFinder
         return (smallestVector, bestBoyNode);
 
     }
-    
+
 }

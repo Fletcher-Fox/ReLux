@@ -3,8 +3,6 @@ using System.IO;
 using UnityEngine;
 using UnityEngine.Events;
 
-
-
 [CreateAssetMenu(fileName = "NewBoard", menuName = "Scriptable Objects/Board")]
 public class BoardSO : ScriptableObject
 {
@@ -20,8 +18,6 @@ public class BoardSO : ScriptableObject
     public UnityEvent clearHUD;
     public UnityEvent<bool, Vector3> reticleEvent;
     public UnityEvent<bool, Vector3, Vector3> drawPath;
-
-
     
     void OnEnable()
     {
@@ -143,8 +139,13 @@ public class BoardSO : ScriptableObject
             {
                 _unit.MoveUnitTo(_selectedUnitPosition, tilePosition);
 
-                PathFinder PF = new PathFinder(_movementTiles, _tile.TileDataBag, _unit.GetTokenBag());
+                PathFinder PF = new PathFinder(_movementTiles, _tile.TileDataBag, _tile.GetTokenBag(), _unit.GetTokenBag());
                 Queue<Vector3> Path = PF.FindPath(_selectedUnitPosition, tilePosition);
+
+                foreach (Vector3 v in Path)
+                {
+                    _unit.MoveUnitTo(_selectedUnitPosition, v);
+                }
             }
             // TODO: refactor passing values like this into OnUnitClicked() needs to be an obj or something...
             OnUnitClicked(_selectedUnitPosition, "", 0, 0); // Change the HUD as the Selected Tile and Selected Unit no longer match
